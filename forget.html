@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>重置</title>
+	<link rel="stylesheet" href="index/style.css"/>
+	<script src="index/reset.js" defer></script>
+</head>
+<body>
+	<div class="box" style="height: 280px">
+		<h2>重置密码</h2>
+		<div class="ipt-box">
+			<label>账号</label>
+			<input type="text" id="username"/>
+		</div>
+		<div class="cod-box">
+			<input type="text" id="code"/>
+			<button onclick="send()">发送验证码</button>
+		</div>
+		<div class="btn-box">
+			<button onclick="window.location.assign('login.html')">返回</button>
+			<button>确定</button>
+		</div>
+	</div>
+</body>
+</html>

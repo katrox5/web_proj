@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>登录</title>
+	<link rel="stylesheet" href="index/style.css"/>
+	<script src="https://cdn.bootcss.com/js-sha1/0.6.0/sha1.js"></script>
+	<script src="index/main.js" defer></script>
+	<script src="index/db.js" defer></script>
+	<script src="index/log.js" defer></script>
+</head>
+<body>
+	<div class="box">
+		<h2>登录</h2>
+		<div class="ipt-box">
+			<label>账号</label>
+			<input type="text" id="username"/>
+		</div>
+		<div class="ipt-box">
+			<label>密码</label>
+			<input type="password" id="password"/>
+		</div>
+		<div class="chk-box">
+			<input type="checkbox" id="autolog"/>
+			<label>保持登录</label>
+			<a href="forget.html">忘记密码？</a>
+		</div>
+		<div class="btn-box">
+			<button onclick="log()">登录</button>
+			<button onclick="window.location.assign('register.html')">注册</button>
+		</div>
+	</div>
+</body>
+</html>
