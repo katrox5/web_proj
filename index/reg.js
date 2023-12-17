@@ -18,10 +18,13 @@ function reg() {
 	
 	const cfm = $('confirm');
 	if (pswd != cfm.value) {
+        new Message().show({
+            type: 'warning',
+            text: '两次输入的密码不同',
+            closeable: true
+        });
 		password.value = cfm.value = '';
 		password.focus();
-		remindPassword('两次输入的密码不同');
-		shake(document.getElementsByClassName('ipt-box')[1]);
 		return;
 	}
 	
@@ -29,13 +32,46 @@ function reg() {
 	addUser(user, pswd);
 }
 
+// 注册成功
 function regSuccess() {
-	// 注册成功
+    new Message().show({
+        type: 'success',
+        text: '注册成功',
+        duration: 1500,
+        closeable: true
+    });
+
+	// 跳转到主页
+	setTimeout(() => {
+	    window.location.assign('login.html');
+	}, 2000);
 }
 
+// 注册失败
 function regFailure() {
-	username.value = '';
-	username.focus();
-	remindUsername('账号已被注册');
-	shake(document.getElementsByClassName('ipt-box')[0]);
+    new Message().show({
+        type: 'error',
+        text: '账号已被注册',
+        closeable: true
+    });
+    username.value = '';
+    username.focus();
+}
+
+// 账号非法导致注册失败
+function regFailure4UserIsIllegal() {
+    new Message().show({
+        type: 'error',
+        text: '账号只能是手机号或邮箱',
+        closeable: true
+    });
+}
+
+// 密码非法导致注册失败
+function regFailure4PswdIsIllegal() {
+    new Message().show({
+        type: 'error',
+        text: '密码长度8-16位且必须包含数字、大小写字母',
+        closeable: true
+    });
 }

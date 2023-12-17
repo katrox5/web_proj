@@ -51,13 +51,13 @@ function shake(element) {
 	new Animation(effect, document.timeline).play();
 }
 
-function remindUsername(placeholder) {
-	username.placeholder = placeholder;
+function remindUsername(text) {
+	username.placeholder = text;
 	username.style.border = '1px solid rgba(255,0,0,0.7)';
 }
 
-function remindPassword(placeholder) {
-	password.placeholder = placeholder;
+function remindPassword(text) {
+	password.placeholder = text;
 	password.style.border = '1px solid rgba(255,0,0,0.7)';
 }
 

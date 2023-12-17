@@ -1,0 +1,83 @@
+@keyframes message-move-in {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes message-move-out {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+}
+
+#message-container .message.move-in {
+    animation: message-move-in 0.3s ease-in-out;
+}
+
+#message-container .message.move-out {
+    animation: message-move-out 0.3s ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+#message-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#message-container .message {
+    background: #fff;
+    margin: 10px 0;
+    padding: 0 10px;
+    height: 40px;
+    box-shadow: 0 0 10px 0 #ccc;
+    font-size: 14px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    transition: height 0.2s ease-in-out, margin 0.2s ease-in-out;
+}
+
+#message-container .message .text {
+    color: #333;
+    padding: 0 20px 0 5px;
+}
+
+#message-container .message .close {
+    cursor: pointer;
+    color: #999;
+}
+
+#message-container .message .icon-info {
+    color: #0482f8;
+}
+
+#message-container .message .icon-error {
+    color: #f83504;
+}
+
+#message-container .message .icon-success {
+    color: #06a35a;
+}
+
+#message-container .message .icon-warning {
+    color: #ffa500;
+}
+
+#message-container .message .icon-loading {
+    color: #0482f8;
+}

@@ -9,7 +9,15 @@ else {
 	};
 }
 
+const userRegex = /^[\w@.]*$/;                                      // 账号只能是手机号或邮箱
+const pswdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,20}$/;     // 密码长度8-16位且必须包含数字、大小写字母
+
 function addUser(user, pswd) {
+    if (!userRegex.test(user))
+        return regFailure4UserIsIllegal();
+    if (!pswdRegex.test(pswd))
+        return regFailure4PswdIsIllegal();
+
 	const request = indexedDB.open('userInfo', 1);
 	request.onsuccess = () => {
 		let db = request.result;
@@ -17,7 +25,7 @@ function addUser(user, pswd) {
 		let store = tr.objectStore('account');
 		store.getAll(user).onsuccess = function(event) {
 			if (JSON.stringify(event.target.result) == '[]') {
-				store.add({username: user, password: pswd});
+				store.add({username: user, password: sha1(pswd)});
 				regSuccess();
 			} else regFailure();
 		}
@@ -33,12 +41,30 @@ function verifyPswd(user, pswd) {
 		store.getAll(user).onsuccess = function(event) {
 			if (JSON.stringify(event.target.result) != '[]') {
 				for (account of event.target.result) {
-					if (account.password == pswd)
+					if (account.password == sha1(pswd))
 						logSuccess();
 					else
 						logFailure();
 				}
 			} else logFailure();
+		}
+	}
+}
+
+function modifyPswd(user, pswd) {
+    if (!pswdRegex.test(pswd))
+        return false;
+
+	const request = indexedDB.open('userInfo', 1);
+	request.onsuccess = () => {
+		let db = request.result;
+		let tr = db.transaction('account', 'readwrite');
+		let store = tr.objectStore('account');
+		store.getAll(user).onsuccess = function(event) {
+			if (JSON.stringify(event.target.result) != '[]') {
+				store.put({username: user, password: sha1(pswd)});
+				modSuccess();
+			} else modFailure();
 		}
 	}
 }
