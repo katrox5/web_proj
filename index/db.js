@@ -9,8 +9,8 @@ else {
 	};
 }
 
-const userRegex = /^[\w@.]*$/;                                      // 账号只能是手机号或邮箱
-const pswdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,20}$/;     // 密码长度8-16位且必须包含数字、大小写字母
+const userRegex = /^[\w@.]*$/;                                              // 账号只能是手机号或邮箱
+const pswdRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,16}$/;      // 密码长度8-16位且必须包含数字、大小写字母
 
 function addUser(user, pswd) {
     if (!userRegex.test(user))
@@ -53,7 +53,7 @@ function verifyPswd(user, pswd) {
 
 function modifyPswd(user, pswd) {
     if (!pswdRegex.test(pswd))
-        return false;
+        return modFailure4PswdIsIllegal();
 
 	const request = indexedDB.open('userInfo', 1);
 	request.onsuccess = () => {

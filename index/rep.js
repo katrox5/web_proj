@@ -17,6 +17,8 @@ if ((user = localStorage.getItem('username')) != null)
 	username.value = user;
 }
 
+let CODE;       // 验证码
+
 function send() {
 	const user = username.value;
 	
@@ -24,6 +26,12 @@ function send() {
 		remindAndShake();
 		return;
 	}
+
+	// 生成6位验证码
+    CODE = spawnCode(6);
+    console.log(CODE);
+
+	// 冷却60秒
 	let btn = $('send');
 	let sec = 60;
 	const txt = btn.innerText;
@@ -37,8 +45,6 @@ function send() {
         } else btn.innerText = sec + ' S';
     }, 1000);
 }
-
-const CODE = 'jkluio';
 
 function confirm() {
     const user = username.value;
@@ -117,6 +123,15 @@ function modFailure() {
     });
 }
 
+// 密码非法导致修改失败
+function modFailure4PswdIsIllegal() {
+    new Message().show({
+        type: 'error',
+        text: '密码长度8-16位且必须包含数字、大小写字母',
+        closeable: true
+    });
+}
+
 function remindAndShake() {
 	username.placeholder = '账号不能为空';
 	username.style.border = '1px solid rgba(255,0,0,0.7)';
@@ -148,4 +163,15 @@ function remindAndShake() {
 function recover() {
 	username.placeholder = '';
 	username.style.border = style;
+}
+
+// 生成随机字符串
+function spawnCode(len) {
+    let res = '';
+
+    const str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (var i = 0; i < len; i++)
+        res += str.charAt(Math.floor(Math.random() * str.length));
+
+    return res;
 }

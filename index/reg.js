@@ -36,7 +36,7 @@ function reg() {
 function regSuccess() {
     new Message().show({
         type: 'success',
-        text: '注册成功',
+        text: '注册成功，跳转到登录页...',
         duration: 1500,
         closeable: true
     });
