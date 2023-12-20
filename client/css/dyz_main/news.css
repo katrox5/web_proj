@@ -1,0 +1,144 @@
+.news-content{
+	width: 400px;
+	height: 380px;
+	background-color: #fff;
+	border-radius: 20px;
+	margin-left: 20px;
+	position: relative;
+	overflow: hidden;
+}
+.news-title{
+	position: absolute;
+	display: flex;
+	height: 60px;
+	line-height: 30px;
+	text-align: center;
+	padding-top: 10px;
+}
+.change-news{
+	display: flex;
+	margin-top: 15px;
+	height: 45px;
+	line-height: 60px;
+	text-align: center;
+	color: #ccc;
+	font-size: 15px;
+	margin-left: 180px;
+}
+.change-news img{
+	padding-top: 20px;
+	padding-right: 10px;
+	width: 15px;
+	height: 15px;
+	opacity: 0.5;
+}
+.show-news{
+	padding-left: 10px;
+	position: absolute;
+	top: 60px;
+}
+.show-news ul{
+	list-style: none;
+}
+.show-news li{
+	margin-top: 23px;
+	font-size: 20px;
+	display: flex;
+	text-align: center;
+	height: 23px;
+	line-height: 23px;
+}
+.show-news .news-num{
+	color: #ccc;
+	font-weight: bold;
+	display: flex;
+}
+.news{
+	display: flex;
+	outline: none;
+	margin-left: 20px;
+	width: 250px;
+	height: 20px;
+	border: none;
+	font-size: 18px;
+}
+.color-stripes{
+	position: absolute;
+	bottom: -600px;
+	height: 600px;
+	width: 380px;
+	display: flex;
+	background-color: #000;
+	
+}
+.stripes{
+	position: absolute;
+	width: 75px;
+	height: 600px;
+	bottom: -600px;
+	transition: bottom 1s ease-in-out;
+	border-radius: 50px;
+}
+.stripes.s1{
+	width: 75px;
+	height: 600px;
+	background: linear-gradient(to bottom,
+	rgba(255,255,0,1) 50%,
+	rgba(255,255,0,0)) 100%;
+	bottom: -100px;
+	left: 50px;
+}
+.stripes.s2{
+	width: 60px;
+	height: 600px;
+	background: linear-gradient(to bottom,
+	rgba(255,0,0,1) 50%,
+	rgba(255,0,0,0)) 100%;
+	bottom: -200px;
+	left: 0px;
+}
+.stripes.s3{
+	width: 75px;
+	height: 600px;
+	background: linear-gradient(to bottom,
+	rgba(225,0,125,1) 50%,
+	rgba(0,0,255,0)) 100%;
+	bottom: -175px;
+	left: 100px;
+} 
+.stripes.s4{
+	width: 75px;
+	height: 600px;
+	background: linear-gradient(to bottom,
+	rgba(255,125,0,1) 50%,
+	rgba(255,125,0,0)) 100%;
+	bottom: -100px;
+	left: 225px;
+}
+.stripes.s5{
+	width: 75px;
+	height: 600px;
+	background: linear-gradient(to bottom,
+	rgba(255,0,0,1) 50%,
+	rgba(255,0,0,0)) 100%;
+	bottom: -140px;
+	left: 325px;
+}
+.stripes.s6{
+	width: 75px;
+	height: 600px;
+	background: linear-gradient(to bottom,
+	rgba(255,255,0,1) 50%,
+	rgba(185,125,0,0)) 100%;
+	bottom: -170px;
+	left: 275px;
+}
+.stripes.s7{
+	width: 75px;
+	height: 600px;
+	background: linear-gradient(to bottom,
+	rgba(255,255,0,1) 50%,
+	rgba(255,255,0,0)) 100%;
+	bottom: -130px;
+	left: 160px;
+}
