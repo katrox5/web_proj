@@ -43,12 +43,15 @@ function log() {
 // 登录成功
 function logSuccess() {
     new Message().show({
-        type: 'success',
-        text: '登录成功，欢迎您！',
-        duration: 5000,
+        type: 'loading',
+        text: '登录成功，跳转到主页...',
+        duration: 1000,
         closeable: true
     });
     // 跳转到主页
+    setTimeout(function() {
+        window.location.assign('web_main/main_for_visiter.html')
+    }, 1500);
 
     // 记录是否保持登录
 	localStorage.setItem('autolog', autolog.checked);
