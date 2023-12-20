@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>注册</title>
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_1117508_wxidm5ry7od.css"/>
+    <link rel="stylesheet" href="../../css/index/style.css"/>
+    <link rel="stylesheet" href="../../css/index/msg.css"/>
+    <script src="https://cdn.bootcss.com/js-sha1/0.6.0/sha1.js"></script>
+    <script src="../../js/index/message.js"></script>
+    <script src="../../js/index/main.js" defer></script>
+    <script src="../../js/index/db.js" defer></script>
+    <script src="../../js/index/reg.js" defer></script>
+</head>
+<body>
+    <div class="box" style="height: 340px">
+        <h2>注册</h2>
+        <div class="ipt-box">
+            <label>账号*</label>
+            <input type="text" id="username"/>
+        </div>
+        <div class="ipt-box">
+            <label>密码*</label>
+            <input type="password" id="password"/>
+        </div>
+        <div class="ipt-box">
+            <label>确认密码</label>
+            <input type="password" id="confirm"/>
+        </div>
+        <div class="btn-box">
+            <button onclick="window.location.assign('login.html')">返回</button>
+            <button onclick="reg()">注册</button>
+        </div>
+    </div>
+</body>
+</html>
