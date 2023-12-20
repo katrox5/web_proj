@@ -1,7 +1,87 @@
-.comment_content{
+.comment_content {
 	width: 800px;
 	height: 2000px;
 	background-color: #fff;
 	margin-top: 20px;
 	border-radius: 20px;
+}
+
+.comment_at_all h3 {
+	padding-top: 20px;
+	padding-left: 40px;
+}
+
+.comment_at_all p {
+	margin: 30px;
+	color: #888;
+}
+
+.comment_content hr {
+	border: 1px solid #999;
+	width: 700px;
+	margin-bottom: 20px;
+}
+
+.user {
+	height: 60px;
+	line-height: 60px;
+}
+
+.user img {
+	margin-left: 50px;
+	width: 40px;
+	height: 40px;
+	border-radius: 100%;
+}
+
+.user input {
+	position: relative;
+	top: -12px;
+	left: 10px;
+	outline: none;
+	border: none;
+	font-size: 20px;
+
+}
+
+.contents {
+	margin-left: 80px;
+	width: 650px;
+}
+
+.contents .multiline-textbox {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	/* 控制文本显示行数，这里设定为两行 */
+	-webkit-line-clamp: 2;
+	/* 设置文本溢出时显示省略号 */
+	text-overflow: ellipsis;
+}
+
+.contents img {
+	width: 160px;
+	height: 160px;
+	margin: 5px;
+	border-radius: 20px;
+}
+
+.contents .like{
+	display: flex;
+	color: #888;
+	padding-top: 20px;
+	font-size: 17px;
+}
+.contents .like .date{
+	padding-left: 50px;
+	padding-right: 450px;
+}
+.contents .like img{
+	width: 20px;
+	height: 20px;
+	border-radius: 0px;
+	
+}
+.contents hr{
+	margin-left: -20px;
 }

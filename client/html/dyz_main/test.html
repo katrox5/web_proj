@@ -1,61 +1,21 @@
+<!-- test.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-color: #f0f0f0;
-    }
-
-    .container {
-      position: relative;
-      width: 300px;
-      height: 200px;
-      overflow: hidden;
-      border: 1px solid #ccc;
-    }
-
-    .middle-block {
-      width: 100%;
-      height: 100%;
-      background-color: lightblue;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    .upper-cover {
-      width: 100%;
-      height: 100px; /* 调整遮挡块的高度 */
-      background-color: rgba(255, 0, 0, 0.5);
-      position: absolute;
-      top: -100px; /* 上面块超出容器 */
-      left: 0;
-    }
-
-    .lower-cover {
-      width: 100%;
-      height: 100px; /* 调整遮挡块的高度 */
-      background-color: rgba(0, 0, 255, 0.5);
-      position: absolute;
-      bottom: -100px; /* 下面块超出容器 */
-      left: 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page</title>
 </head>
 <body>
 
-<div class="container">
-  <div class="upper-cover"></div>
-  <div class="middle-block"></div>
-  <div class="lower-cover"></div>
-</div>
+<script>
+    // 获取当前页面的URL中的查询参数部分
+    var urlParams = new URLSearchParams(window.location.search);
+    var formId = urlParams.get('commentid');
+
+    // 弹出alert框显示表单的ID
+    alert('Submitted Form ID: ' + formId);
+</script>
 
 </body>
 </html>
