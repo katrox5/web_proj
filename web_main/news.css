@@ -55,6 +55,7 @@
 }
 .news{
 	display: flex;
+	outline: none;
 	margin-left: 20px;
 	width: 250px;
 	height: 20px;
@@ -100,7 +101,7 @@
 	width: 75px;
 	height: 600px;
 	background: linear-gradient(to bottom,
-	rgba(0,0,255,1) 50%,
+	rgba(225,0,125,1) 50%,
 	rgba(0,0,255,0)) 100%;
 	bottom: -175px;
 	left: 100px;
@@ -127,8 +128,8 @@
 	width: 75px;
 	height: 600px;
 	background: linear-gradient(to bottom,
-	rgba(125,255,255,1) 50%,
-	rgba(125,255,255,0)) 100%;
+	rgba(255,255,0,1) 50%,
+	rgba(185,125,0,0)) 100%;
 	bottom: -170px;
 	left: 275px;
 }
@@ -136,8 +137,8 @@
 	width: 75px;
 	height: 600px;
 	background: linear-gradient(to bottom,
-	rgba(125,255,125,1) 50%,
-	rgba(125,255,125,0)) 100%;
+	rgba(255,255,0,1) 50%,
+	rgba(255,255,0,0)) 100%;
 	bottom: -130px;
 	left: 160px;
 }
