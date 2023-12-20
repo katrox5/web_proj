@@ -1,0 +1,84 @@
+/* 轮播器 */
+.carousel-container {
+	position: relative;
+	width: 800px;
+	height:380px;
+}
+
+.carousel-img {
+	position: absolute;
+	min-width: 100%;
+	border-radius: 10px;
+	opacity: 0;//透明属性
+	visibility: hidden;
+	transition: opacity 0.5s, visibility 0.5s; /* 添加过渡效果，持续0.5秒 */
+}
+.carousel-img.active{
+	opacity: 1;
+	visibility: visible;
+}
+
+.carousel-img img {
+	width: 800px;
+	height: 380px;
+	border-radius: 20px;
+}
+
+.prev {
+	color: #ccc;
+	font-size: 30px;
+	text-align: center;
+	line-height: 70px;
+	position: absolute;
+	top: 135px;
+	width: 35px;
+	height: 70px;
+	left: 0;
+	border-radius: 0px 10px 10px 0px;
+	
+}
+.next {
+	color: #ccc;
+	font-size: 30px;
+	text-align: center;
+	line-height: 70px;
+	position: absolute;
+	top: 135px;
+	width: 35px;
+	height: 70px;
+	right: 0;
+	border-radius: 10px 0px 0px 10px;
+}
+.prev:hover{
+	background-color: #00000050;
+	color: #ccc;
+}
+.next:hover{
+	background-color: #00000050;
+	color: #ccc;
+}
+
+.carousel-index{
+	position: absolute;
+	bottom: 20px;
+	right: 350px;
+}
+.carousel-index-ul{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.carousel-index-ul li{
+	width: 14px;
+	height: 14px;
+	border-radius: 100%;
+	background-color: #ccc;
+	float: left;
+	margin: 10px;
+}
+.carousel-index-ul li:hover{
+	background-color: #fff;
+}
+.carousel-index-ul li.active{
+	background-color: #fff;
+}
