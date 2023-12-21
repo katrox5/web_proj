@@ -1,6 +1,6 @@
 function $(id)
 {
-	return document.getElementById(id);
+    return document.getElementById(id);
 }
 
 const username = $('username');
@@ -8,36 +8,36 @@ const code = $('code');
 const style = username.style.border;
 
 username.addEventListener('input', function() {
-	recover(this);
+    recover(this);
 });
 
 // 自动补充用户名
 if ((user = localStorage.getItem('username')) != null)
 {
-	username.value = user;
+    username.value = user;
 }
 
 let CODE;       // 验证码
 
 function send() {
-	const user = username.value;
-	
-	if (user == '') {
-		remindAndShake();
-		return;
-	}
+    const user = username.value;
+    
+    if (user == '') {
+        remindAndShake();
+        return;
+    }
 
-	// 生成6位验证码
+    // 生成6位验证码
     CODE = spawnCode(6);
     console.log(CODE);
 
-	// 冷却60秒
-	let btn = $('send');
-	let sec = 60;
-	const txt = btn.innerText;
-	btn.disabled = true;
-	btn.innerText = sec + ' S';
-	let timer = setInterval(function() {
+    // 冷却60秒
+    let btn = $('send');
+    let sec = 60;
+    const txt = btn.innerText;
+    btn.disabled = true;
+    btn.innerText = sec + ' S';
+    let timer = setInterval(function() {
         if (--sec <= 0) {
             clearInterval(timer);
             btn.innerText = txt;
@@ -108,10 +108,10 @@ function modSuccess() {
         closeable: true
     });
 
-	// 跳转到主页
-	setTimeout(() => {
-	    window.location.assign('login.html');
-	}, 2000);
+    // 跳转到主页
+    setTimeout(() => {
+        window.location.assign('login.html');
+    }, 2000);
 }
 
 // 密码修改失败
@@ -133,36 +133,36 @@ function modFailure4PswdIsIllegal() {
 }
 
 function remindAndShake() {
-	username.placeholder = '账号不能为空';
-	username.style.border = '1px solid rgba(255,0,0,0.7)';
-	let effect = new KeyframeEffect(
-		document.getElementsByClassName('ipt-box')[0],
-		[
-			{
-				marginLeft: '0'
-			},
-			{
-				marginLeft: '0.5rem'
-			},
-			{
-				marginLeft: '0'
-			},
-			{
-				marginLeft: '-0.5rem'
-			}
-		],
-		{
-			duration: 200,
-			easing: 'ease-in-out',
-			iterations: 2
-		}
-	);
-	new Animation(effect, document.timeline).play();
+    username.placeholder = '账号不能为空';
+    username.style.border = '1px solid rgba(255,0,0,0.7)';
+    let effect = new KeyframeEffect(
+        document.getElementsByClassName('ipt-box')[0],
+        [
+            {
+                marginLeft: '0'
+            },
+            {
+                marginLeft: '0.5rem'
+            },
+            {
+                marginLeft: '0'
+            },
+            {
+                marginLeft: '-0.5rem'
+            }
+        ],
+        {
+            duration: 200,
+            easing: 'ease-in-out',
+            iterations: 2
+        }
+    );
+    new Animation(effect, document.timeline).play();
 }
 
 function recover() {
-	username.placeholder = '';
-	username.style.border = style;
+    username.placeholder = '';
+    username.style.border = style;
 }
 
 // 生成随机字符串
