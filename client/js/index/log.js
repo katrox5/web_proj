@@ -1,8 +1,7 @@
 const autolog = $('autolog');
 
 document.addEventListener('keyup', function(event) {
-    if (event.keyCode == 13)
-        log();
+    if (event.keyCode == 13) log();
 });
 
 if ((user = localStorage.getItem('username')) != null) {
@@ -33,25 +32,43 @@ function log() {
     }
     if (flag)
         return;
-    
+
+    // 记录账号
     localStorage.setItem('username', user);
     
     // 提交到数据库
-    verifyPswd(user, pswd);
+    login(user, pswd);
+}
+
+function login(user, pswd) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('post', url_prefix + '/verify');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            let obj = JSON.parse(xhr.responseText);
+            if (obj.status == 'success') {
+                localStorage.setItem('id', obj.id)
+                return logSuccess();
+            }
+            logFailure();
+            new Message().show({
+                type: obj.status,
+                text: obj.message,
+                closeable: true
+            });
+        }
+    };
+    const data = {
+        username: user,
+        password: pswd
+    };
+    xhr.send(JSON.stringify(data));
 }
 
 // 登录成功
 function logSuccess() {
-    new Message().show({
-        type: 'loading',
-        text: '登录成功，跳转到主页...',
-        duration: 1000,
-        closeable: true
-    });
-    // 跳转到主页
-    setTimeout(function() {
-        window.location.assign('web_main/main_for_visiter.html')
-    }, 1500);
+    window.location.assign('../../html/dyz_main/main.html')
 
     // 记录是否保持登录
     localStorage.setItem('autolog', autolog.checked);
@@ -63,11 +80,6 @@ let failureCount = 0;       // 登录失败次数
 
 // 登录失败
 function logFailure() {
-    new Message().show({
-        type: 'error',
-        text: '账号或密码错误',
-        closeable: true
-    });
     password.value = '';
     password.focus();
 
