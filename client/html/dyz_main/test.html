@@ -14,8 +14,46 @@
     var formId = urlParams.get('commentid');
 
     // 弹出alert框显示表单的ID
-    alert('Submitted Form ID: ' + formId);
+    //alert('Submitted Form ID: ' + formId);
 </script>
 
 </body>
+
+  <input type="text" id="search-box" placeholder="输入关键词" oninput="performFuzzySearch()">
+  <ul id="search-results">
+    <!-- 搜索结果将在这里展示 -->
+  </ul>
+
+  <script>
+    const data = ['apple', 'banana', 'orange', 'grape', 'pear', 'peach', 'kiwi', '苹果', '水果', '水苹'];
+
+    function performFuzzySearch() {
+      const searchTerm = document.getElementById('search-box').value.toLowerCase();
+    
+      // 使用 filter 方法找到所有匹配项
+      const matchingItems = data.filter((item, index) => item.toLowerCase().includes(searchTerm));
+    
+      if (matchingItems.length > 0) {
+        // 使用 map 方法获取所有匹配项在原数组中的索引
+        const matchingIndexes = matchingItems.map(item => data.indexOf(item));
+        
+        console.log('所有匹配项的索引：', matchingIndexes);
+      } else {
+        console.log('未找到匹配项');
+      }
+    }
+
+
+    function displayResults(results) {
+      const resultsList = document.getElementById('search-results');
+      resultsList.innerHTML = '';
+
+      results.forEach(result => {
+        const listItem = document.createElement('li');
+        listItem.textContent = result;
+        resultsList.appendChild(listItem);
+      });
+    }
+  </script>
+
 </html>

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../../css/dyz_main/search.css">
   <script src="../../js/dyz_main/main.js"></script>
+  <script src="../../js/dyz_main/search.js"></script>
   <title>Your Website</title>
   <style>
 	  body {
@@ -23,8 +24,8 @@
 		<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
 	</div>
 		<div class="search-bar">
-			  <img src="../../img/dyz_main/search.jfif" alt="" />
-			  <input class="search-input" type="text" placeholder="大家都在搜："/>
+			  <img src="../../img/dyz_main/search.jfif" onclick="performSearch()" />
+			  <input class="search-input" type="text" placeholder="大家都在搜："  onkeypress="handleKeyPress(event)"/>
 			  <div class="hot-search"></div>
 			  <a href="main.html">
 				<div class="back">
