@@ -1,0 +1,36 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Submission</title>
+</head>
+<body>
+
+<form id="a" onsubmit="submitForm('a'); return false;">
+    <!-- 表单a的内容 -->
+    <input type="submit" value="Submit Form A">
+</form>
+
+<form id="b" onsubmit="submitForm('b'); return false;">
+    <!-- 表单b的内容 -->
+    <input type="submit" value="Submit Form B">
+</form>
+
+<form id="c" onsubmit="submitForm('c'); return false;" onclick="submitForm('c'); return false;">
+    <!-- 表单c的内容 -->
+	aaa
+    <input type="submit" value="Submit Form C">
+</form>
+
+<script>
+    function submitForm(formId) {
+        // 在表单提交后，跳转到新的页面，并将表单的ID作为查询参数传递
+		window.open('test.html?formId=' + formId);
+        //window.location.href = 'test.html?formId=' + formId;
+    }
+</script>
+
+</body>
+</html>

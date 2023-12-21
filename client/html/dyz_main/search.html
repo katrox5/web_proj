@@ -1,41 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../../css/dyz_main/search.css">
-  <script src="../../js/dyz_main/main.js"></script>
-  <title>Your Website</title>
-  <style>
-	  body {
-	  	background-color: #f8f8f8;
-	  	font-family: Arial, sans-serif;
-	  	margin: 0;
-	  	padding: 0;
-	  }
-  </style>
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../../css/dyz_main/search.css">
+		<link rel="stylesheet" href="../../css/dyz_main/main.css">
+		<link rel="stylesheet" href="../../css/dyz_main/comment.css">
 
-  <!-- 导航栏 -->
-  <nav class="navbar">
-    <div class="logo">
-		<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
-	</div>
-		<div class="search-bar">
-			  <img src="../../img/dyz_main/search.jfif" alt="" />
-			  <input class="search-input" type="text" placeholder="大家都在搜："/>
-			  <div class="hot-search"></div>
-			  <a href="main.html">
-				<div class="back">
-					<img src="../../img/dyz_main/back.png" alt="" />
-			    </div>
-			  </a>
-			  
+		<script src="../../js/dyz_main/main.js"></script>
+		<script src="../../js/dyz_main/search.js"></script>
+		<script src="../../js/dyz_main/comment.js"></script>
+
+		<title>搜索</title>
+		<style>
+			body {
+				background-color: #f8f8f8;
+				font-family: Arial, sans-serif;
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+	</head>
+	<body>
+
+		<!-- 导航栏 -->
+		<nav class="navbar">
+			
+			<div class="logo">
+				<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+			</div>
+			<div class="search-bar">
+				<img src="../../img/dyz_main/search.jfif" onclick="performSearch()" />
+				<input class="search-input" type="text" placeholder="大家都在搜：" onkeypress="handleKeyPress(event)" />
+				<div class="hot-search"></div>
+				<a href="main.html">
+					<div class="back">
+						<img src="../../img/dyz_main/back.png" alt="" />
+					</div>
+				</a>
+
+			</div>
+		</nav>
+		<!-- 全部评论 -->
+		<div class="main-content" style="margin-top: -50px;">
+			
+			<div class="comment_content" style="padding-top: 20px;">
+				<div class="search-title">
+					搜索结果:
+				</div>
+				<div class="comments">
+					<div onclick="window.open('test.html?commentid=c'); return false;">
+						<div class="user">
+							<img src="../../img/dyz_main/search.jfif" alt="" />
+							<input type="text" value="name" readonly />
+						</div>
+						<div class="contents">
+							<div class="multiline-textbox">
+								<!-- 这里是文本内容，可以是动态生成的内容 -->
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+								Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+								Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...
+							</div>
+							<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+							<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+							<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+							<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+							<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+							<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+							<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+							<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+
+							<div class="like">
+								<div class="date">date</div>
+								<img src="../../img/dyz_main/like.png" alt="" />
+								12&ensp;
+								<img src="../../img/dyz_main/reply.png" alt="" />
+								13
+							</div>
+							<hr />
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
 		</div>
-  </nav>
 
- 
-	
-</body>
+
+
+
+	</body>
 </html>

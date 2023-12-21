@@ -1,4 +1,4 @@
-.right-down-content{
+.my-friends{
 	width: 400px;
 	height: 380px;
 	background-color: #fff;
@@ -7,8 +7,28 @@
 	margin-top: 20px;
 	
 }
-.right-down-content.fixed{
+.my-friends.fixed{
 	position: fixed;
 	top:50px;
+}
+
+.friend-title{
+	margin: 30px;
+	font-size: 22px;
+}
+.friends-content{
+	display: flex;
+	margin-top: 20px;
+}
+.friends-content img{
+	width: 60px;
+	height: 60px;
+	border-radius: 100%;
+	margin-left: 30px;
+}
+.friends-content .friend-name{
+	margin-left: 35px;
+	font-size: 30px;
+	padding-top: 12px;
 }
 

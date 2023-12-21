@@ -9,11 +9,14 @@
 		<link rel="stylesheet" href="../../css/dyz_main/carousel.css">
 		<link rel="stylesheet" href="../../css/dyz_main/comment.css">
 		<link rel="stylesheet" href="../../css/dyz_main/news.css" />
-		<link rel="stylesheet" href="right-down.css">
+		<link rel="stylesheet" href="../../css/dyz_main/right-down.css">
 		
+
 		<script src="../../js/dyz_main/main.js"></script>
 		<script src="../../js/dyz_main/news.js"></script>
-		
+		<script src="../../js/dyz_main/comment.js"></script>
+		<script src="../../js/dyz_main/friend.js"></script>
+
 		<title>主页</title>
 		<style>
 			body {
@@ -23,6 +26,9 @@
 				padding: 0;
 			}
 		</style>
+		<script>
+			
+		</script>
 	</head>
 	<body>
 
@@ -52,7 +58,8 @@
 			<div class="main_left">
 				<!-- 轮播图 -->
 				<div class="carousel-container" onmouseover="stopTimer()" onmouseout="startTimer()"><!--图片容器-->
-					<div class="carousel-img active"><img src="../../img/dyz_main/carousel/carousel1.png" alt="Image 1"></div>
+					<div class="carousel-img active"><img src="../../img/dyz_main/carousel/carousel1.png" alt="Image 1">
+					</div>
 					<div class="carousel-img"><img src="../../img/dyz_main/carousel/carousel2.png" alt="Image 2"></div>
 					<div class="carousel-img"><img src="../../img/dyz_main/carousel/carousel3.png" alt="Image 3"></div>
 					<div class="prev" onclick="changeSlide(-1)">&lt;</div><!--左切换-->
@@ -69,24 +76,87 @@
 				<!-- 评论区 -->
 				<div class="comment_content">
 					<!-- 公告 -->
-					
+					<div class="comment_at_all">
+						<h3 onclick="addcomment(0)">公告栏</h3>
+						<p>&emsp;&emsp;
+							すべてのユミルの民 (たみ)に告(つ)ぐ,
+							オレの名(な)はエレン・イェーガー,
+							始祖(しそ)の巨人(きょじん)の力(ちから)を介(かい)し,
+							すべてのユミルの民(たみ)へ話(はな)しかけている,
+							パラディ島(とう)にある,
+							すべての壁(かべ)の硬質化(こうしつか)が解(と)かれ,
+							その中(なか)に埋(う)められていた,
+							すべての巨人(きょじん)は歩(あゆ)み始(はじ)めた,
+							オレの目的(もくてき)は   オレの生(う)まれ育(そだ)った,
+							パラディ島(とう)の人々(ひとびと)を  守(まも)ることにある,
+							しかし、世界(せかい)は ,
+							パラディ島(とう)の人々(ひとびと)が,死滅(しめつ)することを望(のぞ)み,
+							永(なが)い時間(じかん)をかけ  膨(ふく)れ上(あ)がった憎悪(ぞうお)は,
+							この島(しま)のみならず,
+							すべてのユミルの民(たみ)が　殺(ころ)され尽(つ)くすまで,
+							止(と)まらないだろう,
+							オレはその望(のぞ)みを拒(こば)む,
+							壁(かべ)の巨人(きょじん)はこの島(しま)の外(そと)にある,
+							すべての地表(ちひょう)を踏(ふ)み鳴(な)らす,
+							そこうにある命(いのち)を,
+							この世(よ)から　駆逐(くちく)するまで.
+						</p>
+						<hr />
+					</div>
+					<!-- 全部评论 -->
+					<div class="comments">
+						<div onclick="window.open('test.html?commentid=c'); return false;">
+							<div class="user">
+								<img src="../../img/dyz_main/search.jfif" alt="" />
+								<input type="text" value="name" readonly />
+							</div>
+							<div class="contents">
+								<div class="multiline-textbox">
+								    <!-- 这里是文本内容，可以是动态生成的内容 -->
+								    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+								    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+								    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...
+								</div>
+								<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+								<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+								<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+								<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+								<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+								<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+								<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+								<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+								
+								<div class="like">
+									<div class="date">date</div>
+									<img src="../../img/dyz_main/like.png" alt="" />
+									12&ensp;
+									<img src="../../img/dyz_main/reply.png" alt="" />
+									13
+								</div>
+								<hr />
+							</div>
+						</div>
+
+
+					</div>
 				</div>
 			</div>
-			
+
 			<div class="right">
 				<div class="news-content">
 					<div class="news-title">
 						<h2>&emsp;小米资讯</h5>
-						<div class="change-news" onclick="change_news()">
-							<img src="../../img/dyz_main/change_news.png" alt="" />
-							换一批
-						</div>
+							<div class="change-news" onclick="change_news()">
+								<img src="../../img/dyz_main/change_news.png" alt="" />
+								换一批
+							</div>
 					</div>
+
 					<div class="show-news">
 						<ul class="news-lists">
 							<li>
 								<div class="news-num" style="color: #f00;">1</div>
-								<input class="news" type="text" value="小米AI助手升级" readonly/>
+								<input class="news" type="text" value="小米AI助手升级" readonly />
 							</li>
 							<li>
 								<div class="news-num" style="color: #f33;">2</div>
@@ -94,23 +164,23 @@
 							</li>
 							<li>
 								<div class="news-num" style="color: #f99;">3</div>
-								<input class="news" type="text" value="骁龙888手机发布" readonly/>
+								<input class="news" type="text" value="骁龙888手机发布" readonly />
 							</li>
 							<li>
 								<div class="news-num">4</div>
-								<input class="news" type="text" value="小米智慧城市计划" readonly/>
+								<input class="news" type="text" value="小米智慧城市计划" readonly />
 							</li>
 							<li>
 								<div class="news-num">5</div>
-								<input class="news" type="text" value="小米水滴屏手机" readonly/>
+								<input class="news" type="text" value="小米水滴屏手机" readonly />
 							</li>
 							<li>
 								<div class="news-num">6</div>
-								<input class="news" type="text" value="MIUI全新设计" readonly/>
+								<input class="news" type="text" value="MIUI全新设计" readonly />
 							</li>
 						</ul>
 					</div>
-					<div class = "color-stripes">
+					<div class="color-stripes">
 						<div class="stripes s1"></div>
 						<div class="stripes s2"></div>
 						<div class="stripes s3"></div>
@@ -119,13 +189,19 @@
 						<div class="stripes s6"></div>
 						<div class="stripes s7"></div>
 					</div>
-					
+
 				</div>
-				
-				
-				
-				<div class="right-down-content">
-					
+
+
+
+				<div class="my-friends">
+					<div class="friend-title" onclick="addfriends(0)">
+						我的好友
+					</div>
+					<div class="friends-content">
+						<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+						<div class="friend-name">朱古力</div>
+					</div>
 				</div>
 			</div>
 
