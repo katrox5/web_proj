@@ -9,9 +9,11 @@
     }
 	
 function performSearch(){
+	
+	nickname[0] = "dyz";
 	var key_word = document.querySelector(".search-input").value.toLowerCase();
 	if(!key_word)
 		return ;
-	const searchResults = data.filter(item => item.toLowerCase().includes(key_word));//模糊搜索
-	
+	//const searchResults = data.filter(item => item.toLowerCase().includes(key_word));//模糊搜索
+	addcomment(0);
 }

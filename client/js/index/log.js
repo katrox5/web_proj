@@ -48,9 +48,10 @@ function logSuccess() {
         duration: 1000,
         closeable: true
     });
+	alert(localStorage.getItem('id'));
     // 跳转到主页
     setTimeout(function() {
-        window.location.assign('web_main/main_for_visiter.html')
+        window.location.assign('../dyz_main/main.html')
     }, 1500);
 
     // 记录是否保持登录

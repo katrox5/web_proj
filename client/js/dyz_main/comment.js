@@ -1,3 +1,4 @@
+var comment_ID = [0];// 评论ID
 var avatar = ["../../img/dyz_main/search.jfif"];//头像
 var nickname = ["name"];//昵称
 var text_content = ["aaaa"];//文本内容
@@ -8,14 +9,12 @@ var date_pub = ["2023.12.20 23:06"];//发布时间
 
 
 
-
 function addcomment(index){
-	
 	// 创建评论框
 	var commentBox = document.createElement('div');
 	// 设置 <div> 元素的 onclick 事件处理函数
 	commentBox.onclick = function() {
-	    window.open('test.html?commentid=c');
+	    window.open('test.html?commentid='+comment_ID[index]);//前面的域名改成要跳转的界面（这里是评论详情界面）
 	    return false; // 阻止默认行为和事件冒泡
 	};
 
