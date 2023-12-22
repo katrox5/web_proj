@@ -12,24 +12,17 @@ username.addEventListener('input', function() {
 });
 
 // 自动补充用户名
-if ((user = localStorage.getItem('username')) != null)
-{
+if ((user = localStorage.getItem('username')) != null) {
     username.value = user;
 }
 
-let CODE;       // 验证码
-
 function send() {
     const user = username.value;
-    
+
     if (user == '') {
         remindAndShake();
         return;
     }
-
-    // 生成6位验证码
-    CODE = spawnCode(6);
-    console.log(CODE);
 
     // 冷却60秒
     let btn = $('send');
@@ -47,26 +40,35 @@ function send() {
 }
 
 function confirm() {
-    const user = username.value;
+    const xhr = new XMLHttpRequest();
+    xhr.open('post', url_prefix + 'verifyCode');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            let obj = JSON.parse(xhr.responseText);
+            new Message().show({
+                type: obj.status,
+                text: obj.message,
+                closeable: true
+            });
+            if (obj.status == 'success') {
+                return verifySuccess();
+            }
+            code.value = '';
+            code.focus();
+        }
+    };
+    const data = {
+        username: username.value,
+        code: code.value
+    };
+    xhr.send(JSON.stringify(data));
+}
 
-    if (code.value != CODE) {
-        new Message().show({
-            type: 'error',
-            text: '验证码错误',
-            closeable: true
-        });
-        code.value = '';
-        code.focus();
-        return;
-    }
-
-    new Message().show({
-        type: 'success',
-        text: '验证成功',
-        closeable: true
-    });
+function verifySuccess() {
     document.getElementsByClassName('ipt-box')[0].remove();
     document.getElementsByClassName('cod-box')[0].remove();
+
     var ipt1 = document.createElement('div');
     ipt1.className = 'ipt-box';
     ipt1.innerHTML = `
@@ -79,6 +81,7 @@ function confirm() {
         <label>确认密码</label>
         <input type="text" id="confirm"/>
     `;
+
     document.getElementsByClassName('box')[0].insertBefore(ipt1, document.getElementsByClassName('btn-box')[0]);
     document.getElementsByClassName('box')[0].insertBefore(ipt2, document.getElementsByClassName('btn-box')[0]);
 
@@ -95,41 +98,35 @@ function confirm() {
             password.focus();
             return;
         }
-        modifyPswd(user, pswd);
+        modifyPassword(user, pswd);
     };
 }
 
-// 密码修改成功
-function modSuccess() {
-    new Message().show({
-        type: 'success',
-        text: '修改成功，跳转到登录页...',
-        duration: 1500,
-        closeable: true
-    });
-
-    // 跳转到主页
-    setTimeout(() => {
-        window.location.assign('login.html');
-    }, 2000);
-}
-
-// 密码修改失败
-function modFailure() {
-    new Message().show({
-        type: 'error',
-        text: '密码重置失败，请联系管理员',
-        closeable: true
-    });
-}
-
-// 密码非法导致修改失败
-function modFailure4PswdIsIllegal() {
-    new Message().show({
-        type: 'error',
-        text: '密码长度8-16位且必须包含数字、大小写字母',
-        closeable: true
-    });
+function modifyPassword(user, pswd) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('post', url_prefix + 'modifyPassword');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            let obj = JSON.parse(xhr.responseText);
+            if (obj.status == 'success') {
+                setTimeout(() => {
+                    window.location.assign('login.html');
+                }, 2000);
+            }
+            new Message().show({
+                type: obj.status,
+                text: obj.message,
+                duration: 1500,
+                closeable: true
+            });
+        }
+    };
+    const data = {
+        username: user,
+        password: pswd
+    };
+    xhr.send(JSON.stringify(data));
 }
 
 function remindAndShake() {
@@ -163,15 +160,4 @@ function remindAndShake() {
 function recover() {
     username.placeholder = '';
     username.style.border = style;
-}
-
-// 生成随机字符串
-function spawnCode(len) {
-    let res = '';
-
-    const str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (var i = 0; i < len; i++)
-        res += str.charAt(Math.floor(Math.random() * str.length));
-
-    return res;
 }

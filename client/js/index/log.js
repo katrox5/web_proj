@@ -42,7 +42,7 @@ function log() {
 
 function login(user, pswd) {
     const xhr = new XMLHttpRequest();
-    xhr.open('post', url_prefix + '/verify');
+    xhr.open('post', url_prefix + '/verifyPassword');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = function() {
         if (xhr.status === 200) {
