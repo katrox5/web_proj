@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="../../css/comment/nav.css">
+		<link rel="stylesheet" href="../../css/comment/comment.css">
+		<link rel="stylesheet" href="../../css/comment/popup.css">
+		<link rel="stylesheet" href="../../css/dyz_main/comment.css">
+		<script src="../../js/comment/lib/jquery-1.12.4.min.js"></script>
+
+		
+		
+		<!-- 在 <head> 标签中引入 Bootstrap CSS -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	
+		<title>Your Website</title>
+		<style>
+			body {
+				background-color: #f8f8f8;
+				font-family: Arial, sans-serif;
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- 在 <body> 标签结束前引入 Bootstrap JavaScript -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+		<span id="top-span"></span>
+		<!-- 导航栏 -->
+		<nav class="navbar">
+			<div class="logo">
+				<img src="../../img/comment/logo/小米.jpg" alt="" />
+			</div>
+			<a style="text-decoration: none;" href="search.html">
+				<div class="search-bar">
+					<img src="../../img/comment/search.jfif" alt="" />
+					<input type="text" placeholder="大家都在搜：" />
+				</div>
+			</a>
+
+
+			<a href="../login.html" style="text-decoration: none;">
+				<div class="user-actions">
+					登录
+				</div>
+			</a>
+
+		</nav>
+
+		<!-- 主体 -->
+		<div class="my-main-content">
+			<div class="main-left">
+				<!-- 帖子内容 -->
+				<div id="my-comment-content"></div>
+
+				<!-- 评论区 -->
+				<div class="comment-content-bottom"></div>
+				
+				<!-- 固定底部 -->
+				<div class="a-fixed-bottom">
+					<div class="a-fixed-bottom-wrapper">
+						<div class="a-fixed-bottom-left">
+							<img />
+							<span style="input-idea">说说你的想法......</span>
+						</div>
+						<!-- 收藏 评论 点赞 数 -->
+						<div class="a-fixed-bottom-right">
+							<div class="a-fixed-bottom-right-icon"><img class="reply-like-img" src="../../img/comment/like.png"/></div>
+							<div class="a-fixed-bottom-right-num">1</div>
+						</div>
+						<div class="a-fixed-bottom-right">
+							<div class="a-fixed-bottom-right-icon"><img class="reply-like-img" src="../../img/comment/like.png"/></div>
+							<div class="a-fixed-bottom-right-num">1</div>
+						</div>
+						<div class="a-fixed-bottom-right">
+							<div class="a-fixed-bottom-right-icon"><img class="reply-like-img" src="../../img/comment/like.png"/></div>
+							<div class="a-fixed-bottom-right-num">1</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="main-right">
+				<div class="nav-top">
+					<!-- 右上角发帖人信息 -->
+					<div id="my-author-div"></div>
+				</div>
+				
+				<!-- 热帖 -->
+				<div class="nav-bottom">
+					<div class="newslist">
+						<div class="newslist-title">
+							<div class="newslist-title-name">帖子排行榜</div>
+							<div class="newslist-title-smallname">换一批</div>
+						</div>
+						<div class="newslist-card">
+							<div class="newslist-item">
+								<span class="newslist-index" style="color: #fe3e29;">1</span>
+								<span class="newslist-content">【科普向】简单介绍一下你米正式版系统更新推送逻辑</span>
+							</div>
+							<div class="newslist-item">
+								<span class="newslist-index" style="color: #fe3e29;"">2</span>
+								<span class="newslist-content">【科普向】简单介绍一下你米正式版系统更新推送逻辑</span>
+							</div>
+							<div class="newslist-item">
+								<span class="newslist-index" style="color: #fe3e29;"">3</span>
+								<span class="newslist-content">【科普向】简单介绍一下你米正式版系统更新推送逻辑</span>
+							</div>
+							<div class="newslist-item">
+								<span class="newslist-index">4</span>
+								<span class="newslist-content">【科普向】简单介绍一下你米正式版系统更新推送逻辑</span>
+							</div>
+							<div class="newslist-item">
+								<span class="newslist-index">5</span>
+								<span class="newslist-content">【科普向】简单介绍一下你米正式版系统更新推送逻辑</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		<!-- 	评论框 -->
+		<div class="modal" id="commentModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document" style="margin-top: 15%;">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 class="modal-title">发表评论</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border: none;">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				<!-- 在这里放置评论表单或内容 -->
+				  <textarea class="form-control" rows="3" maxlength="20" placeholder="说一说你的想法~"></textarea>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-primary">提交</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+		
+		
+<!-- 		控制框-可以置顶-删除-跳转到评论 -->
+		<div class="modal" id="promptModal" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document" style="margin-top: 15%;">
+		    <div class="modal-content" style="width: 400px; border-radius: 1.5rem;">
+		      <div class="modal-body">
+				<div class="my-button-wrapper" style="margin-top: 10px;"><button id="topCommentBtn" class="my-button-style">置顶评论</button></div>
+		        <div class="my-button-wrapper"><button class="replyCommentBtn my-button-style">回复评论</button></div>
+				<div class="my-button-wrapper"><button class="my-button-style deleteCommentBtn">删除评论</button></div>
+				<div class="my-button-wrapper-cancel" role="button" data-dismiss="modal">取消</div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+<!-- 		控制框2-删除-跳转到评论 -->
+		<div class="modal" id="promptModal2" tabindex="-1" role="dialog">
+		  <div class="modal-dialog" role="document" style="margin-top: 15%;">
+		    <div class="modal-content" style="width: 400px; border-radius: 1.5rem;">
+		      <div class="modal-body">
+				<div class="my-button-wrapper" style="margin-top: 10px;"><button class="replyCommentBtn my-button-style">回复评论</button></div>
+		        <div class="my-button-wrapper"><button class="my-button-style deleteCommentBtn">删除评论</button></div>
+				<div class="my-button-wrapper-cancel"  role="button" data-dismiss="modal">取消</div>
+		      </div>
+		    </div>
+		  </div>
+		
+	</body>
+</html>
+
+<script src="../../js/comment/comment-page-onload.js"></script>
+<script src="../../js/comment/comment.js"></script>
