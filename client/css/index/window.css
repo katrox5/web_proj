@@ -1,0 +1,80 @@
+#board {
+    position: fixed;
+    left: 50px;
+    top: 50px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px #888888;
+}
+
+.header {
+    padding: 5px 10px;
+    border-bottom: 0.1em solid lightgrey;
+}
+
+.header > span {
+    margin-left: 5px;
+    font-size: 18px;
+}
+
+.header > img {
+    margin-top: 5px;
+    margin-right: 6px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    float: right;
+}
+
+.content {
+    padding: 10px 50px;
+}
+
+.left-content {
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 50px;
+}
+
+#avatar {
+    display: block;
+    width: 128px;
+    height: 128px;
+    padding: 2px;
+    border: 1px solid grey;
+}
+
+.left-content > input {
+    margin-top: 10px;
+}
+
+.right-content {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 20px;
+}
+
+.right-content > table {
+    border-spacing: 10px;
+}
+
+td {
+    vertical-align: top;
+}
+
+#nickname {
+    width: 100px;
+}
+
+#signature {
+    width: 300px;
+    height: 120px;
+    resize: none;
+}
+
+.foot > button {
+    float: right;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
