@@ -37,7 +37,7 @@
 .search-bar input{
 	background-color: #f4f4f8;
 	border: none;
-	outline: none;//消除输入时的黑框
+	outline: none;/*消除输入时的黑框*/
 	color: #aaa;
 }
 .search-bar a{

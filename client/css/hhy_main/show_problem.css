@@ -1,0 +1,64 @@
+.done_problem,.draft_problem{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 990px;
+    height: 190px;
+    border-bottom: 1px solid grey; 
+}
+
+.pic {
+    width: 30%;
+}
+
+.pic img {
+    width: 100%;
+    height: auto;
+}
+
+.message {
+    width: 50%;
+    padding: 10px;
+}
+
+.start {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.time {
+    color: #666;
+    margin-top: 5px;
+}
+
+.status_1 {
+    color: #28a745;
+    margin-top: 5px;
+}
+
+.status_2 {
+    color: #666;
+    margin-top: 5px;
+}
+
+.operate {
+    width: 10%;
+    display: flex;
+    justify-content: space-between;
+    margin-right: 15px;
+}
+
+.edit,
+.delete {
+    text-align: center;
+    border: 1px solid #ff6702;
+    border-radius: 15px;
+    background-color: #ff6702;
+    padding: 5px;
+}
+
+.edit a,
+.delete a {
+    text-decoration: none;
+    color: #fff;
+}
