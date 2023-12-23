@@ -11,7 +11,7 @@
     margin-right: 245px; 
     box-sizing: border-box;
   }
-
+/* 问题输入 */
  .text-input{
      margin-bottom: 20px;
 
@@ -27,6 +27,7 @@ textarea {
     width: 800px;
  }
 
+ /* 按键 */
 .bottom-button {
     display: flex;
     width: 990px;
@@ -66,4 +67,30 @@ textarea {
     margin-left: 15px;
     background-color: #ff6702;
     color: #fff; 
+}
+
+/* 图片上传 */
+#upload-progress {
+    display: none;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#image-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.image-preview {
+    width: calc(33.33% - 10px);
+    margin-right: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.image-preview img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
