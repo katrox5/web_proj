@@ -1,0 +1,31 @@
+.left_bar {
+    width: 200px;
+    height: 600px;
+    margin-right: 5px; 
+    background-color: #ffffff;
+    margin-left: 245px; 
+    position: positive;
+  }
+
+  .left_bar a{
+    text-decoration: none;
+    color: #000;
+  }
+
+  /* .left_bar a:visited{
+    color: #ff594a;
+  } */
+
+  .left_bar ul {
+    padding: 0;
+    margin: 20px;
+}
+
+.left_bar li {
+    font-size: 16px;
+    font-family: micro;
+    line-height: 24px;
+    margin-left: 30px;
+    margin-bottom: 45px;
+    list-style: none;
+}
