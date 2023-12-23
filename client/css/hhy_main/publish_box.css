@@ -1,0 +1,10 @@
+.publish-button{
+	background-color: #000;
+	height: 35px;
+	width: 70px;
+	line-height: 35px;
+	text-align: center;
+	color: #fff;
+	border-radius: 35px;
+	margin-right: 10px;
+}

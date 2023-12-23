@@ -1,0 +1,69 @@
+ .main-content {
+    display: flex;
+    margin-top: 80px;
+  }
+
+  .passage_box {
+    /* flex: 1; */
+    width: 990px;
+    height: 1023px;
+    background-color: #ffffff;
+    margin-right: 245px; 
+    box-sizing: border-box;
+  }
+
+ .text-input{
+     margin-bottom: 20px;
+
+ }
+
+ label {
+    display: block; /* 使标签独占一行 */
+    margin-bottom: 5px; /* 为标签下方添加一些间距 */
+ }
+
+textarea {
+    height: 500px; /* 设置文本域的默认高度 */
+    width: 800px;
+ }
+
+.bottom-button {
+    display: flex;
+    width: 990px;
+    height: 60px;
+    background-color: #f9f9f9;
+    margin:5px 250px 0 450px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 15px;
+    justify-content: flex-end; /* 将子元素放置到容器的末尾（右侧） */
+    position: fixed;
+    bottom: 0;
+}
+
+.bottom-button a{
+    display: inline-block;
+}
+
+.button_1 ,.button_2{
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    margin-left: 15px;
+    color: #000;
+}
+
+.button_3 {
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    margin-left: 15px;
+    background-color: #ff6702;
+    color: #fff; 
+}
