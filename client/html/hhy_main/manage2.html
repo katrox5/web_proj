@@ -7,13 +7,13 @@
 		<link rel="stylesheet" href="../../css/dyz_main/nav.css">
         <link rel="stylesheet" href="../../css/hhy_main/publish_box.css">
         <link rel="stylesheet" href="../../css/hhy_main/publish.css">
+        <link rel="stylesheet" href="../../css/hhy_main/manage.css">
         <link rel="stylesheet" href="../../css/hhy_main/left_bar.css">
+        <link rel="stylesheet" href="../../css/hhy_main/show_problem.css">
         
-
-    <script src="../../js/hhy_main/publish.js"></script>
-    <script src="../../js/hhy_main/txt_check.js"></script>
-    <script src="../../js/hhy_main/pic_check.js"></script>
-    <script src="../../js/hhy_main/pic_operate.js"></script>
+        <script src="../../js/hhy_main/probelm_type.js"></script>
+        <script src="../../js/hhy_main/publish.js"></script>
+        <script src="../../js/hhy_main/drag.js"></script>
 
 		<title>问题</title>
 		<style>
@@ -82,44 +82,58 @@
                 </ul>
             </div>
 
-            <div class="passage_box">
-                <div class="text-input">
-                    <label for="question-text">问题描述：</label>
-                    <textarea id="question-text" placeholder="在这里输入问题描述..."></textarea>
+            <div class="manage_box">
+                <div class="right_up">
+                    <a href="#" class="type">状态</a>
+                    <a href="manage.html?type=1" class="type_choose_1">收到评论</a>  
                 </div>
-        
-                <div class="image-upload">
-                    <label for="image-upload">图片上传：</label><br>
-                    <input type="file" id="image-upload" accept="image/*" multiple>
-                    <progress id="upload-progress" value="0" max="100"></progress>
-                    <div id="image-preview-container">
-                        <!-- 预览图片的容器 -->
+                <!-- 全部列表 -->
+                <div class="right_down">
+                    <!-- 发布的评论 -->
+                    <div class="problem done_problem">
+                        <!-- 评论配图，无则灰色，有则显示 -->
+                        <div class="pic">
+                            <img class="" src="../../img/hhy_main/udefine_pic.jpg">
+                        </div>
+                        <!-- 评论信息 -->
+                        <div class="message">
+                            <!-- 评论开头 -->
+                            <div class="start">
+                                这是我的手机
+                            </div>
+                            <!-- 发布时间 -->
+                            <div class="time">
+                                2023-12-21 21:00:32
+                            </div>
+                        </div>
+                        <div class="operate">
+                            <!-- 修改 -->
+                            <div class="edit">
+                                <a href="#">修改</a>
+                            </div>
+                            <!-- 删除 -->
+                            <div class="delete">
+                                <a href="#">删除</a>
+                            </div>
+
+                        </div>
                     </div>
+                    
+                </div>
+
+                 <!-- 翻页 -->
+                <div class="page_turning">
+                    <img class="arrow" src="../../img/hhy_main/left.svg" alt="">
+                    <div class="num">
+                        1
+                    </div>
+                    <img class="arrow" src="../../img/hhy_main/right.svg" alt="">
                 </div>
 
             </div>
+
+
 		</div>
-
-        <!-- 底部操作 -->
-        <div class="bottom-button">
-            <a href="manage.html?type=2" style="text-decoration: none;">
-                <div class="button_1">
-                    保存草稿
-                </div>
-            </a>b
-
-            <a href="#" style="text-decoration: none;">
-				<div class="button_2">
-					在线预览
-				</div>
-			</a>
-
-            <a href="manage.html?type=1" style="text-decoration: none;">
-                <div class="button_3">
-                    发表
-                </div>
-            </a>
-        </div>
 
 
 	</body>

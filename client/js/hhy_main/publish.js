@@ -23,16 +23,4 @@ document.addEventListener('DOMContentLoaded', function () {
         // 实现发布的逻辑
         console.log('发布');
     });
-
-    // 图片上传预览
-    imageInput.addEventListener('change', function () {
-        const file = imageInput.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                imagePreview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
 });
