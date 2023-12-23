@@ -1,15 +1,17 @@
 const url_prefix ='http://172.29.18.101:25565/'
+const default_headpic_url ='../../img/media/avatar/default_avatar.png'
 
-var AllUsers, AllComments, AllMyFollow;	//都是row + content
-var comment_id=1, author_id=0;
-const Idx_user_id_byAllUsers= 0, Idx_username = 1, Idx_nickname = 2, Idx_signatrue = 3, Idx_avatar_url = 4; //getAllUsers 
+var AllUsers, AllComments, AllMyFollow, AllMyFans;	//都是row + content
+var comment_id=0, author_id=0;
+
+const Idx_user_id_byAllUsers= 0, Idx_username = 1, Idx_nickname = 2, Idx_signatrue = 3, Idx_headpic_url = 4; //getAllUsers 
 const Idx_comment_id = 0, Idx_user_id = 1, Idx_content = 2, Idx_time = 3, Idx_father_comment = 4, Idx_num_like = 5, Idx_num_reply = 6;// getAllComments
 const Idx_comment_id_bottom = 0, Idx_user_id_bottom = 1, Idx_content_bottom = 2, Idx_time_bottom = 3, Idx_num_like_bottom = 4, Idx_num_reply_bottom = 5;//getChildComments
 
 var Author, Comment;	//主贴的作者与内容
 var nickname, username;
 var signatrue;
-var avatar_url;
+var headpic;
 
 var usernum, commentnum;
 var comment_time;
@@ -26,9 +28,9 @@ window.addEventListener('load', function(){
 	userId = localStorage.getItem("id");
 	// alert(userId);
 	
-	// var urlParams = new URLSearchParams(window.location.search);
-	// // 通过comment_id点进来
-	// var comment_id = urlParams.get('commentid');
+	var urlParams = new URLSearchParams(window.location.search);
+	// 通过comment_id点进来
+	comment_id = urlParams.get('commentid');
 })
 
 
@@ -36,16 +38,19 @@ window.addEventListener('load', function(){
 	const xhr1 = new XMLHttpRequest();
 	const xhr2 = new XMLHttpRequest();
 	const xhr3 = new XMLHttpRequest();
+	const xhr4 = new XMLHttpRequest();
 	
 	// 跨域请求
 	xhr1.open('post', url_prefix + 'getAllComments');       
 	xhr2.open('post', url_prefix + 'getAllUsers');       
 	xhr3.open('post', url_prefix + 'getSubscribe');    
+	xhr4.open('post', url_prefix + 'getSubscribed');
 	
 	
 	xhr1.setRequestHeader('Content-Type', 'application/json');    
 	xhr2.setRequestHeader('Content-Type', 'application/json');  
 	xhr3.setRequestHeader('Content-Type', 'application/json');  
+	xhr4.setRequestHeader('Content-Type', 'application/json');
 	
 	xhr1.onload = function() {
 		// 注意以下均为 异步 进行！！
@@ -78,7 +83,16 @@ window.addEventListener('load', function(){
 						if (xhr3.status === 200) {            // 状态码200，表示成功
 							AllMyFollow = JSON.parse(xhr3.responseText);   // xhr.responseText为返回结果			
 							console.log(AllMyFollow);
-							start_onload();
+							
+							
+							xhr4.onload = function() {
+								// 注意以下均为 异步 进行！！
+								if (xhr4.status === 200) { 
+									AllMyFans = JSON.parse(xhr4.responseText);   // xhr.responseText为返回结果
+									start_onload();
+								}
+							};
+							xhr4.send(JSON.stringify({user_id : author_id}));
 						}
 					};
 					
@@ -99,9 +113,8 @@ function start_onload(){
 	username = Author[Idx_username]
 	nickname = Author[Idx_nickname];
 	signatrue = Author[Idx_signatrue];
-	avatar_url = Author[Idx_avatar_url];
-	
-	AllComments.content[0][4] = -1;
+	headpic = Author[Idx_headpic_url];
+	if(headpic == null) headpic = default_headpic_url;
 	display_information();
 	display_comment();
 }
@@ -115,17 +128,29 @@ function display_information(){
 	var nameElement = document.querySelector('.homepage-user-nickname');
 	nameElement.textContent = nickname;
 	
+	// 修改头像
+	
+	headpicElement = document.querySelector('.headpic');
+	headpicElement.src = headpic;
+	
+	
 	// 修改关注数
 	var followerElement = document.getElementById('follower-num');
-	followerElement.textContent = '10';
+	followerElement.textContent = AllMyFollow.row;
 	
 	// 修改粉丝数
 	var fansElement = document.getElementById('fans-num');
-	fansElement.textContent = '50';
+	fansElement.textContent = AllMyFans.row;
 	
 	// 修改获赞数
+	var need_num = 0;
+	for(var i = 0; i < commentnum; i ++ ){
+		if(AllComments.content[i][Idx_user_id] == author_id){
+			need_num += AllComments.content[i][Idx_num_like];
+		}
+	}
 	var likeElement = document.getElementById('like-num');
-	likeElement.textContent = '100';
+	likeElement.textContent = need_num;
 }
 
 
@@ -166,7 +191,7 @@ function display_comment(){
 
 		// 创建回帖人头像
 		var replyHeaderImg = document.createElement("img");
-		replyHeaderImg.setAttribute("src", "../../img/comment/headpic.webp");
+		replyHeaderImg.setAttribute("src", headpic);
 
 		// 将头像添加到包裹器
 		replyHeaderImgWrapperDiv.appendChild(replyHeaderImg);
@@ -202,7 +227,10 @@ function display_comment(){
 		var multilineTextboxDiv = document.createElement("div");
 		multilineTextboxDiv.classList.add("multiline-textbox");
 		multilineTextboxDiv.textContent = now_Comment[Idx_content];
-		
+		var target_page = '../comment/comment.html';
+		multilineTextboxDiv.setAttribute('onclick', "window.open('" + target_page + "?commentid=" + now_Comment[Idx_comment_id] + "'); return false;");
+			
+			
 		// 将多行文本框添加到父容器
 		contentsDiv.appendChild(multilineTextboxDiv);
 
@@ -229,7 +257,7 @@ function display_comment(){
 		// 创建日期容器
 		var dateDiv = document.createElement("div");
 		dateDiv.classList.add("date");
-		dateDiv.textContent = "日期";
+		dateDiv.textContent = now_Comment[Idx_time];
 
 		// 创建点赞图标
 		var likeIconImg = document.createElement("img");
@@ -356,7 +384,9 @@ function display_comment_follow(){
 		var multilineTextboxDiv = document.createElement("div");
 		multilineTextboxDiv.classList.add("multiline-textbox");
 		multilineTextboxDiv.textContent = now_Comment[Idx_content];
-		
+		var target_page = '../comment/comment.html';
+		multilineTextboxDiv.setAttribute('onclick', "window.open('" + target_page + "?commentid=" + now_Comment[Idx_comment_id] + "'); return false;");
+			
 		// 将多行文本框添加到父容器
 		contentsDiv.appendChild(multilineTextboxDiv);
 

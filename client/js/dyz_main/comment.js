@@ -19,6 +19,7 @@ var date_pub = ["2023.12.20 23:06"];//发布时间 */
 function store_allrootcomment() {
 	clear_all();
 	for (var i = 0; i < allrootcomment.length; ++i) {
+		console.log(i);
 		var thisuser = get_userbyID(allrootcomment[i][1]); //用户
 		comment_ID[i] = allrootcomment[i][0]; //评论ID
 		avatar[i] = thisuser[4]; //用户头像
@@ -49,8 +50,8 @@ function get_userbyID(userid) {
 	for (var i = 0; i < alluser.length; ++i)
 		if (alluser[i][0] == userid)
 		{
-			if(alluser[i][4]==''){
-				alluser[i][4]="../../img/dyz_main/默认头像.png"
+			if(alluser[i][4]==null){
+				alluser[i][4]="../../img/media/avatar/default_avatar.png"
 			}
 			return alluser[i];
 		}

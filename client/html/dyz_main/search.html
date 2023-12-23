@@ -21,6 +21,19 @@
 				padding: 0;
 			}
 		</style>
+		<script>
+			var inputElement = document.querySelector('.hot-search');
+			var hotsearch = localStorage.getItem('hot-search');
+			alert(hotsearch);
+			var sethot = setInterval(function(){
+				if(hotsearch!="")
+				{
+					inputElement.placeholder = "大家都在搜："+hotsearch;
+					clearInterval(sethot);
+				}
+			},10);
+			
+		</script>
 	</head>
 	<body>
 
@@ -32,8 +45,7 @@
 			</div>
 			<div class="search-bar">
 				<img src="../../img/dyz_main/search.jfif" onclick="performSearch()" />
-				<input class="search-input" type="text" placeholder="大家都在搜：" onkeypress="handleKeyPress(event)" />
-				<div class="hot-search"></div>
+				<input class="hot-search" type="text" placeholder="大家都在搜：" onkeypress="handleKeyPress(event)" />
 				<a href="main.html">
 					<div class="back">
 						<img src="../../img/dyz_main/back.png" alt="" />

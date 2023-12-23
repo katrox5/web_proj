@@ -5,6 +5,29 @@ var this_user_id;
 var this_user_name;
 var this_user_avatar;
 
+function change_logo_state() {
+			    console.log("执行中...");
+			
+			    // 假设条件是计数器达到了5
+			    if (alluser.length>0&&allrootcomment.length>0) {
+			        console.log("满足退出条件，退出定时器。");
+					this_user_id = localStorage.getItem('id');
+					if(this_user_id!=-1)//用户登录
+					{
+						 var now_user = get_userbyID(this_user_id);
+						 this_user_name = now_user[2];
+						 this_user_avatar = now_user[4];
+						 change_from_visiter_to_user();
+						 changefriends();
+					}
+					else{
+						change_from_user_to_visiter();
+						
+					}
+			        clearInterval(intervalId);  // 清除定时器
+			    }
+			}
+			
 window.addEventListener('scroll', function() {
 	var rightLower = document.querySelector('.right-down');
 	var scrollPosition = window.scrollY;
@@ -19,14 +42,16 @@ window.addEventListener('scroll', function() {
 function change_from_visiter_to_user() { //游客模式切换用户模式
 	var blockA = document.querySelector('.login');
 	var blockB = document.querySelector('.avatar');
-
+	var avatar = document.querySelector('.user-avatar');
+	avatar.src = this_user_avatar;
 	// 切换显示
 	blockA.classList.remove('active');
 	blockB.classList.add('active');
 }
-function change_from_user_to_visiter() { //游客模式切换用户模式
+function change_from_user_to_visiter() { //用户模式切换游客模式
 	var blockA = document.querySelector('.avatar');
 	var blockB = document.querySelector('.login');
+	
 
 	// 切换显示
 	blockA.classList.remove('active');
@@ -43,7 +68,16 @@ function all_user() { //获取库中所有user
 		if (xhr.status === 200) {
 			obj = JSON.parse(xhr.responseText);
 			alluser = obj.content;
-			setTimeout(all_comment(), 100);
+			const storecomment = setInterval(function(){
+				console.log("user loading...")
+				if(alluser.length>0)
+				{
+					console.log("user loaded!")
+					all_comment();
+					clearInterval(storecomment);
+				}
+			},10)
+			
 		}
 	};
 	xhr.send(null);
@@ -64,13 +98,20 @@ function all_comment() { //获取库中所有评论并按时间排序
 		if (xhr.status === 200) {
 			obj = JSON.parse(xhr.responseText);
 			allrootcomment = obj.content;
-			get_hot_search();
-			store_allrootcomment();
-			setTimeout(function() {
-				for (var i = 0; i < comment_ID.length; ++i) {
-					addcomment(i);
+			const creatcomment = setInterval(function(){
+				console.log("comment loading...")
+				if(alluser.length>0)
+				{
+					console.log("comment loaded!")
+					store_allrootcomment();//存储评论
+					get_hot_search();//更新热搜
+						for (var i = 0; i < comment_ID.length; ++i) {
+							addcomment(i);
+						}
+					clearInterval(creatcomment);
 				}
-			}, 100);
+			},10)
+			
 
 		}
 	};

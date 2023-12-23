@@ -3,39 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>通过类名直接修改 CSS 属性</title>
+    <title>鼠标悬停时显示滑块</title>
     <style>
-        .block {
-            display: none;
+        body {
+            height: 1000px; /* 为了产生滚动条，增加页面高度 */
+            margin: 0;
+            overflow: hidden; /* 隐藏浏览器默认的滚动条 */
         }
 
-        .active {
-            display: block;
+        .scrollbar-container {
+            overflow-y: hidden;
+            height: 100px; /* 视口高度 */
+            width: 100px;
+            scrollbar-width: thin; /* Firefox 的滚动条宽度 */
+            scrollbar-color: #f1f1f1 #888; /* 轨道颜色 滑块颜色 */
+
+            /* 鼠标悬停时显示滑块 */
+            overflow-y: hidden;
+        }
+
+        .scrollbar-container:hover {
+            overflow-y: scroll;
+        }
+
+        .scrollbar-container::-webkit-scrollbar {
+            width: 12px; /* Chrome、Safari 的滚动条宽度 */
+        }
+
+        .scrollbar-container::-webkit-scrollbar-thumb {
+            background-color: #888;
+        }
+
+        .scrollbar-container::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
         }
     </style>
 </head>
 <body>
 
-<button onclick="toggleBlocks()">切换显示</button>
-
-<div id="blockA" class="block active">
-    块 A 的内容
+<div class="scrollbar-container">
+    <!-- 页面内容 -->
+	aaaaaaaaaaaaaaaaa
 </div>
-
-<div id="blockB" class="block">
-    块 B 的内容
-</div>
-
-<script>
-    function toggleBlocks() {
-        var blockA = document.querySelector('.block.active');
-        var blockB = document.querySelector('.block:not(.active)');
-
-        // 切换显示
-        blockA.classList.remove('active');
-        blockB.classList.add('active');
-    }
-</script>
 
 </body>
 </html>

@@ -17,6 +17,7 @@
 		<script src="../../js/dyz_main/comment.js"></script>
 		<script src="../../js/dyz_main/friend.js"></script>
 		<script src="../../js/dyz_main/search.js"></script>
+		<script src="../../js/dyz_main/nav.js"></script>
 
 		<title>主页</title>
 		<style>
@@ -29,38 +30,22 @@
 		</style>
 		<script>
 			all_user();
-			all_comment();
-			/* setTimeout(function(){alert(alluser);},100);
-			
-			this_user_id = localStorage.getItem('id');
-			if(this_user_id!=-1)
-			{
-				 var now_user = get_userbyID(this_user_id);
-				 this_user_name = now_user[2];
-				 this_user_avatar = now_user[4];
-				 
-				 //change_from_visiter_to_user();
-			}
-			else{
-				change_from_user_to_visiter();
-				
-			} */
-/* 			function myFunction() {
-			    console.log("执行中...");
-			
-			    // 假设条件是计数器达到了5
-			    if (alluser.length>0) {
-			        console.log("满足退出条件，退出定时器。");
-			        clearInterval(intervalId);  // 清除定时器
-			    }
-			}
-			
-			const intervalId = setInterval(myFunction, 1000); // 每秒执行一次 */
+			const intervalId = setInterval(change_logo_state, 10); // 每秒执行一次
+			addfriendstodb();
 			
 		</script>
 	</head>
 	<body>
-
+		<div id="customModal" class="overlay">
+			<div class="modal">
+				<h2>确认要退出登录吗</h2>
+				<a href="main.html">
+					<button onclick="logoout()">确定</button>
+				</a>
+				
+				<button onclick="closeModal()">取消</button>
+			</div>
+		</div>
 		<!-- 导航栏 -->
 		<nav class="navbar">
 			<div class="logo">
@@ -69,22 +54,25 @@
 			<a style="text-decoration: none;" href="search.html">
 				<div class="search-bar">
 					<img src="../../img/dyz_main/search.jfif" alt="" />
-					<input type="text" placeholder="大家都在搜：" />
+					<input class="hot-search" type="text" placeholder="大家都在搜：" />
 				</div>
 			</a>
 
-<button onclick="change_from_visiter_to_user()">aaa</button>
-<button onclick="change_from_user_to_visiter()">bbb</button>
 			<a class="login active" href="../index/login.html" style="text-decoration: none;">
 				<div class="user-actions">
 					登录
 				</div>
 			</a>
-			<a class="avatar" href="../index/login.html">
-				<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
-			</a>
+			<div class="avatar">
+				<div class="user-logout" onclick="openModal()">
+					退出登录
+				</div>
+				<img class="user-avatar" src="../../img/dyz_main/logo/小米.jpg" alt="" />
+			</div>
 
 		</nav>
+
+
 
 		<!-- 主体 -->
 		<div class="main-content">
@@ -138,7 +126,7 @@
 					</div>
 					<!-- 全部评论 -->
 					<div class="comments">
-						<!-- <div onclick="window.open('test.html?commentid=c'); return false;">
+						<!-- <div onclick="window.open('test.html?commentid=0'); return false;">
 							<div class="user">
 								<img src="../../img/dyz_main/search.jfif" alt="" />
 								<input type="text" value="name" readonly />
@@ -231,10 +219,23 @@
 							我的好友
 						</div>
 						<div class="friends-content">
-							<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
-							<div class="friend-name">朱古力</div>
+							<img src="../../img/media/avatar/default_avatar.png" alt="" />
+							<div class="friend-name">aaa</div>
+						</div>
+						<div class="friends-content">
+							<img src="../../img/media/avatar/default_avatar.png" alt="" />
+							<div class="friend-name">aaa</div>
+						</div>
+						<div class="friends-content">
+							<img src="../../img/media/avatar/default_avatar.png" alt="" />
+							<div class="friend-name">aaa</div>
+						</div>
+						<div class="friends-content">
+							<img src="../../img/media/avatar/default_avatar.png" alt="" />
+							<div class="friend-name">aaa</div>
 						</div>
 					</div>
+					
 					<div class="foot">
 						开发人员：卓宏宇 刘嘉豪 黄慧瑶 董延昭<br />
 						联系方式：12345678901

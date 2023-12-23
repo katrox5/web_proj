@@ -246,7 +246,6 @@
 }
 .contents .like .date{
 	padding-left: 50px;
-	padding-right: 450px;
 }
 .contents .like img{
 	width: 20px;
@@ -329,4 +328,19 @@
 	margin-top: 7px;
 	align-items: center;
 	display: flex;
+}
+
+.usercard-num{
+	color: #0e151c;
+	font-size: 1.25rem;
+	font-weight: 600;
+	margin-right: 0.25rem;
+}
+
+.date{
+	flex: 1 1;
+    margin-right: 0.1875rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
 }

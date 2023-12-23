@@ -1,42 +1,69 @@
-.right-down{
+.right-down {
 	width: 400px;
 	height: 380px;
 	background-color: #fff;
 	border-radius: 20px;
 	margin-left: 20px;
 	margin-top: 20px;
+
+}
+
+.right-down.fixed {
+	position: fixed;
+	top: 54px;
+}
+
+.my-friends {
+	height: 350px;
+	overflow: auto;
+	/* 设置溢出时显示滚动条 */
+}
+.my-friends::-webkit-scrollbar {
+    width: 12px;
+    /* Chrome、Safari 的滚动条宽度 */
+}
+
+.my-friends::-webkit-scrollbar-thumb {
+    background-color: transparent;
+	border-radius: 20px;
 	
 }
-.right-down.fixed{
-	position: fixed;
-	top:54px;
+
+.my-friends::-webkit-scrollbar-track {
+    background-color: transparent; /* 将轨迹的背景色设为透明 */
 }
-.my-friends{
-	height: 350px;
+
+.my-friends:hover::-webkit-scrollbar-thumb {
+    background-color: #888; /* 鼠标悬停时显示滑块 */
 }
-.my-friends .friend-title{
+
+
+.my-friends .friend-title {
 	font-size: 22px;
 	padding-left: 30px;
 	padding-top: 20px;
 }
-.friends-content{
+
+.friends-content {
 	display: flex;
 	margin-top: 20px;
 }
-.friends-content img{
+
+.friends-content img {
 	width: 60px;
 	height: 60px;
 	border-radius: 100%;
 	margin-left: 30px;
 }
-.friends-content .friend-name{
+
+.friends-content .friend-name {
 	margin-left: 35px;
 	font-size: 30px;
 	padding-top: 12px;
 }
-.foot{
+
+.foot {
 	margin-left: 20px;
 	color: #ccc;
 	margin-top: 50px;
 }
-

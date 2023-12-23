@@ -22,8 +22,26 @@
 				font-family: Arial, sans-serif;
 				margin: 0;
 				padding: 0;
+				
+			}
+			
+			.topped-element {
+			  position: relative;
+			}
+			
+			.topped-element::before {
+			  content: "置顶";
+			  position: absolute;
+			  top: -10px;
+			  left: -10px;
+			  background-color: #ff0000;
+			  color: #ffffff;
+			  font-size: 12px;
+			  padding: 4px 8px;
+			  border-radius: 4px;
 			}
 		</style>
+		
 	</head>
 	<body>
 		<!-- 在 <body> 标签结束前引入 Bootstrap JavaScript -->
@@ -116,14 +134,14 @@
 										<!-- 查一下参数含义 -->
 										<div class="reply-header-left" role="button" tabindex="0" aria-label="PANTA的主页">
 											<!-- 回帖人头像 -->
-											<div class="reply-header-img-containner">
-												<div class="reply-header-img-wrapper">
-													<img src="../../img/comment/headpic.webp"/>
+											<div class="reply-header-img-containner" onclick="window.open('test.html?commentid=c'); return false;">
+												<div class="reply-header-img-wrapper"  >
+													<img src="../../img/comment/headpic.webp"/ >
 												</div>
 											</div>
 											<!-- 回帖人信息-->
 											<div class="reply-header-info-containner">
-												<div class="reply-header-info-name">啦啦啦</div>
+												<span class="reply-header-info-name">啦啦啦<span style="color:#ff9999"> [已置顶]</span></span> 
 											</div>
 										</div>
 									</div>	

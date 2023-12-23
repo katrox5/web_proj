@@ -531,3 +531,8 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.top_icon{
+	color:#ff9999;
+	margin-left: 10px;
+}

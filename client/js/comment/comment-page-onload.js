@@ -1,13 +1,19 @@
-var AllUsers, AllComments ;	//都是row + content
-var comment_id=1, author_id=0;
-const Idx_user_id_byAllUsers= 0, Idx_username = 1, Idx_nickname = 2, Idx_signatrue = 3, Idx_avatar_url = 4; //getAllUsers 
+const url_prefix ='http://172.29.18.101:25565/'
+const default_headpic_url ='../../img/media/avatar/default_avatar.png'
+
+
+var AllUsers, AllComments, UserFollow, UserFans ;	//都是row + content
+var comment_id=0, author_id=0;
+const Idx_user_id_byAllUsers= 0, Idx_username = 1, Idx_nickname = 2, Idx_signatrue = 3, Idx_headpic_url = 4; //getAllUsers 
 const Idx_comment_id = 0, Idx_user_id = 1, Idx_content = 2, Idx_time = 3, Idx_father_comment = 4, Idx_num_like = 5, Idx_num_reply = 6;// getAllComments
 const Idx_comment_id_bottom = 0, Idx_user_id_bottom = 1, Idx_content_bottom = 2, Idx_time_bottom = 3, Idx_num_like_bottom = 4, Idx_num_reply_bottom = 5;//getChildComments
+
+
 
 var Author, Comment;	//主贴的作者与内容
 var nickname, username;
 var signatrue;
-var avatar_url;
+var headpic;
 
 var usernum, commentnum;
 var comment_time;
@@ -18,27 +24,42 @@ var Bottom_Comment;
 
 var userId; //当前用户 和 当前帖子
 var target_comment_id, target_user_id;
+var top_comment_id;
+
+
 window.addEventListener('load', function(){
 	// 获取 id 的值
 	localStorage.setItem("id", "0");
 	userId = localStorage.getItem("id");
-	// alert(userId);
-	var urlParams = new URLSearchParams(window.location.search);
-	var comment_id = urlParams.get('commentid');
+	
+	
 
+	
+	var urlParams = new URLSearchParams(window.location.search);
+	comment_id = urlParams.get('commentid');
+	
+
+	// 获取当前帖子的置顶评论id
+	top_comment_id = localStorage.getItem(String(comment_id));
 })
 
 
 window.addEventListener('load', function(){
 	const xhr1 = new XMLHttpRequest();
 	const xhr2 = new XMLHttpRequest();
+	const xhr3 = new XMLHttpRequest();
+	const xhr4 = new XMLHttpRequest();
 	
 	// 跨域请求
-	xhr1.open('post', 'http://172.29.18.101:25565/getAllComments');        // 请求的地址，跟 卓宏宇 沟通确认
-	xhr2.open('post', 'http://172.29.18.101:25565/getAllUsers');        // 请求的地址，跟 卓宏宇 沟通确认
+	xhr1.open('post', url_prefix + 'getAllComments');      
+	xhr2.open('post', url_prefix + 'getAllUsers');      
+	xhr3.open('post', url_prefix + 'getSubscribe');    
+	xhr4.open('post', url_prefix + 'getSubscribed');    
 	
 	xhr1.setRequestHeader('Content-Type', 'application/json');    // 报头记得标明类型
 	xhr2.setRequestHeader('Content-Type', 'application/json');    // 报头记得标明类型
+	xhr3.setRequestHeader('Content-Type', 'application/json');    // 报头记得标明类型
+	xhr4.setRequestHeader('Content-Type', 'application/json');    // 报头记得标明类型
 	
 	xhr1.onload = function() {
 		// 注意以下均为 异步 进行！！
@@ -62,17 +83,52 @@ window.addEventListener('load', function(){
 					AllUsers = JSON.parse(xhr2.responseText);   // xhr.responseText为返回结果
 					console.log(AllUsers);
 					usernum = AllUsers.row;
+					
 					for(var i = 0; i < usernum; i ++ ){
 						if(AllUsers.content[i][Idx_user_id_byAllUsers] == author_id)
 							Author = AllUsers.content[i];
 					}
-					start_onload();
+					
+					xhr3.onload = function() {
+						if (xhr3.status === 200) {           
+							
+							UserFollow = JSON.parse(xhr3.responseText);   
+							
+							xhr4.onload = function() {
+								if (xhr4.status === 200) {           
+									UserFans = JSON.parse(xhr4.responseText);   
+									start_onload();
+								}
+							};
+							xhr4.send(JSON.stringify({user_id : author_id}));      
+						}
+					};
+					xhr3.send(JSON.stringify({user_id : author_id}));      
 				}
 			};
 			xhr2.send(null);            // 可选发送请求内容，若无可填null
 		}
 	};
 	xhr1.send(null);            // 可选发送请求内容，若无可填null
+	
+	
+	// const xhr4 = new XMLHttpRequest();
+	// xhr4.open('post', url_prefix +'addComment');       
+	// xhr4.setRequestHeader('Content-Type', 'application/json');    
+	// xhr4.onload = function() {
+	// 	if (xhr4.status === 200) {           
+	// 		let obj = JSON.parse(xhr4.responseText);   
+	// 		location.reload()
+	// 	}
+	// };
+	// const data = {
+	// 	user_id : 1,
+	// 	content : "我是子评论",
+	// 	father_comment : 4
+	// }
+	
+	// xhr4.send(JSON.stringify(data));  
+	
 })
 
 function start_onload(){
@@ -87,8 +143,8 @@ function start_onload(){
 	username = Author[Idx_username]
 	nickname = Author[Idx_nickname];
 	signatrue = Author[Idx_signatrue];
-	avatar_url = Author[Idx_avatar_url];
-	
+	headpic = Author[Idx_headpic_url];
+	if(headpic == null) headpic = default_headpic_url;
 	target_comment_id = comment_id;
 	target_user_id = author_id;
 	
@@ -98,7 +154,7 @@ function start_onload(){
 	
 	// 获取主贴的底下评论
 	const xhr3 = new XMLHttpRequest();
-	xhr3.open('post', 'http://172.29.18.101:25565/getChildComments');       
+	xhr3.open('post', url_prefix + 'getChildComments');       
 	xhr3.setRequestHeader('Content-Type', 'application/json');    
 	xhr3.onload = function() {
 		if (xhr3.status === 200) {           
@@ -138,8 +194,19 @@ function maincontent_onload() {
 	var authorIconWrapDiv = document.createElement('div');
 	authorIconWrapDiv.className = 'author-icon-wrap';
 
+
+
+
+	var target_page = '../MyCenter/MyCenter.html';
+	if(author_id == userId) target_page = '../MyCenter/MyMainCenter.html';
+	authorIconWrapDiv.setAttribute('onclick', "window.open('" + target_page + "?commentid=" + comment_id + "'); return false;");
+			
+			
+			
+						
+
 	var authorImg = document.createElement('img');
-	authorImg.src = '../../img/comment/headpic.webp';
+	authorImg.src = headpic;
 
 	authorIconWrapDiv.appendChild(authorImg);
 	authorIconDiv.appendChild(authorIconWrapDiv);
@@ -266,6 +333,53 @@ function maincontent_onload() {
 	});
 	
 	
+	// 删除按钮
+	var replyWordButtons = document.querySelectorAll('.deleteCommentBtn');
+	replyWordButtons.forEach(function(button) {
+		button.addEventListener('click', function() {
+			var confirmation = confirm("你确定要删除这条评论吗");
+			if (confirmation) {
+				const xhr4 = new XMLHttpRequest();
+				xhr4.open('post', url_prefix + 'deleteComment ');       
+				xhr4.setRequestHeader('Content-Type', 'application/json');    
+				xhr4.onload = function() {
+					if (xhr4.status === 200) {           
+						let obj = JSON.parse(xhr4.responseText);   
+						location.reload()
+					}
+				};
+				const data = {
+					comment_id : target_comment_id
+				}
+				
+				xhr4.send(JSON.stringify(data));    
+				
+				
+			} else {
+				promptModal.style.display = 'none';
+				promptModal2.style.display = 'none';
+				commentModal.style.display = 'none';
+			}
+		});
+	});
+	
+	// 置顶按钮
+	var replyWordButtons = document.querySelectorAll('.topCommentBtn');
+	replyWordButtons.forEach(function(button) {
+		button.addEventListener('click', function() {
+			var confirmation = confirm("你确定要置顶这条评论吗");
+			if (confirmation) {
+				localStorage.setItem(comment_id, target_comment_id);
+				location.reload();
+			} else {
+				promptModal.style.display = 'none';
+				promptModal2.style.display = 'none';
+				commentModal.style.display = 'none';
+			}
+
+		});
+	});
+	
 };
 
 
@@ -282,12 +396,18 @@ function authorinfo_onload() {
 	  var userCardDiv = document.createElement('div');
 	  userCardDiv.className = 'usercard';
 
+	  var target_page = '../MyCenter/MyCenter.html';
+	  if(author_id == userId) target_page = '../MyCenter/MyMainCenter.html';
+	  userCardDiv.setAttribute('onclick', "window.open('" + target_page + "?commentid=" + comment_id + "'); return false;");
+			
+
+
 	  // 创建用户头像部分
 	  var userPicContainerSpan = document.createElement('span');
 	  userPicContainerSpan.className = 'user-pic-container';
 
 	  var userImg = document.createElement('img');
-	  userImg.src = '../../img/comment/headpic.webp';
+	  userImg.src = headpic;
 
 	  userPicContainerSpan.appendChild(userImg);
 	  userCardDiv.appendChild(userPicContainerSpan);
@@ -315,7 +435,7 @@ function authorinfo_onload() {
 	  var followDiv = document.createElement('div');
 	  var followNumSpan = document.createElement('span');
 	  followNumSpan.className = 'usercard-num';
-	  followNumSpan.textContent = '0';
+	  followNumSpan.textContent = UserFollow.row;
 	  var followWordSpan = document.createElement('span');
 	  followWordSpan.className = 'usercard-word';
 	  followWordSpan.textContent = '关注';
@@ -328,7 +448,7 @@ function authorinfo_onload() {
 	  var fansDiv = document.createElement('div');
 	  var fansNumSpan = document.createElement('span');
 	  fansNumSpan.className = 'usercard-num';
-	  fansNumSpan.textContent = '4';
+	  fansNumSpan.textContent = UserFans.row;
 	  var fansWordSpan = document.createElement('span');
 	  fansWordSpan.className = 'usercard-word';
 	  fansWordSpan.textContent = '粉丝';
@@ -338,10 +458,18 @@ function authorinfo_onload() {
 	  userCardTagDiv.appendChild(fansDiv);
 
 	  // 创建动态标签
+	  
+	  //获取贴子数
+	  need_num = 0;
+	  for(var i = 0; i < commentnum; i ++ ){
+		  if(AllComments.content[i][Idx_user_id] == author_id && AllComments.content[i][Idx_father_comment] == -1)
+			need_num ++;
+	  }
+	  
 	  var postsDiv = document.createElement('div');
 	  var postsNumSpan = document.createElement('span');
 	  postsNumSpan.className = 'usercard-num';
-	  postsNumSpan.textContent = '5';
+	  postsNumSpan.textContent = need_num;
 	  var postsWordSpan = document.createElement('span');
 	  postsWordSpan.className = 'usercard-word';
 	  postsWordSpan.textContent = '动态';
@@ -362,43 +490,36 @@ function authorinfo_onload() {
 //底部评论
 let AllSubComment = []; // 存储所有子评论的数组
 
-function getAllofSubCommemt(request_comment_id) {
-	return new Promise((resolve, reject) => {
-		let xhr = new XMLHttpRequest();
-		xhr.open('POST', 'http://172.29.18.101:25565/getChildComments');
-		xhr.setRequestHeader('Content-Type', 'application/json');
-    
-		xhr.onload = function() {
-			if (xhr.status === 200) {
-				let response = JSON.parse(xhr.responseText);
-				console.log(response);
-				if(response.row != 0){
-					let subComments = response.content;
-					let len = response.row;
-			
-					for(var i = 0; i < len; i ++ ){
-						now_subComment = subComments[i];
-						AllSubComment.push(now_subComment);
-						getAllofSubCommemt(now_subComment[Idx_comment_id_bottom]); // 递归调用以获取子评论的子评论	
-					}		
-				}
-				resolve(); // 异步操作完成，调用resolve
-			}
-			else {
-				reject(xhr.statusText);
-			}
-		};
-		xhr.onerror = function() {
-			reject(xhr.statusText);
-		};
-		xhr.send(JSON.stringify({ comment_id: request_comment_id }));
-	});
+function getAllofSubCommemt(request_comment_id) {	
+	for(var i = 0; i < commentnum; i ++ ){
+		var now_Comment = AllComments.content[i];
+		if(now_Comment[Idx_father_comment] == request_comment_id){
+			AllSubComment.push(now_Comment);
+			getAllofSubCommemt(now_Comment[Idx_comment_id]); // 递归调用以获取子评论的子评论	
+		}
+	}		
 }
 
 
 function bottom_comment() {
 	var Bottom_Comment_len = Bottom_Comment.row;
 	Bottom_Comment = Bottom_Comment.content;
+	console.log(Bottom_Comment);
+
+	// // 将置顶评论放到第一位
+	if(top_comment_id != null){
+		Bottom_Comment.sort(function(a, b) {
+			if (a[Idx_comment_id_bottom] == top_comment_id) {
+				return -1; 
+			} 
+			else if (b[Idx_comment_id_bottom] == top_comment_id) {
+				return 1; 
+			}
+			return 0; 
+		});	
+	}
+	console.log(Bottom_Comment);
+	
 	
 	// 获取评论区容器
 	var commentContainer = document.querySelector('.comment-content-bottom');
@@ -444,12 +565,29 @@ function bottom_comment() {
 		  
 		var replyHeaderImgContainerDiv = document.createElement('div');
 		replyHeaderImgContainerDiv.className = 'reply-header-img-containner';
+		
+		var target_page = '../MyCenter/MyCenter.html';
+		if(now_Comment[Idx_user_id_bottom] == userId) target_page = '../MyCenter/MyMainCenter.html';
+		replyHeaderImgContainerDiv.setAttribute('onclick', "window.open('" + target_page + "?commentid=" + now_Comment[Idx_comment_id_bottom] + "'); return false;");
 		  
+		  
+		// 通过评论id找作者nickname和头像
+		var need_nickname, need_headpic;
+		
+		for(var k = 0; k < usernum; k ++ ){
+			if(AllUsers.content[k][Idx_user_id_byAllUsers] == now_Comment[Idx_user_id_bottom]){
+				need_nickname = AllUsers.content[k][Idx_nickname];
+				need_headpic = AllUsers.content[k][Idx_headpic_url];
+				if(need_headpic == null) need_headpic = default_headpic_url;
+			}
+		}
+		
+		
 		var replyHeaderImgWrapperDiv = document.createElement('div');
 		replyHeaderImgWrapperDiv.className = 'reply-header-img-wrapper';
 		
 		var replyHeaderImg = document.createElement('img');
-		replyHeaderImg.src = '../../img/comment/headpic.webp';
+		replyHeaderImg.src = need_headpic;
 		  
 		replyHeaderImgWrapperDiv.appendChild(replyHeaderImg);
 		replyHeaderImgContainerDiv.appendChild(replyHeaderImgWrapperDiv);
@@ -458,15 +596,23 @@ function bottom_comment() {
 		var replyHeaderInfoContainerDiv = document.createElement('div');
 		replyHeaderInfoContainerDiv.className = 'reply-header-info-containner';
 		  
-		var replyHeaderInfoNameDiv = document.createElement('div');
+		var replyHeaderInfoNameDiv = document.createElement('span');
 		replyHeaderInfoNameDiv.className = 'reply-header-info-name';
-		  
-		// 通过评论id找作者nickname
-		for(var k = 0; k < usernum; k ++ ){
-			if(AllUsers.content[k][Idx_user_id] == now_Comment[Idx_user_id_bottom])
-				replyHeaderInfoNameDiv.textContent = AllUsers.content[k][Idx_nickname];
+		
+		var need_nickname;  
+
+		replyHeaderInfoNameDiv.textContent = need_nickname;
+		
+		// 置顶操作
+		if(now_Comment[Idx_comment_id_bottom] == top_comment_id){
+			var top_replyHeaderInfoNameDiv = document.createElement('span');
+			top_replyHeaderInfoNameDiv.className = 'top_icon';
+			top_replyHeaderInfoNameDiv.textContent = "[已置顶]";
+			replyHeaderInfoNameDiv.append(top_replyHeaderInfoNameDiv);
 		}
-		  
+		
+		
+		
 		replyHeaderInfoContainerDiv.appendChild(replyHeaderInfoNameDiv);
 		replyHeaderLeftDiv.appendChild(replyHeaderInfoContainerDiv);
 		  
@@ -561,10 +707,11 @@ function bottom_comment() {
 			
 			
 		AllSubComment = [];
-		getAllofSubCommemt(now_Comment[Idx_comment_id_bottom])
-			.then(() => {
+		
+		getAllofSubCommemt(now_Comment[Idx_comment_id_bottom]);
+				//console.log(AllSubComment);
 				// 所有子评论已获取完毕
-				console.log(AllSubComment); // 在控制台输出所有子评论
+				//console.log(AllSubComment); // 在控制台输出所有子评论
 				// 按时间排序
 				AllSubComment.sort(function(a, b) {
 					var timeA = Date.parse(a[3]);
@@ -593,12 +740,32 @@ function bottom_comment() {
 				  	
 				  	var subReplyHeaderImgContainerDiv = document.createElement('div');
 				  	subReplyHeaderImgContainerDiv.className = 'sub-reply-header-img-containner';
-				  	
+
+					var target_page = '../MyCenter/MyCenter.html';
+					if(now_SubComment[Idx_user_id] == userId) target_page = '../MyCenter/MyMainCenter.html';
+					subReplyHeaderImgContainerDiv.setAttribute('onclick', "window.open('" + target_page + "?commentid=" + now_SubComment[Idx_comment_id] + "'); return false;");
+					    
+					  
+					  
 				  	var subReplyHeaderImgWrapperDiv = document.createElement('div');
 				  	subReplyHeaderImgWrapperDiv.className = 'sub-reply-header-img-wrapper';
 				  	
+					
+					// 通过评论id找作者nickname和头像
+					var sub_need_nickname, sub_need_headpic;
+
+					for(var k = 0; k < usernum; k ++ ){
+						if(AllUsers.content[k][Idx_user_id_byAllUsers] == now_SubComment[Idx_user_id]){
+							sub_need_nickname = AllUsers.content[k][Idx_nickname];
+							sub_need_headpic = AllUsers.content[k][Idx_headpic_url];
+							if(sub_need_headpic == null) sub_need_headpic = default_headpic_url;
+						}
+					}
+
+					
+					
 				  	var subReplyHeaderImg = document.createElement('img');
-				  	subReplyHeaderImg.src = '../../img/comment/headpic.webp';
+				  	subReplyHeaderImg.src = sub_need_headpic;
 				  	
 				  	subReplyHeaderImgWrapperDiv.appendChild(subReplyHeaderImg);
 				  	subReplyHeaderImgContainerDiv.appendChild(subReplyHeaderImgWrapperDiv);
@@ -610,11 +777,9 @@ function bottom_comment() {
 				  	var subReplyHeaderInfoNameDiv = document.createElement('div');
 				  	subReplyHeaderInfoNameDiv.className = 'sub-reply-header-info-name';
 					
-					// 通过评论id找作者nickname
-					for(var k = 0; k < usernum; k ++ ){
-						  if(AllUsers.content[k][Idx_user_id] == now_SubComment[Idx_user_id_bottom])
-							subReplyHeaderInfoNameDiv.textContent = AllUsers.content[k][Idx_nickname];
-					}
+
+					
+					subReplyHeaderInfoNameDiv.textContent = sub_need_nickname;
 					
 				  	subReplyHeaderInfoContainerDiv.appendChild(subReplyHeaderInfoNameDiv);
 				  	subReplyHeaderLeftDiv.appendChild(subReplyHeaderInfoContainerDiv);
@@ -629,8 +794,8 @@ function bottom_comment() {
 				  	subReplyWordContainerDiv.setAttribute('tabindex', '1');
 					
 					// -----------------给评论添加comment_id和user_id属性-----------------
-				  	subReplyWordContainerDiv.setAttribute('comment_id', now_SubComment[Idx_comment_id_bottom]); // 添加自定义属性和值
-					subReplyWordContainerDiv.setAttribute('user_id', now_SubComment[Idx_user_id_bottom]); // 添加自定义属性和值
+				  	subReplyWordContainerDiv.setAttribute('comment_id', now_SubComment[Idx_comment_id]); // 添加自定义属性和值
+					subReplyWordContainerDiv.setAttribute('user_id', now_SubComment[Idx_user_id]); // 添加自定义属性和值
 				  	// -----------------给评论添加comment_id属性----------------- 
 					subReplyWordContainerDiv.addEventListener('click', function() {
 						target_comment_id = this.getAttribute('comment_id');
@@ -658,7 +823,7 @@ function bottom_comment() {
 					});  
 					
 				  	var subReplyWordSpan = document.createElement('span');
-				  	subReplyWordSpan.textContent = now_SubComment[Idx_content_bottom];
+				  	subReplyWordSpan.textContent = now_SubComment[Idx_content];
 
 					
 				  	subReplyWordContainerDiv.appendChild(subReplyWordSpan);
@@ -670,14 +835,14 @@ function bottom_comment() {
 				  	
 				  	var subReplyShowtimeDiv = document.createElement('div');
 				  	subReplyShowtimeDiv.className = 'sub-reply-showtime';
-				  	subReplyShowtimeDiv.textContent = now_SubComment[Idx_time_bottom];
+				  	subReplyShowtimeDiv.textContent = now_SubComment[Idx_time];
 				  	
 				  	var subReplyLikeContainerDiv = document.createElement('div');
 				  	subReplyLikeContainerDiv.className = 'sub-reply-like-container';
 				  	
 				  	var subReplyLikeNumDiv = document.createElement('div');
 				  	subReplyLikeNumDiv.className = 'reply-likenum';
-				  	subReplyLikeNumDiv.textContent = now_SubComment[Idx_num_like_bottom];
+				  	subReplyLikeNumDiv.textContent = now_SubComment[Idx_num_like];
 				  	
 				  	var subReplyLikeImg = document.createElement('img');
 				  	subReplyLikeImg.className = 'reply-like-img';
@@ -699,11 +864,10 @@ function bottom_comment() {
 				  	
 				}
 				// 创建回复最后的分割线
-			})
-			.catch((error) => {
-				console.error('Error:', error);
-				// 处理错误情况
-			});
+				var divider = document.createElement('div');
+				divider.className = 'devider';
+				replyContainerSection.appendChild(divider);
+
 	  }
 	  
 	  // 将回复容器添加到评论区容器中
