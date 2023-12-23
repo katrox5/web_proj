@@ -22,10 +22,10 @@ function store_allrootcomment() {
 		var thisuser = get_userbyID(allrootcomment[i][1]); //用户
 		comment_ID[i] = allrootcomment[i][0]; //评论ID
 		avatar[i] = thisuser[4]; //用户头像
+		if(avatar[i])
 		nickname[i] = thisuser[2]; //用户昵称
-		//alert(nickname[i]);
 		text_content[i] = allrootcomment[i][2]; //评论内容
-		date_pub[i] = allrootcomment[i][3]; //时间
+		date_pub[i] = formatDateString(allrootcomment[i][3]); //时间
 		like_num[i] = allrootcomment[i][4]; //点赞
 		reply_num[i] = allrootcomment[i][5]; //回复
 		var x = [];
@@ -48,7 +48,13 @@ function clear_all() {
 function get_userbyID(userid) {
 	for (var i = 0; i < alluser.length; ++i)
 		if (alluser[i][0] == userid)
+		{
+			if(alluser[i][4]==''){
+				alluser[i][4]="../../img/dyz_main/默认头像.png"
+			}
 			return alluser[i];
+		}
+			
 }
 
 function addcomment(index) {
@@ -145,3 +151,25 @@ function addcomment(index) {
 	document.querySelector('.comments').appendChild(commentBox);
 
 }
+
+function formatDateString(inputString) {//重构日期
+  // 将输入字符串转换为 Date 对象
+  const dateObject = new Date(inputString);
+
+  // 提取年月日和时刻信息
+  const year = dateObject.getFullYear();
+  const month = (dateObject.getMonth() + 1).toString().padStart(2, '0'); // 月份从0开始，需要加1
+  const day = dateObject.getDate().toString().padStart(2, '0');
+  const hours = dateObject.getHours().toString().padStart(2, '0');
+  const minutes = dateObject.getMinutes().toString().padStart(2, '0');
+  const seconds = dateObject.getSeconds().toString().padStart(2, '0');
+
+  // 构造新的字符串
+  const formattedString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+  return formattedString;
+}
+
+
+
+

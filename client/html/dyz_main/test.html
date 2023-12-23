@@ -15,13 +15,60 @@
 
     // 弹出alert框显示表单的ID
     //alert('Submitted Form ID: ' + formId);
+	
+	   
+	
 </script>
 
 </body>
-
-  <input type="text" id="search-box" placeholder="输入关键词" oninput="performFuzzySearch()">
+  <img class = "imge" src="" alt="" />
+ <script>
+     function loadImage(url) {
+         return new Promise(function(resolve, reject) {
+             var img = new Image();
+             img.onload = function() {
+                 resolve(img);
+             };
+             img.onerror = function() {
+                 reject(new Error('图片加载失败'));
+             };
+             img.src = url;
+         });
+     }
+ 
+     // 获取 img 元素
+     var imgElement = document.querySelector('.img');
+ 
+     // 图片 URL
+     var imageUrl = '../../img/dyz_main/logo/小米.jpg';
+     var errorUrl = '../../img/dyz_main/默认头像.png';
+ 
+     // 使用 Promise 处理图片加载
+     loadImage(imageUrl)
+         .then(function(img) {
+             // 图片加载成功时的处理
+             imgElement.src = img.src;
+             console.log('首选图片加载成功');
+         })
+         .catch(function(error) {
+             // 首选图片加载失败时的处理
+             console.error('首选图片加载失败:', error.message);
+ 
+             // 尝试加载备用图片
+             loadImage(errorUrl)
+                 .then(function(img) {
+                     // 备用图片加载成功时的处理
+                     imgElement.src = img.src;
+                     console.log('备用图片加载成功');
+                 })
+                 .catch(function(error) {
+                     // 备用图片加载失败时的处理
+                     console.error('备用图片加载失败:', error.message);
+                 });
+         });
+ </script>
+  <!-- <input type="text" id="search-box" placeholder="输入关键词" oninput="performFuzzySearch()">
   <ul id="search-results">
-    <!-- 搜索结果将在这里展示 -->
   </ul>
 
   <script>
@@ -54,6 +101,6 @@
         resultsList.appendChild(listItem);
       });
     }
-  </script>
+  </script> -->
 
 </html>

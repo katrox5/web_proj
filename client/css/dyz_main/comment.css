@@ -85,3 +85,8 @@
 .contents hr{
 	margin-left: -20px;
 }
+
+.date{
+	width: 200px;
+	margin-left: -50px;
+}

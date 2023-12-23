@@ -1,17 +1,37 @@
 var alluser = [];
 var allrootcomment = [];
 var num_comment = 0;
+var this_user_id;
+var this_user_name;
+var this_user_avatar;
 
 window.addEventListener('scroll', function() {
-	var rightLower = document.querySelector('.my-friends');
+	var rightLower = document.querySelector('.right-down');
 	var scrollPosition = window.scrollY;
 
-	if (scrollPosition > 430) {
+	if (scrollPosition > 420) {
 		rightLower.classList.add('fixed');
 	} else {
 		rightLower.classList.remove('fixed');
 	}
 });
+
+function change_from_visiter_to_user() { //游客模式切换用户模式
+	var blockA = document.querySelector('.login');
+	var blockB = document.querySelector('.avatar');
+
+	// 切换显示
+	blockA.classList.remove('active');
+	blockB.classList.add('active');
+}
+function change_from_user_to_visiter() { //游客模式切换用户模式
+	var blockA = document.querySelector('.avatar');
+	var blockB = document.querySelector('.login');
+
+	// 切换显示
+	blockA.classList.remove('active');
+	blockB.classList.add('active');
+}
 
 
 function all_user() { //获取库中所有user
@@ -44,6 +64,7 @@ function all_comment() { //获取库中所有评论并按时间排序
 		if (xhr.status === 200) {
 			obj = JSON.parse(xhr.responseText);
 			allrootcomment = obj.content;
+			get_hot_search();
 			store_allrootcomment();
 			setTimeout(function() {
 				for (var i = 0; i < comment_ID.length; ++i) {

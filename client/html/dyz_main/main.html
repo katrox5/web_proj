@@ -10,12 +10,13 @@
 		<link rel="stylesheet" href="../../css/dyz_main/comment.css">
 		<link rel="stylesheet" href="../../css/dyz_main/news.css" />
 		<link rel="stylesheet" href="../../css/dyz_main/right-down.css">
-		
+
 		<script src="../../js/essential.js"></script>
 		<script src="../../js/dyz_main/main.js"></script>
 		<script src="../../js/dyz_main/news.js"></script>
 		<script src="../../js/dyz_main/comment.js"></script>
 		<script src="../../js/dyz_main/friend.js"></script>
+		<script src="../../js/dyz_main/search.js"></script>
 
 		<title>主页</title>
 		<style>
@@ -27,7 +28,35 @@
 			}
 		</style>
 		<script>
+			all_user();
 			all_comment();
+			/* setTimeout(function(){alert(alluser);},100);
+			
+			this_user_id = localStorage.getItem('id');
+			if(this_user_id!=-1)
+			{
+				 var now_user = get_userbyID(this_user_id);
+				 this_user_name = now_user[2];
+				 this_user_avatar = now_user[4];
+				 
+				 //change_from_visiter_to_user();
+			}
+			else{
+				change_from_user_to_visiter();
+				
+			} */
+/* 			function myFunction() {
+			    console.log("执行中...");
+			
+			    // 假设条件是计数器达到了5
+			    if (alluser.length>0) {
+			        console.log("满足退出条件，退出定时器。");
+			        clearInterval(intervalId);  // 清除定时器
+			    }
+			}
+			
+			const intervalId = setInterval(myFunction, 1000); // 每秒执行一次 */
+			
 		</script>
 	</head>
 	<body>
@@ -44,11 +73,15 @@
 				</div>
 			</a>
 
-
-			<a href="../index/login.html" style="text-decoration: none;">
+<button onclick="change_from_visiter_to_user()">aaa</button>
+<button onclick="change_from_user_to_visiter()">bbb</button>
+			<a class="login active" href="../index/login.html" style="text-decoration: none;">
 				<div class="user-actions">
 					登录
 				</div>
+			</a>
+			<a class="avatar" href="../index/login.html">
+				<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
 			</a>
 
 		</nav>
@@ -192,16 +225,23 @@
 				</div>
 
 
-
-				<div class="my-friends">
-					<div class="friend-title" onclick="addfriends(0)">
-						我的好友
+				<div class="right-down">
+					<div class="my-friends">
+						<div class="friend-title" onclick="addfriends(0)">
+							我的好友
+						</div>
+						<div class="friends-content">
+							<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+							<div class="friend-name">朱古力</div>
+						</div>
 					</div>
-					<div class="friends-content">
-						<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
-						<div class="friend-name">朱古力</div>
+					<div class="foot">
+						开发人员：卓宏宇 刘嘉豪 黄慧瑶 董延昭<br />
+						联系方式：12345678901
 					</div>
 				</div>
+
+
 			</div>
 
 

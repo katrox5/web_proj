@@ -43,7 +43,22 @@
 .search-bar a{
 	padding-left: 260px;
 }
+.login{
+	display: none;
+}
+.avatar{
+	display: none;
+}
+.active {
+    display: block;
+}
+.avatar img{
+	height: 60px;
+	width: 60px;
+	border-radius: 100%;
+}
 .user-actions{
+	display: block;
 	background-color: #000;
 	height: 35px;
 	width: 70px;

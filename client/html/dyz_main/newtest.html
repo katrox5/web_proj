@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通过类名直接修改 CSS 属性</title>
+    <style>
+        .block {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<button onclick="toggleBlocks()">切换显示</button>
+
+<div id="blockA" class="block active">
+    块 A 的内容
+</div>
+
+<div id="blockB" class="block">
+    块 B 的内容
+</div>
+
+<script>
+    function toggleBlocks() {
+        var blockA = document.querySelector('.block.active');
+        var blockB = document.querySelector('.block:not(.active)');
+
+        // 切换显示
+        blockA.classList.remove('active');
+        blockB.classList.add('active');
+    }
+</script>
+
+</body>
+</html>

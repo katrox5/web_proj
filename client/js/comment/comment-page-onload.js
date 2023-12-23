@@ -63,7 +63,7 @@ window.addEventListener('load', function(){
 					console.log(AllUsers);
 					usernum = AllUsers.row;
 					for(var i = 0; i < usernum; i ++ ){
-						if(AllUsers.content[i][Idx_user_id] == author_id)
+						if(AllUsers.content[i][Idx_user_id_byAllUsers] == author_id)
 							Author = AllUsers.content[i];
 					}
 					start_onload();
