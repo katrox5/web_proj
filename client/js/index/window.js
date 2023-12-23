@@ -4,7 +4,7 @@ function showWindow() {
     container.innerHTML = `
         <div class="header"><span>编辑个人资料</span><img src="../../img/index/cancel.png" onclick="closeWindow()"/></div>
         <div class="content">
-            <div class="left-content"><img id="avatar"/><input type="file" accept="image/*" id="upload"/></div>
+            <div class="left-content"><img id="avatar"/><p>重新上传头像：</p><input type="file" accept="image/*" id="upload"/></div>
             <div class="right-content">
                 <table>
                     <tr><td align="right">账号：</td><td id="username"></td></tr>
@@ -24,7 +24,7 @@ function showWindow() {
 
     request4GetUserInfo();
     request4GetUserImgs();
-    dragPicture();
+    setPictureDraggable();
     uploadAvatar();
     uploadPicture();
 }
@@ -69,7 +69,7 @@ function uploadPicture() {
     });
 }
 
-function dragPicture() {
+function setPictureDraggable() {
     const list = $('list');
     let sourceNode;         // 用于存储拖拽目标元素
     list.ondragstart = function(e) {
@@ -134,30 +134,7 @@ function saveUserImgs() {
             request4ModifyUserImgOrder(items[i].classList[1], i);
         }
     }
-
-    exec(queue);
-    closeWindow();
-}
-
-let flag = true;            // 服务器是否返回处理结果
-
-// 处理队列流程
-function exec(queue) {
-    if (queue.length == 0)  // 当队列为空，退出处理流程
-        return;
-
-    if (flag) {             // 若flag为false，代表服务器还未返回处理结果
-        pair = queue.pop();
-
-        var url = pair[0];
-        var num_order = pair[1];
-        request4AddUserImg(url, num_order);
-        flag = false;
-    }
-
-    setTimeout(function() {
-        exec(queue);        // 等待50毫秒，再执行一次
-    }, 50);
+    request4AddUserImg(queue);
 }
 
 function loadInfo(info) {
@@ -199,7 +176,7 @@ function  request4GetUserInfo() {
     xhr.onload = function() {
         if (xhr.status === 200) {               // 请求成功
             let obj = JSON.parse(xhr.responseText);
-            loadInfo(obj.content[0]);           // 加载信息到页面
+            loadInfo(obj.content);              // 加载信息到页面
         }
     };
     const data = {
@@ -255,7 +232,15 @@ function request4ModifyUser(nickname, signature, avatar_url) {
     xhr.send(JSON.stringify(data));
 }
 
-function request4AddUserImg(url, order) {
+function request4AddUserImg(queue) {
+    if (queue.length == 0) {        // 当队列为空，结束上传
+        return closeWindow();
+    }
+
+    pair = queue.pop();
+    var url = pair[0];
+    var order = pair[1];
+
     const xhr = new XMLHttpRequest();
     xhr.open('post', url_prefix + 'addUserImg');
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -266,7 +251,7 @@ function request4AddUserImg(url, order) {
                 console.warn('Insert image failed');
                 console.error(obj.message);
             }
-            flag = true;
+            request4AddUserImg(queue);
         }
     };
     const data = {
