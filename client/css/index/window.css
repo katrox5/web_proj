@@ -36,6 +36,7 @@
 .header > img {
     margin-top: 5px;
     margin-right: 6px;
+    margin-left: 10px;
     width: 16px;
     height: 16px;
     cursor: pointer;
@@ -60,6 +61,7 @@
     height: 164px;
     padding: 2px;
     border: 1px solid grey;
+    cursor: pointer;
 }
 
 #text {
@@ -116,7 +118,7 @@ td {
     margin-left: 10px;
     margin-bottom: 10px;
     border: 1px dashed grey;
-    cursor: move;
+    cursor: pointer;
 }
 
 #list-add {
@@ -141,4 +143,25 @@ td {
     cursor: pointer;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+#imgBoard {
+    position: fixed;
+    top: -3%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1150;
+    width: 780px;
+    margin: 100px auto;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: white;
+}
+
+#imgBoard > .header {
+    border-bottom: 0;
+}
+
+#imgBoard > img {
+    margin: 0 auto;
 }

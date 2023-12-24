@@ -43,6 +43,29 @@ function hideText() {
     document.getElementById("text").style.display = "none";
 }
 
+function displayImg(target) {
+    const imgBoard = document.createElement('div');
+    imgBoard.id = 'imgBoard';
+
+    const header = document.createElement('div');
+    header.className = 'header';
+    const delBtn = document.createElement('img');
+    delBtn.src = "../../img/index/points.png";
+    const clsBtn = document.createElement('img');
+    clsBtn.src = "../../img/index/cancel.png";
+    clsBtn.onclick = () => $('imgBoard').remove();
+    header.appendChild(clsBtn);
+    header.appendChild(delBtn);
+
+    const img = document.createElement('img');
+    img.src = target.src;
+
+    imgBoard.appendChild(header);
+    imgBoard.appendChild(img);
+
+    document.body.appendChild(imgBoard);
+}
+
 function $(id)
 {
     return document.getElementById(id);
@@ -185,6 +208,7 @@ function loadImgs(imgs) {
         img.classList.add(imgs[i][0]);
         img.id = imgs[i][2];
         img.draggable = 'true';
+        img.onclick = (e) => displayImg(e.target);
         list.appendChild(img);
     }
     // 上传图片按钮
