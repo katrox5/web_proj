@@ -31,7 +31,7 @@
 		<script>
 			all_user();
 			const intervalId = setInterval(change_logo_state, 10); // 每秒执行一次
-			addfriendstodb();
+/* 			setTimeout(function(){all_img(0);},100); */
 			
 		</script>
 	</head>
@@ -67,7 +67,10 @@
 				<div class="user-logout" onclick="openModal()">
 					退出登录
 				</div>
-				<img class="user-avatar" src="../../img/dyz_main/logo/小米.jpg" alt="" />
+				<a class="go_to_center" href="aaa"> 
+					<img class="user-avatar" src="../../img/dyz_main/logo/小米.jpg" alt="" />
+				</a>
+				
 			</div>
 
 		</nav>
@@ -166,7 +169,7 @@
 				<div class="news-content">
 					<div class="news-title">
 						<h2>&emsp;小米资讯</h5>
-							<div class="change-news" onclick="change_news()">
+							<div class="change-news" style="cursor: pointer;" onclick="change_news()">
 								<img src="../../img/dyz_main/change_news.png" alt="" />
 								换一批
 							</div>
@@ -217,22 +220,6 @@
 					<div class="my-friends">
 						<div class="friend-title" onclick="addfriends(0)">
 							我的好友
-						</div>
-						<div class="friends-content">
-							<img src="../../img/media/avatar/default_avatar.png" alt="" />
-							<div class="friend-name">aaa</div>
-						</div>
-						<div class="friends-content">
-							<img src="../../img/media/avatar/default_avatar.png" alt="" />
-							<div class="friend-name">aaa</div>
-						</div>
-						<div class="friends-content">
-							<img src="../../img/media/avatar/default_avatar.png" alt="" />
-							<div class="friend-name">aaa</div>
-						</div>
-						<div class="friends-content">
-							<img src="../../img/media/avatar/default_avatar.png" alt="" />
-							<div class="friend-name">aaa</div>
 						</div>
 					</div>
 					

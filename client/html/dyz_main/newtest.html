@@ -1,50 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>鼠标悬停时显示滑块</title>
-    <style>
-        body {
-            height: 1000px; /* 为了产生滚动条，增加页面高度 */
-            margin: 0;
-            overflow: hidden; /* 隐藏浏览器默认的滚动条 */
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f5f5f5;
+    }
 
-        .scrollbar-container {
-            overflow-y: hidden;
-            height: 100px; /* 视口高度 */
-            width: 100px;
-            scrollbar-width: thin; /* Firefox 的滚动条宽度 */
-            scrollbar-color: #f1f1f1 #888; /* 轨道颜色 滑块颜色 */
+    #container {
+      text-align: center;
+    }
 
-            /* 鼠标悬停时显示滑块 */
-            overflow-y: hidden;
-        }
+    .box {
+      width: 100px;
+      height: 50px;
+      display: inline-block;
+      margin: 10px;
+      cursor: pointer;
+      background-color: #fff;
+      transition: background-color 0.3s ease;
+	  text-align: center;
+	  line-height: 50px;
+    }
 
-        .scrollbar-container:hover {
-            overflow-y: scroll;
-        }
+    #boxA {
+      background-color: #fff;
+    }
 
-        .scrollbar-container::-webkit-scrollbar {
-            width: 12px; /* Chrome、Safari 的滚动条宽度 */
-        }
+    #boxB {
+      background-color: #fff;
+    }
 
-        .scrollbar-container::-webkit-scrollbar-thumb {
-            background-color: #888;
-        }
+    #boxC {
+      background-color: #3498db;
+      display: none;
+    }
 
-        .scrollbar-container::-webkit-scrollbar-track {
-            background-color: #f1f1f1;
-        }
-    </style>
+    #boxD {
+      background-color: #2ecc71;
+      display: none;
+    }
+  </style>
 </head>
 <body>
 
-<div class="scrollbar-container">
-    <!-- 页面内容 -->
-	aaaaaaaaaaaaaaaaa
+<div id="container">
+  <div id="boxA" class="box" onclick="showBox('C')" onmouseover="changeColor('A', true)" onmouseout="changeColor('A', false)">
+    A
+  </div>
+  <div id="boxB" class="box" onclick="showBox('D')" onmouseover="changeColor('B', true)" onmouseout="changeColor('B', false)">
+    B
+  </div>
+  <div id="boxC" class="box">
+    C
+  </div>
+  <div id="boxD" class="box">
+    D
+  </div>
 </div>
+
+<script>
+  function showBox(boxId) {
+    document.getElementById('boxC').style.display = 'none';
+    document.getElementById('boxD').style.display = 'none';
+
+    document.getElementById('box' + boxId).style.display = 'block';
+  }
+
+  function changeColor(boxId, isHover) {
+    if (isHover) {
+      document.getElementById('box' + boxId).style.backgroundColor = '#eee';
+    } else {
+      document.getElementById('box' + boxId).style.backgroundColor = '#fff';
+    }
+  }
+</script>
 
 </body>
 </html>

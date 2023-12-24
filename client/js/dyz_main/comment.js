@@ -19,7 +19,6 @@ var date_pub = ["2023.12.20 23:06"];//发布时间 */
 function store_allrootcomment() {
 	clear_all();
 	for (var i = 0; i < allrootcomment.length; ++i) {
-		console.log(i);
 		var thisuser = get_userbyID(allrootcomment[i][1]); //用户
 		comment_ID[i] = allrootcomment[i][0]; //评论ID
 		avatar[i] = thisuser[4]; //用户头像
@@ -66,7 +65,7 @@ function addcomment(index) {
 		window.open('../comment/comment.html?commentid=' + comment_ID[index]); //前面的域名改成要跳转的界面（这里是评论详情界面）
 		return false; // 阻止默认行为和事件冒泡
 	};
-
+    commentBox.className = "commentBox";
 	// 创建用户：头像昵称
 	var userBox = document.createElement('div');
 	userBox.className = "user";
