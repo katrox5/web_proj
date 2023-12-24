@@ -8,8 +8,12 @@
 		<link rel="stylesheet" href="../../css/comment/comment.css">
 		<link rel="stylesheet" href="../../css/comment/popup.css">
 		<link rel="stylesheet" href="../../css/dyz_main/comment.css">
+		<link rel="stylesheet" href="../../css/dyz_main/nav.css">
+		<link rel="stylesheet" href="../../css/dyz_main/main.css">
+		
 		<script src="../../js/comment/lib/jquery-1.12.4.min.js"></script>
 		<script src="../../js/essential.js"></script>
+		<script src="../../js/dyz_main/nav.js"></script>
 		
 		
 		<!-- 在 <head> 标签中引入 Bootstrap CSS -->
@@ -24,28 +28,82 @@
 				padding: 0;
 			}
 		</style>
+		
+		<script>
+			var this_user_id = localStorage.getItem('id');
+			var this_user_name = localStorage.getItem('this_user_name');
+			var this_user_avatar = localStorage.getItem('this_user_avatar');
+			setTimeout(function(){
+				if (this_user_id != -1) //用户登录
+			{
+				change_from_visiter_to_user();
+			} else {
+				change_from_user_to_visiter();
+			}
+			},100);
+			
+		
+			function change_from_visiter_to_user() { //游客模式切换用户模式
+				var blockA = document.querySelector('.login');
+				var blockB = document.querySelector('.avatar');
+				var avatar = document.querySelector('.user-avatar');
+				avatar.src = this_user_avatar;
+				avatar.onclick = function() {
+					window.open('../MyCenter/MyMainCenter.html?userid=' + this_user_id); //前面的域名改成要跳转的界面（这里是评论详情界面）
+					return false; // 阻止默认行为和事件冒泡
+				};
+				// 切换显示
+				blockA.classList.remove('active');
+				blockB.classList.add('active');
+			}
+		
+			function change_from_user_to_visiter() { //用户模式切换游客模式
+				var blockA = document.querySelector('.avatar');
+				var blockB = document.querySelector('.login');
+				// 切换显示
+				blockA.classList.remove('active');
+				blockB.classList.add('active');
+			}
+		</script>
 	</head>
 	<body>
 		<span id="top-span"></span>
 		<!-- 导航栏 -->
+		<div id="customModal" class="overlay">
+			<div class="modal111">
+				<h3>确认要退出登录吗</h3>
+				<button onclick="logoout()">确定</button>
+		
+				<button onclick="closeModal()">取消</button>
+			</div>
+		</div>
+		
 		<nav class="navbar">
 			<div class="logo">
-				<img src="../../img/comment/logo/小米.jpg" alt="" />
+				<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
 			</div>
-			<a style="text-decoration: none;" href="search.html">
+			<a style="text-decoration: none;" href="../dyz_main/search.html">
 				<div class="search-bar">
-					<img src="../../img/comment/search.jfif" alt="" />
-					<input type="text" placeholder="大家都在搜：" />
+					<img src="../../img/dyz_main/search.jfif" alt="" />
+					<input class="hot-search" type="text" placeholder="大家都在搜：" />
 				</div>
 			</a>
-
-
-			<a href="../login.html" style="text-decoration: none;">
+		
+			<a class="login active" href="../index/login.html" style="text-decoration: none;">
 				<div class="user-actions">
 					登录
 				</div>
 			</a>
-
+			<div class="avatar">
+				<div class="user-logout" onclick="openModal()">
+					退出登录
+				</div>
+				<a class="go_to_center" href="aaa">
+					<img class="user-avatar" src="" alt="" />
+				</a>
+		
+			</div>
+		
 		</nav>
 
 		<!-- 主体 -->

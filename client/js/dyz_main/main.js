@@ -13,11 +13,14 @@ function change_logo_state() {
 	if (alluser.length > 0 && allrootcomment.length > 0) {
 		console.log("满足退出条件，退出定时器。");
 		this_user_id = localStorage.getItem('id');
+		console.log(this_user_id);
 		if (this_user_id != -1) //用户登录
 		{
 			var now_user = get_userbyID(this_user_id);
 			this_user_name = now_user[2];
 			this_user_avatar = now_user[4];
+			localStorage.setItem('this_user_name',this_user_name);
+			localStorage.setItem('this_user_avatar',this_user_avatar);
 			change_from_visiter_to_user();
 			changefriends();
 		} else {
