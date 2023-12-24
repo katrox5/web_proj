@@ -1,13 +1,25 @@
-#board {
+#modal-overlay {
     position: fixed;
-    left: 50px;
-    top: 50px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.2);
+    z-index: 100;
+    display: block;
+}
+
+#board {
+    width: 780px;
+    margin: 100px auto;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0px 5px 10px #888888;
+    background-color: white;
 }
 
 .header {
+    height: 25px;
     padding: 5px 10px;
     border-bottom: 0.1em solid lightgrey;
 }
@@ -27,25 +39,32 @@
 }
 
 .content {
+    height: 250px;
     padding: 10px 50px;
 }
 
 .left-content {
     display: inline-block;
     vertical-align: top;
-    padding-top: 50px;
+    padding-top: 40px;
+}
+
+.left-content > p {
+    margin: 0;
 }
 
 #avatar {
     display: block;
     width: 128px;
     height: 128px;
+    margin: 0 auto;
     padding: 2px;
     border: 1px solid grey;
+    margin-bottom: 15px;
 }
 
 .left-content > input {
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 .right-content {
@@ -70,6 +89,44 @@ td {
     width: 300px;
     height: 120px;
     resize: none;
+    font-size: 20px;
+}
+
+.album {
+    padding: 5px 50px;
+    padding-top: 0;
+}
+
+.album > h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: grey;
+}
+
+.list-item {
+    display: inline-block;
+    width: 157px;
+    height: 157px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border: 1px dashed grey;
+    cursor: move;
+}
+
+#list-add {
+    cursor: pointer;
+}
+
+.list-item:nth-of-type(1), .list-item:nth-of-type(5) {
+    margin-left: 0;
+}
+
+.list-item.moving {
+    visibility: hidden;
+}
+
+.foot {
+    height: 30px;
 }
 
 .foot > button {
