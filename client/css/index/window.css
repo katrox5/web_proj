@@ -14,8 +14,11 @@
 }
 
 #board {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 780px;
-    margin: 100px auto;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0px 5px 10px #888888;
@@ -145,20 +148,35 @@ td {
     border-radius: 5px;
 }
 
+@keyframes openPanel {
+    0% {
+        transform: scale(0) translateX(50%);
+    }
+    100% {
+        transform: scale(1) translateX(-50%);
+    }
+}
+
 #imgBoard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     position: fixed;
-    top: -3%;
+    top: -2%;
     left: 50%;
-    transform: translateX(-50%);
     z-index: 1150;
     width: 780px;
     margin: 100px auto;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    backdrop-filter: blur(10px);
+    animation: openPanel 0.5s forwards;
 }
 
 #imgBoard > .header {
+    background: linear-gradient(to bottom, #959a9e, rgba(255, 255, 255, 0));
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     border-bottom: 0;
 }
 

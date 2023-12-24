@@ -19,7 +19,7 @@ function showWindow() {
         </div>
         <div class="album"><h3>个人相册</h3><div id="list"></div></div>
         <div class="foot"><button onclick="save()">保存</button></div>
-        <input type="file" accept="image/*" id="upload" style="display: none"/>
+        <input type="file" accept="image/*" id="uploadAva" style="display: none"/>
         <input type="file" accept="image/*" id="uploadImg" style="display: none" multiple/></input>
     `;
     const overlay = document.createElement('div');
@@ -89,8 +89,8 @@ function closeWindow() {
 }
 
 function uploadAvatar() {
-    $('avatar').onclick = () => $('upload').click();
-    $('upload').addEventListener('change', function() {
+    $('avatar').onclick = () => $('uploadAva').click();
+    $('uploadAva').addEventListener('change', function() {
         $('avatar').src = URL.createObjectURL(this.files[0]);
     });
 }
@@ -161,10 +161,10 @@ function save() {
 
 function saveUserInfo() {
     let avatar_url;
-    if (typeof($('upload').files[0]) == 'undefined')
+    if (typeof($('uploadAva').files[0]) == 'undefined')
         avatar_url = null;
     else
-        avatar_url = media_path + 'avatar/' + $('upload').files[0].name;
+        avatar_url = media_path + 'avatar/' + $('uploadAva').files[0].name;
     let nickname = $('nickname').value;
     let signature = $('signature').value;
 
