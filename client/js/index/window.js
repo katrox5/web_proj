@@ -63,7 +63,7 @@ function displayImg(target) {
     imgBoard.appendChild(header);
     imgBoard.appendChild(img);
 
-    document.body.appendChild(imgBoard);
+    $('modal-overlay').appendChild(imgBoard);
 }
 
 function $(id)
@@ -115,6 +115,7 @@ function uploadPicture() {
             img.classList.add('new');           // 用于标识
             img.id = list.childNodes.length - 1;
             img.draggable = 'true';
+            img.onclick = (e) => displayImg(e.target);
             list.insertBefore(img, $('list-add'));
         }
     });
@@ -285,9 +286,8 @@ function request4ModifyUser(nickname, signature, avatar_url) {
 }
 
 function request4AddUserImg(queue) {
-    if (queue.length == 0) {        // 当队列为空，结束上传
+    if (queue.length == 0)              // 当队列为空，结束上传
         return closeWindow();
-    }
 
     pair = queue.pop();
     var url = pair[0];
