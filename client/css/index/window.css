@@ -9,6 +9,10 @@
     display: block;
 }
 
+#board > * {
+    box-sizing: content-box;
+}
+
 #board {
     width: 780px;
     margin: 100px auto;
@@ -46,25 +50,26 @@
 .left-content {
     display: inline-block;
     vertical-align: top;
-    padding-top: 40px;
-}
-
-.left-content > p {
-    margin: 0;
+    padding-top: 45px;
+    margin: 0 40px;
 }
 
 #avatar {
     display: block;
-    width: 128px;
-    height: 128px;
-    margin: 0 auto;
+    width: 164px;
+    height: 164px;
     padding: 2px;
     border: 1px solid grey;
-    margin-bottom: 15px;
 }
 
-.left-content > input {
-    margin-top: 5px;
+#text {
+    display: none;
+    position: relative;
+    text-align: center;
+}
+
+#image:hover + #text {
+    display: block;
 }
 
 .right-content {
@@ -74,6 +79,7 @@
 }
 
 .right-content > table {
+    border-collapse: separate;
     border-spacing: 10px;
 }
 
@@ -132,6 +138,7 @@ td {
 .foot > button {
     float: right;
     margin-right: 10px;
-    margin-bottom: 5px;
     cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
