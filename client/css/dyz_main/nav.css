@@ -91,6 +91,8 @@
 	border-radius: 35px;
 	margin-right: 30px;
 	margin-top: 10px;
+	cursor: pointer;
+	user-select: none;
 }
 
 /* 遮罩层样式 */
@@ -108,7 +110,7 @@
 }
 
 /* 弹出框样式 */
-.modal {
+.modal111 {
 	width: 400px;
 	height: 200px;
 	background-color: white;
@@ -116,9 +118,10 @@
 	border-radius: 20px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 	text-align: center;
+	user-select: none;
 }
 
-.modal button{
+.modal111 button{
 	background-color: #aaa;
 	border: none;
 	width: 110px;
@@ -130,7 +133,7 @@
 	margin-top: 40px;
 }
 
-.modal button:hover{
+.modal111 button:hover{
 	background-color: #f84;
 }
 
