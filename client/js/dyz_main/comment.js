@@ -50,7 +50,7 @@ function get_userbyID(userid) {
 		if (alluser[i][0] == userid)
 		{
 			if(alluser[i][4]==null){
-				alluser[i][4]="../../img/media/avatar/default_avatar.png"
+				alluser[i][4]=media_path+'avatar/default_avatar.png';
 			}
 			return alluser[i];
 		}

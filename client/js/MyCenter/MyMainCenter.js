@@ -1,7 +1,6 @@
-const url_prefix ='http://172.29.18.101:25565/'
 const default_headpic_url ='../../img/media/avatar/default_avatar.png'
 
-var AllUsers, AllComments, AllMyFollow, AllMyFans;	//都是row + content
+var AllUsers, AllComments, AllMyFollow, AllMyFans, AllBigCommentPic;	//都是row + content
 var comment_id=0, author_id=0;
 
 const Idx_user_id_byAllUsers= 0, Idx_username = 1, Idx_nickname = 2, Idx_signatrue = 3, Idx_headpic_url = 4; //getAllUsers 
@@ -24,13 +23,13 @@ var userId; //当前用户 和 当前帖子
 var target_comment_id, target_user_id;
 window.addEventListener('load', function(){
 	// 获取 id 的值
-	localStorage.setItem("id", "0");
+	// localStorage.setItem("id", "0");
 	userId = localStorage.getItem("id");
 	// alert(userId);
 	
 	var urlParams = new URLSearchParams(window.location.search);
 	// 通过comment_id点进来
-	comment_id = urlParams.get('commentid');
+	author_id = urlParams.get('userid');
 })
 
 
@@ -58,16 +57,16 @@ window.addEventListener('load', function(){
 			AllComments = JSON.parse(xhr1.responseText);   // xhr.responseText为返回结果
 			console.log(AllComments)
 			
-			// 根据帖子id处理
+			//根据帖子id处理
 			commentnum = AllComments.row;
-			for(var i = 0; i < commentnum; i ++ ){
-				if(AllComments.content[i][Idx_comment_id] == comment_id){
-					Comment = AllComments.content[i];
-				}
-			}
+			// for(var i = 0; i < commentnum; i ++ ){
+			// 	if(AllComments.content[i][Idx_comment_id] == comment_id){
+			// 		Comment = AllComments.content[i];
+			// 	}
+			// }
 			
 			// 当前页面的作者
-			author_id = Comment[Idx_user_id];
+			//author_id = Comment[Idx_user_id];
 			
 			xhr2.onload = function() {
 				if (xhr2.status === 200) {            // 状态码200，表示成功
@@ -106,8 +105,13 @@ window.addEventListener('load', function(){
 })
 
 
+function getBigCommentPic(){
+	AllBigCommentPic = [["../../img/dyz_main/logo/小米.jpg", "../../img/dyz_main/logo/小米.jpg"], [],[]];
+}
+
+
 function start_onload(){
-	console.log("Comment!!" + Comment);
+	getBigCommentPic();
 	console.log("Author!!" + Author);
 		
 	username = Author[Idx_username]
@@ -239,12 +243,11 @@ function display_comment(){
 		imgListDiv.classList.add("img-list");
 
 		// 创建并添加图片到图片列表
-		for (var j = 0; j < 8; j++) {
-		  var imgSrc = "../../img/dyz_main/logo/小米.jpg";
-		  var img = document.createElement("img");
-		  img.setAttribute("src", imgSrc);
-		  img.setAttribute("alt", "");
-		  imgListDiv.appendChild(img);
+		for(var j = 0; j < AllBigCommentPic[now_Comment[Idx_comment_id]].length; j ++ ){
+			var imgSrc = AllBigCommentPic[now_Comment[Idx_comment_id]][j];
+			var img = document.createElement("img");
+			img.setAttribute("src", imgSrc);
+			imgListDiv.appendChild(img);
 		}
 
 		// 将图片列表添加到父容器
@@ -261,21 +264,23 @@ function display_comment(){
 
 		// 创建点赞图标
 		var likeIconImg = document.createElement("img");
-		likeIconImg.setAttribute("src", "../../img/dyz_main/like.png");
-		likeIconImg.setAttribute("alt", "");
+		var key = userId + "_" + now_Comment[Idx_comment_id];
+		var value = localStorage.getItem(key);
+		if(value == null) likeIconImg.setAttribute("src", "../../img/comment/like.png");
+		else likeIconImg.setAttribute("src", "../../img/comment/liked.png");
 
 		// 创建点赞数量
 		var likeCountSpan = document.createElement("span");
-		likeCountSpan.textContent = "12 ";
+		likeCountSpan.textContent = now_Comment[Idx_num_like];
 
 		// 创建回复图标
 		var replyIconImg = document.createElement("img");
-		replyIconImg.setAttribute("src", "../../img/dyz_main/reply.png");
+		replyIconImg.setAttribute("src", "../../img/comment/chat.png");
 		replyIconImg.setAttribute("alt", "");
 
 		// 创建回复数量
 		var replyCountSpan = document.createElement("span");
-		replyCountSpan.textContent = "13";
+		replyCountSpan.textContent = now_Comment[Idx_num_reply];
 
 		// 将所有元素添加到点赞区域
 		likeDiv.appendChild(dateDiv);
@@ -311,7 +316,8 @@ function display_comment_follow(){
 			Comment_to_display.push(now_Comment);
 		}
 	}
-	
+	console.log("关注的")
+	console.log(Comment_to_display);
 	
 	// 将父容器添加到DOM中的适当位置
 	var parentElement = document.getElementById("total-contents");
@@ -320,7 +326,19 @@ function display_comment_follow(){
 	var contentsDiv = document.createElement("div");
 	contentsDiv.classList.add("contents");
 	for(var i = 0; i < Comment_to_display.length; i ++ ){
+		console.log("CICICI");
 		var now_Comment = Comment_to_display[i];
+		
+		
+		var need_headpic, need_nickname;
+		for(var k = 0; k < usernum; k ++ ){
+			if(AllUsers.content[k][Idx_user_id_byAllUsers] == now_Comment[Idx_user_id]){
+				need_headpic = AllUsers.content[k][Idx_headpic_url];
+				need_nickname = AllUsers.content[k][Idx_nickname];
+			}
+		}
+		
+		
 		// 创建回帖人信息
 		var replyHeaderDiv = document.createElement("div");
 		replyHeaderDiv.classList.add("reply-header");
@@ -342,13 +360,19 @@ function display_comment_follow(){
 
 		// 创建回帖人头像
 		var replyHeaderImg = document.createElement("img");
-		replyHeaderImg.setAttribute("src", "../../img/comment/headpic.webp");
+		replyHeaderImg.setAttribute("src", need_headpic);
+			
 
 		// 将头像添加到包裹器
 		replyHeaderImgWrapperDiv.appendChild(replyHeaderImg);
 
 		// 将包裹器添加到头像容器
 		replyHeaderImgContainerDiv.appendChild(replyHeaderImgWrapperDiv);
+		var target_page = '../MyCenter/MyCenter.html';
+		if(now_Comment[Idx_user_id] == userId) target_page = '../MyCenter/MyMainCenter.html'; 
+		replyHeaderImgContainerDiv.setAttribute('onclick', "window.open('" + target_page + "?userid=" + now_Comment[Idx_user_id] + "'); return false;")
+
+
 
 		// 将头像容器添加到回帖人信息左侧
 		replyHeaderLeftDiv.appendChild(replyHeaderImgContainerDiv);
@@ -360,13 +384,7 @@ function display_comment_follow(){
 		// 创建回帖人姓名
 		var replyHeaderInfoNameDiv = document.createElement("div");
 		replyHeaderInfoNameDiv.classList.add("reply-header-info-name");
-		
-		for(var j = 0; j < usernum; j ++ ){
-			if(now_Comment[Idx_user_id] == AllUsers.content[j][Idx_user_id_byAllUsers]){
-				replyHeaderInfoNameDiv.textContent = AllUsers.content[j][Idx_nickname];				
-			}
-		}
-
+		replyHeaderInfoNameDiv.textContent = need_nickname;
 
 		// 将姓名添加到信息容器
 		replyHeaderInfoContainerDiv.appendChild(replyHeaderInfoNameDiv);
@@ -387,6 +405,7 @@ function display_comment_follow(){
 		var target_page = '../comment/comment.html';
 		multilineTextboxDiv.setAttribute('onclick', "window.open('" + target_page + "?commentid=" + now_Comment[Idx_comment_id] + "'); return false;");
 			
+			
 		// 将多行文本框添加到父容器
 		contentsDiv.appendChild(multilineTextboxDiv);
 
@@ -395,12 +414,11 @@ function display_comment_follow(){
 		imgListDiv.classList.add("img-list");
 
 		// 创建并添加图片到图片列表
-		for (var j = 0; j < 8; j++) {
-		  var imgSrc = "../../img/dyz_main/logo/小米.jpg";
-		  var img = document.createElement("img");
-		  img.setAttribute("src", imgSrc);
-		  img.setAttribute("alt", "");
-		  imgListDiv.appendChild(img);
+		for(var j = 0; j < AllBigCommentPic[now_Comment[Idx_comment_id]].length; j ++ ){
+			var imgSrc = AllBigCommentPic[now_Comment[Idx_comment_id]][j];
+			var img = document.createElement("img");
+			img.setAttribute("src", imgSrc);
+			imgListDiv.appendChild(img);
 		}
 
 		// 将图片列表添加到父容器
@@ -413,25 +431,27 @@ function display_comment_follow(){
 		// 创建日期容器
 		var dateDiv = document.createElement("div");
 		dateDiv.classList.add("date");
-		dateDiv.textContent = "日期";
+		dateDiv.textContent = now_Comment[Idx_time];
 
 		// 创建点赞图标
 		var likeIconImg = document.createElement("img");
-		likeIconImg.setAttribute("src", "../../img/dyz_main/like.png");
-		likeIconImg.setAttribute("alt", "");
+		var key = userId + "_" + now_Comment[Idx_comment_id];
+		var value = localStorage.getItem(key);
+		if(value == null) likeIconImg.setAttribute("src", "../../img/comment/like.png");
+		else likeIconImg.setAttribute("src", "../../img/comment/liked.png");
 
 		// 创建点赞数量
 		var likeCountSpan = document.createElement("span");
-		likeCountSpan.textContent = "12 ";
+		likeCountSpan.textContent = now_Comment[Idx_num_like];
 
 		// 创建回复图标
 		var replyIconImg = document.createElement("img");
-		replyIconImg.setAttribute("src", "../../img/dyz_main/reply.png");
+		replyIconImg.setAttribute("src", "../../img/comment/chat.png");
 		replyIconImg.setAttribute("alt", "");
 
 		// 创建回复数量
 		var replyCountSpan = document.createElement("span");
-		replyCountSpan.textContent = "13";
+		replyCountSpan.textContent = now_Comment[Idx_num_reply];
 
 		// 将所有元素添加到点赞区域
 		likeDiv.appendChild(dateDiv);

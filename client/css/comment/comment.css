@@ -94,6 +94,20 @@
 }
 .follow{
 	align-items: center;
+    background: #0e151c;
+    border-radius: 3.5rem;
+    color: #fff;
+    display: flex;
+    flex-shrink: 0;
+    font-size: .75rem;
+    height: 1.75rem;
+    justify-content: center;
+    text-align: center;
+    width: 3.5rem;
+}
+
+.following{
+	align-items: center;
     background: rgba(14,21,28,.05);
     border-radius: 3.5rem;
     color: #0e151c;
@@ -105,6 +119,8 @@
     text-align: center;
     width: 3.5rem;
 }
+
+
 .main-comment-content{
 	padding-top: 1.25rem;
 	webkit-user-select: text;
@@ -129,6 +145,22 @@
 	display: flex;
 	flex-wrap: wrap;
 }
+
+.img-list{
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px; /* 调整与上方div的距离 */
+	margin-left: 20px;
+}
+
+.img-list img {
+	width: 160px;
+	height: 160px;
+	margin: 5px;
+	border-radius: 20px;
+}
+
+
 .imglist-wrapper{
 	height: auto;
 	width: 100%;

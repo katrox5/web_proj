@@ -45,7 +45,7 @@ function change_from_visiter_to_user() { //游客模式切换用户模式
 	var avatar = document.querySelector('.user-avatar');
 	avatar.src = this_user_avatar;
 	avatar.onclick = function() {
-		window.open('../MyCenter/MyCenter.html?userid=' + this_user_id); //前面的域名改成要跳转的界面（这里是评论详情界面）
+		window.open('../MyCenter/MyMainCenter.html?userid=' + this_user_id); //前面的域名改成要跳转的界面（这里是评论详情界面）
 		return false; // 阻止默认行为和事件冒泡
 	};
 	// 切换显示
@@ -73,7 +73,6 @@ function all_user() { //获取库中所有user
 		if (xhr.status === 200) {
 			obj = JSON.parse(xhr.responseText);
 			alluser = obj.content;
-			console.log(alluser);
 			const storecomment = setInterval(function() {
 				if (alluser.length > 0) {
 					all_comment();
@@ -103,21 +102,9 @@ function all_comment() { //获取库中所有评论并按时间排序
 			obj = JSON.parse(xhr.responseText);
 			allrootcomment = obj.content;
 			num_comment = obj.row;
-			const creatcomment = setInterval(function() {
-				if (alluser.length > 0) {
-					store_allrootcomment(); //存储评论
-					get_hot_search(); //更新热搜
-					//all_img(0);
-
-							for (var i = 0; i < comment_ID.length; ++i) {
-								addcomment(i);
-							}
-
-							clearInterval(creatcomment);
-                
-					
-				}
-			}, 10)
+			store_allrootcomment(); //存储评论
+			get_hot_search(); //更新热搜
+			all_img(0);
 
 
 		}
@@ -131,29 +118,31 @@ function all_comment() { //获取库中所有评论并按时间排序
 function all_img(index) { //获取库中所有评论图片并按时间排序
 	var c_id = comment_ID[index];
 	if (index < num_comment) {
-	const xhr = new XMLHttpRequest();
-	xhr.open('post', url_prefix + 'getCommentImgByCommentId');
-	xhr.setRequestHeader('Content-Type', 'application/json');
-	xhr.onload = function() {
-		if (xhr.status === 200) {
-			
+		const xhr = new XMLHttpRequest();
+		xhr.open('post', url_prefix + 'getCommentImgByCommentId');
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.onload = function() {
+			if (xhr.status === 200) {
+
 				let obj = JSON.parse(xhr.responseText);
 				for (var i = 0; i < obj.row; ++i) {
 					img_content[index][i] = obj.content[i][1];
 				}
+				console.log(obj.content);
+				if(index<num_comment)
+				{
+					addcomment(index);
+					
+				}
 				all_img(++index);
-				
-		}
 
-	};
-	const this_comment_id = {
-		comment_id: c_id
-	};
-	xhr.send(JSON.stringify(this_comment_id));
-	}
-	if (index == 0||index==1)
-	{
-		img_over = true;
+			}
+
+		};
+		const this_comment_id = {
+			comment_id: c_id
+		};
+		xhr.send(JSON.stringify(this_comment_id));
 	}
 }
 
@@ -175,9 +164,4 @@ function add_img(commentid, img_url, img_order) { //获取库中所有评论图�
 		num_order: img_order
 	};
 	xhr.send(JSON.stringify(this_comment_id));
-}
-
-
-function test() {
-	alert(nickname[0]);
 }

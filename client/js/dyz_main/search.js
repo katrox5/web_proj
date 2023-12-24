@@ -62,6 +62,7 @@ function get_search_comment(key_word) {
 		if (xhr.status === 200) {
 			obj = JSON.parse(xhr.responseText);
 			allrootcomment = obj.content;
+			num_comment = obj.row;
 			store_allrootcomment();
 			console.log(allrootcomment);
 			if (comment_ID.length == 0) {
@@ -74,10 +75,10 @@ function get_search_comment(key_word) {
 				if(searchnow == 'C')
 				document.getElementById('noresult').style.display = 'none';
 			}
-			
-			for (var i = 0; i < comment_ID.length; ++i) {
-				addcomment(i);
-			}
+			all_img(0);
+			// for (var i = 0; i < comment_ID.length; ++i) {
+			// 	addcomment(i);
+			// }
 		}
 	};
 	const the_key = {
@@ -152,8 +153,8 @@ function store_allsearchusers() {
 	for (var i = 0; i < user_result.length; ++i) {
 		search_user_name[i] = user_result[i][2];
 		search_user_avatar[i] = user_result[i][4];
-		if (search_user_avatar[i] == "")
-			search_user_avatar[i] = media_path + "avatar/default_avatar.png";
+		if (search_user_avatar[i] == null)
+			search_user_avatar[i] = media_path+'avatar/default_avatar.png';
 	}
 }
 

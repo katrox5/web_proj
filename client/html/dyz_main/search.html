@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		
+
 		<link rel="stylesheet" href="../../css/dyz_main/main.css">
 		<link rel="stylesheet" href="../../css/dyz_main/comment.css">
 		<link rel="stylesheet" href="../../css/dyz_main/search.css">
@@ -23,31 +23,31 @@
 			}
 		</style>
 		<script>
-			 get_all_user_insearch();
+			get_all_user_insearch();
 			var hotsearch = localStorage.getItem('hot-search');
-			var sethot = setInterval(sethot,10);
-			function sethot(){
-				if(hotsearch!="")
-				{
+			var sethot = setInterval(sethot, 10);
+
+			function sethot() {
+				if (hotsearch != "") {
 					var inputElement = document.querySelector('.hot-search');
-					inputElement.placeholder = "大家都在搜："+hotsearch;
+					inputElement.placeholder = "大家都在搜：" + hotsearch;
 					clearInterval(sethot);
 				}
 			}
-			
 		</script>
 	</head>
 	<body>
 
 		<!-- 导航栏 -->
 		<nav class="navbar">
-			
+
 			<div class="logo">
 				<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
 			</div>
 			<div class="search-bar">
 				<img src="../../img/dyz_main/search.jfif" onclick="performSearch()" />
-				<input style="width: 1000px;" class="hot-search" type="text" placeholder="大家都在搜：" onkeypress=handleKeyPress(event)/>
+				<input style="width: 1000px;" class="hot-search" type="text" placeholder="大家都在搜："
+					onkeypress="handleKeyPress(event)" />
 				<a href="main.html">
 					<div class="back">
 						<img src="../../img/dyz_main/back.png" alt="" />
@@ -58,63 +58,67 @@
 		</nav>
 		<!-- 全部评论 -->
 		<div class="main-content" style="margin-top: -50px;">
-			
+
 			<div class="comment_content" style="padding-top: 20px;">
-				
-				<div id="boxA" class="box" onclick="showBox('C')" onmouseover="changeColor('A', true)" onmouseout="changeColor('A', false)">
-				  评论
+
+				<div id="boxA" class="box" onclick="showBox('C')" onmouseover="changeColor('A', true)"
+					onmouseout="changeColor('A', false)">
+					帖子
 				</div>
-				<div id="boxB" class="box" onclick="showBox('D')" onmouseover="changeColor('B', true)" onmouseout="changeColor('B', false)">
-				  用户
+				<div id="boxB" class="box" onclick="showBox('D')" onmouseover="changeColor('B', true)"
+					onmouseout="changeColor('B', false)">
+					用户
 				</div>
-				
-				<div class="search-title">
-					搜索结果:
-					<div id="noresult">
-						暂无搜索结果……
-						<br />换个词试试吧<br />
-						<img src="../../img/dyz_main/搜索失败.png" alt="" />
+
+
+				<div id="noresult">
+					<div class="search-title">
+						搜索结果:
+					</div>
+					暂无搜索结果……
+					<br />换个词试试吧<br />
+					<img src="../../img/dyz_main/搜索失败.png" alt="" />
+				</div>
+
+
+				<div id="boxC">
+
+					<div class="comments">
+						<!-- <div onclick="window.open('../comment/comment.html?commentid=c'); return false;">
+				  		<div class="user">
+				  			<img src="../../img/dyz_main/search.jfif" alt="" />
+				  			<input type="text" value="name" readonly />
+				  		</div>
+				  		<div class="contents">
+				  			<div class="multiline-textbox">
+				  				Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+				  				Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+				  				Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...
+				  			</div>
+				  			<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+				  			<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+				  			<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+				  			<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+				  			<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+				  			<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+				  			<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+				  			<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
+				  
+				  			<div class="like">
+				  				<div class="date">date</div>
+				  				<img src="../../img/dyz_main/like.png" alt="" />
+				  				12&ensp;
+				  				<img src="../../img/dyz_main/reply.png" alt="" />
+				  				13
+				  			</div>
+				  			<hr />
+				  		</div>
+				  	</div> -->
 					</div>
 				</div>
-				
-				<div id="boxC">
-					
-				  <div class="comments">
-				  	<!-- <div onclick="window.open('../comment/comment.html?commentid=c'); return false;">
-				  		<div class="user">
-				  			<img src="../../img/dyz_main/search.jfif" alt="" />
-				  			<input type="text" value="name" readonly />
-				  		</div>
-				  		<div class="contents">
-				  			<div class="multiline-textbox">
-				  				Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-				  				Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-				  				Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...
-				  			</div>
-				  			<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
-				  			<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
-				  			<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
-				  			<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
-				  			<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
-				  			<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
-				  			<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
-				  			<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
-				  
-				  			<div class="like">
-				  				<div class="date">date</div>
-				  				<img src="../../img/dyz_main/like.png" alt="" />
-				  				12&ensp;
-				  				<img src="../../img/dyz_main/reply.png" alt="" />
-				  				13
-				  			</div>
-				  			<hr />
-				  		</div>
-				  	</div> -->
-				  </div>
-				</div>
 				<div id="boxD">
-				  <div class="search-users">
-				  	<!-- <div onclick="window.open('../comment/comment.html?userid=c'); return false;">
+					<div class="search-users">
+						<!-- <div onclick="window.open('../comment/comment.html?userid=c'); return false;">
 				  		<div class="user">
 				  			<img src="../../img/dyz_main/search.jfif" alt="" />
 				  			<input type="text" value="name" readonly />
@@ -139,9 +143,9 @@
 				  			<hr />
 				  		</div>
 				  	</div> -->
-				  </div>
+					</div>
 				</div>
-				
+
 
 
 
