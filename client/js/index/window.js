@@ -36,34 +36,19 @@ function showWindow() {
 }
 
 function showText() {
-    document.getElementById("text").style.display = "block";
+    document.getElementById('text').style.display = 'block';
 }
 
 function hideText() {
-    document.getElementById("text").style.display = "none";
+    document.getElementById('text').style.display = 'none';
 }
 
 function displayImg(target) {
-    const imgBoard = document.createElement('div');
-    imgBoard.id = 'imgBoard';
+    let img = new Image(target);
+    img.setFunction(function() {
 
-    const header = document.createElement('div');
-    header.className = 'header';
-    const delBtn = document.createElement('img');
-    delBtn.src = "../../img/index/trash.png";
-    const clsBtn = document.createElement('img');
-    clsBtn.src = "../../img/index/cancel.png";
-    clsBtn.onclick = () => $('imgBoard').remove();
-    header.appendChild(clsBtn);
-    header.appendChild(delBtn);
-
-    const img = document.createElement('img');
-    img.src = target.src;
-
-    imgBoard.appendChild(header);
-    imgBoard.appendChild(img);
-
-    $('modal-overlay').appendChild(imgBoard);
+    });
+    img.display();
 }
 
 function $(id)
@@ -76,11 +61,11 @@ function preventDefaultScroll(e) {
 }
 
 function disableWheel() {
-    window.addEventListener("wheel", preventDefaultScroll, { passive: false });
+    window.addEventListener('wheel', preventDefaultScroll, { passive: false });
 }
 
 function enableWheel() {
-    window.removeEventListener("wheel", preventDefaultScroll, { passive: false });
+    window.removeEventListener('wheel', preventDefaultScroll, { passive: false });
 }
 
 function closeWindow() {
