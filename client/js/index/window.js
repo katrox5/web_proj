@@ -50,7 +50,7 @@ function displayImg(target) {
     const header = document.createElement('div');
     header.className = 'header';
     const delBtn = document.createElement('img');
-    delBtn.src = "../../img/index/points.png";
+    delBtn.src = "../../img/index/trash.png";
     const clsBtn = document.createElement('img');
     clsBtn.src = "../../img/index/cancel.png";
     clsBtn.onclick = () => $('imgBoard').remove();
