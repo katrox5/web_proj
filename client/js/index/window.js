@@ -1,10 +1,14 @@
+// 耦合代码
+const btn = document.getElementsByClassName('modify-button');
+btn[0].onclick = () => showWindow();
+
 function showWindow() {
     const container = document.createElement('div');
     container.id = 'board';
     container.innerHTML = `
         <div class="header"><span>编辑个人资料</span><img src="../../img/index/cancel.png" onclick="closeWindow()"/></div>
         <div class="content">
-            <div class="left-content"><img id="avatar"/><p>重新上传头像：</p><input type="file" accept="image/*" id="upload"/></div>
+            <div class="left-content"><img id="avatar" onmouseover="showText()" onmouseout="hideText()"/><div id="text">重新上传</div></div>
             <div class="right-content">
                 <table>
                     <tr><td align="right">账号：</td><td id="username"></td></tr>
@@ -15,6 +19,7 @@ function showWindow() {
         </div>
         <div class="album"><h3>个人相册</h3><div id="list"></div></div>
         <div class="foot"><button onclick="save()">保存</button></div>
+        <input type="file" accept="image/*" id="uploadAva" style="display: none"/>
         <input type="file" accept="image/*" id="uploadImg" style="display: none" multiple/></input>
     `;
     const overlay = document.createElement('div');
@@ -27,6 +32,23 @@ function showWindow() {
     setPictureDraggable();
     uploadAvatar();
     uploadPicture();
+    disableWheel();
+}
+
+function showText() {
+    document.getElementById('text').style.display = 'block';
+}
+
+function hideText() {
+    document.getElementById('text').style.display = 'none';
+}
+
+function displayImg(target) {
+    let img = new Image(target);
+    img.setFunction(function() {
+
+    });
+    img.display();
 }
 
 function $(id)
@@ -34,12 +56,26 @@ function $(id)
     return document.getElementById(id);
 }
 
+function preventDefaultScroll(e) {
+    e.preventDefault();
+}
+
+function disableWheel() {
+    window.addEventListener('wheel', preventDefaultScroll, { passive: false });
+}
+
+function enableWheel() {
+    window.removeEventListener('wheel', preventDefaultScroll, { passive: false });
+}
+
 function closeWindow() {
-    $('modal-overlay').remove()
+    $('modal-overlay').remove();
+    enableWheel();
 }
 
 function uploadAvatar() {
-    $('upload').addEventListener('change', function() {
+    $('avatar').onclick = () => $('uploadAva').click();
+    $('uploadAva').addEventListener('change', function() {
         $('avatar').src = URL.createObjectURL(this.files[0]);
     });
 }
@@ -64,6 +100,7 @@ function uploadPicture() {
             img.classList.add('new');           // 用于标识
             img.id = list.childNodes.length - 1;
             img.draggable = 'true';
+            img.onclick = (e) => displayImg(e.target);
             list.insertBefore(img, $('list-add'));
         }
     });
@@ -110,10 +147,10 @@ function save() {
 
 function saveUserInfo() {
     let avatar_url;
-    if (typeof($('upload').files[0]) == 'undefined')
+    if (typeof($('uploadAva').files[0]) == 'undefined')
         avatar_url = null;
     else
-        avatar_url = media_path + 'avatar/' + $('upload').files[0].name;
+        avatar_url = media_path + 'avatar/' + $('uploadAva').files[0].name;
     let nickname = $('nickname').value;
     let signature = $('signature').value;
 
@@ -157,6 +194,7 @@ function loadImgs(imgs) {
         img.classList.add(imgs[i][0]);
         img.id = imgs[i][2];
         img.draggable = 'true';
+        img.onclick = (e) => displayImg(e.target);
         list.appendChild(img);
     }
     // 上传图片按钮
@@ -233,9 +271,8 @@ function request4ModifyUser(nickname, signature, avatar_url) {
 }
 
 function request4AddUserImg(queue) {
-    if (queue.length == 0) {        // 当队列为空，结束上传
+    if (queue.length == 0)              // 当队列为空，结束上传
         return closeWindow();
-    }
 
     pair = queue.pop();
     var url = pair[0];

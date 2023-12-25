@@ -1,169 +1,169 @@
 @charset "utf-8";
 
 * {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-	height: 100vh;
-	align-items: center;
-	background: url(../../img/index/bg.jpg) no-repeat;
-	background-size: cover;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+    height: 100vh;
+    align-items: center;
+    background: url(../../img/index/bg.png) no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .box {
-	width: 350px;
-	align-items: center;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	background: rgba(50,50,50,0.2);
-	border-bottom: 1px solid rgba(255,255,255,0.2);
-	border-left: 1px solid rgba(255,255,255,0.5);
-	border-radius: 20px;
-	border-right: 1px solid rgba(255,255,255,0.2);
-	border-top: 1px solid rgba(255,255,255,0.5);
-	backdrop-filter: blur(10px);
+    width: 350px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(50,50,50,0.2);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    border-left: 1px solid rgba(255,255,255,0.5);
+    border-radius: 20px;
+    border-right: 1px solid rgba(255,255,255,0.2);
+    border-top: 1px solid rgba(255,255,255,0.5);
+    backdrop-filter: blur(10px);
 }
 
 .box > h2 {
-	color: rgba(255,255,255,0.9);
-	letter-spacing: 6px;
-	margin-bottom: 10px;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 6px;
+    margin-bottom: 10px;
 }
 
 .box .ipt-box {
-	margin-top: 10px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .box .ipt-box > label {
-	margin-bottom: 5px;
-	color: rgba(255,255,255,0.9);
-	font-size: 13px;
+    margin-bottom: 5px;
+    color: rgba(255,255,255,0.9);
+    font-size: 13px;
 }
 
 .box .ipt-box > input {
-	width: 250px;
-	height: 35px;
-	padding: 0 10px;
-	background: rgba(255,255,255,0.3);
-	border-radius: 5px;
-	border: 1px solid rgba(255,255,255,0.5);
-	box-sizing: border-box;
-	color: rgba(255,255,255,0.9);
-	font-size: 14px;
-	letter-spacing: 1px;
-	outline: none;
-	transition: 0.2s;
+    width: 250px;
+    height: 35px;
+    padding: 0 10px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.5);
+    box-sizing: border-box;
+    color: rgba(255,255,255,0.9);
+    font-size: 14px;
+    letter-spacing: 1px;
+    outline: none;
+    transition: 0.2s;
 }
 
 .box .ipt-box > input:focus {
-	border: 1px solid rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.8);
 }
 
 .box .ipt-box > input::placeholder {
-	font-size: 14px;
-	color: rgba(255,0,0,0.6);
+    font-size: 14px;
+    color: rgba(255,0,0,0.6);
 }
 
 .box .chk-box {
-	display: inline-flex;
+    display: inline-flex;
 }
 
 .box .chk-box > input {
-	vertical-align: middle;
+    vertical-align: middle;
 }
 
 .box .chk-box > label {
-	width: 165px;
-	font-size: 12px;
-	color: rgba(255,255,255,1);
+    width: 165px;
+    font-size: 12px;
+    color: rgba(255,255,255,1);
 }
 
 .box .chk-box > a {
-	font-size: 14px;
-	text-decoration: none;
-	color: rgba(255,255,255,0.9);
-	transition: 0.2s;
-	text-align: end;
+    font-size: 14px;
+    text-decoration: none;
+    color: rgba(255,255,255,0.9);
+    transition: 0.2s;
+    text-align: end;
 }
 
 .box .chk-box > a:hover {
-	color: rgba(255,255,255,1);
+    color: rgba(255,255,255,1);
 }
 
 .box .btn-box {
-	width: 250px;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: start;
-	margin-top: 20px;
+    width: 250px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
+    margin-top: 20px;
 }
 
 .box .btn-box > button {
-	width: 120px;
-	height: 35px;
-	border: 1px solid rgba(197,81,58,0.8);
-	background: rgba(197,81,58,0.5);
-	color: rgba(255,255,255,0.9);
-	border-radius: 5px;
-	transition: 0.2s;
+    width: 120px;
+    height: 35px;
+    border: 1px solid rgba(197,81,58,0.8);
+    background: rgba(197,81,58,0.5);
+    color: rgba(255,255,255,0.9);
+    border-radius: 5px;
+    transition: 0.2s;
 }
 
 .box .btn-box > button:first-child {
-	margin-right: 10px;
+    margin-right: 10px;
 }
 
 .box .btn-box > button:hover {
-	background: rgba(248,108,76,0.5);
-	border: 1px solid rgba(248,108,76,0.8);
+    background: rgba(248,108,76,0.5);
+    border: 1px solid rgba(248,108,76,0.8);
 }
 
 .box .cod-box {
-	margin-top: 10px;
+    margin-top: 10px;
 }
 
 .box .cod-box > label {
     display: block;
-	margin-bottom: 5px;
+    margin-bottom: 5px;
     color: rgba(255,255,255,0.9);
     font-size: 13px;
 }
 
 .box .cod-box > input {
-	width: 165px;
-	height: 35px;
-	padding: 0 10px;
-	background: rgba(255,255,255,0.3);
-	border-radius: 5px;
-	border: 1px solid rgba(255,255,255,0.5);
-	box-sizing: border-box;
-	color: rgba(255,255,255,0.9);
-	font-size: 14px;
-	letter-spacing: 1px;
-	outline: none;
-	transition: 0.2s;
+    width: 165px;
+    height: 35px;
+    padding: 0 10px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 5px;
+    border: 1px solid rgba(255,255,255,0.5);
+    box-sizing: border-box;
+    color: rgba(255,255,255,0.9);
+    font-size: 14px;
+    letter-spacing: 1px;
+    outline: none;
+    transition: 0.2s;
 }
 
 .box .cod-box > button {
-	width: 80px;
-	height: 35px;
-	border: 1px solid rgba(197,81,58,0.8);
-	background: rgba(197,81,58,0.5);
-	color: rgba(255,255,255,0.9);
-	border-radius: 5px;
-	transition: 0.2s;
+    width: 80px;
+    height: 35px;
+    border: 1px solid rgba(197,81,58,0.8);
+    background: rgba(197,81,58,0.5);
+    color: rgba(255,255,255,0.9);
+    border-radius: 5px;
+    transition: 0.2s;
 }
 
 .box .cod-box > button:hover {
-	background: rgba(248,108,76,0.5);
-	border: 1px solid rgba(248,108,76,0.8);
+    background: rgba(248,108,76,0.5);
+    border: 1px solid rgba(248,108,76,0.8);
 }

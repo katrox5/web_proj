@@ -131,6 +131,7 @@
     display: flex;
     flex-shrink: 0;
 }
+
 .follow-button{
 	font-size: .8125rem;
     font-weight: 400;
@@ -145,6 +146,23 @@
     background-color: #0e151c;
     color: #fff;
 }
+
+.following-button{
+	font-size: .8125rem;
+    font-weight: 400;
+    height: 1.75rem;
+    line-height: 1.75rem;
+    margin-left: 0.625rem;
+    position: relative;
+    width: 4rem;
+    z-index: 0;
+	border-radius: 0.875rem;
+	border: none;
+	padding: 0 0.53125rem;
+    background: rgba(14,21,28,.05);
+    color: #0e151c;
+}
+
 
 .homepage-part3{
 

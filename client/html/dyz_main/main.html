@@ -29,20 +29,18 @@
 			}
 		</style>
 		<script>
+			//add_img(0,"../../img/dyz_main/logo/小米.jpg",4);
+			// setTimeout(all_img(0),100);
+			
 			all_user();
 			const intervalId = setInterval(change_logo_state, 10); // 每秒执行一次
-			addfriendstodb();
-			
 		</script>
 	</head>
 	<body>
 		<div id="customModal" class="overlay">
-			<div class="modal">
+			<div class="modal111">
 				<h2>确认要退出登录吗</h2>
-				<a href="main.html">
-					<button onclick="logoout()">确定</button>
-				</a>
-				
+				<button onclick="logoout()">确定</button>
 				<button onclick="closeModal()">取消</button>
 			</div>
 		</div>
@@ -67,7 +65,10 @@
 				<div class="user-logout" onclick="openModal()">
 					退出登录
 				</div>
-				<img class="user-avatar" src="../../img/dyz_main/logo/小米.jpg" alt="" />
+				<a class="go_to_center" href="aaa">
+					<img class="user-avatar" src="../../img/dyz_main/logo/小米.jpg" alt="" />
+				</a>
+
 			</div>
 
 		</nav>
@@ -98,7 +99,7 @@
 				<div class="comment_content">
 					<!-- 公告 -->
 					<div class="comment_at_all">
-						<h3 onclick="addcomment(0)">公告栏</h3>
+						<h3 style="user-select: none;">公告栏</h3>
 						<p>&emsp;&emsp;
 							すべてのユミルの民 (たみ)に告(つ)ぐ,
 							オレの名(な)はエレン・イェーガー,
@@ -166,7 +167,7 @@
 				<div class="news-content">
 					<div class="news-title">
 						<h2>&emsp;小米资讯</h5>
-							<div class="change-news" onclick="change_news()">
+							<div class="change-news" style="cursor: pointer;" onclick="change_news()">
 								<img src="../../img/dyz_main/change_news.png" alt="" />
 								换一批
 							</div>
@@ -215,27 +216,11 @@
 
 				<div class="right-down">
 					<div class="my-friends">
-						<div class="friend-title" onclick="addfriends(0)">
-							我的好友
-						</div>
-						<div class="friends-content">
-							<img src="../../img/media/avatar/default_avatar.png" alt="" />
-							<div class="friend-name">aaa</div>
-						</div>
-						<div class="friends-content">
-							<img src="../../img/media/avatar/default_avatar.png" alt="" />
-							<div class="friend-name">aaa</div>
-						</div>
-						<div class="friends-content">
-							<img src="../../img/media/avatar/default_avatar.png" alt="" />
-							<div class="friend-name">aaa</div>
-						</div>
-						<div class="friends-content">
-							<img src="../../img/media/avatar/default_avatar.png" alt="" />
-							<div class="friend-name">aaa</div>
+						<div class="friend-title">
+							<h3 style="user-select: none;">我的好友</h3>
 						</div>
 					</div>
-					
+
 					<div class="foot">
 						开发人员：卓宏宇 刘嘉豪 黄慧瑶 董延昭<br />
 						联系方式：12345678901

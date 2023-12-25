@@ -18,34 +18,37 @@
 	overflow: auto;
 	/* 设置溢出时显示滚动条 */
 }
+
 .my-friends::-webkit-scrollbar {
-    width: 12px;
-    /* Chrome、Safari 的滚动条宽度 */
+	width: 12px;
+	/* Chrome、Safari 的滚动条宽度 */
 }
 
 .my-friends::-webkit-scrollbar-thumb {
-    background-color: transparent;
+	background-color: transparent;
 	border-radius: 20px;
-	
+
 }
 
 .my-friends::-webkit-scrollbar-track {
-    background-color: transparent; /* 将轨迹的背景色设为透明 */
+	background-color: transparent;
+	/* 将轨迹的背景色设为透明 */
 }
 
 .my-friends:hover::-webkit-scrollbar-thumb {
-    background-color: #888; /* 鼠标悬停时显示滑块 */
+	background-color: #888;
+	/* 鼠标悬停时显示滑块 */
 }
 
 
 .my-friends .friend-title {
 	font-size: 22px;
 	padding-left: 30px;
-	padding-top: 20px;
 }
 
 .friends-content {
 	display: flex;
+	cursor: pointer;
 	margin-top: 20px;
 }
 
@@ -60,6 +63,13 @@
 	margin-left: 35px;
 	font-size: 30px;
 	padding-top: 12px;
+	width: 250px;
+	white-space: nowrap;
+	/* 防止文本换行 */
+	overflow: hidden;
+	/* 隐藏超出块宽的部分 */
+	text-overflow: ellipsis;
+	/* 显示省略号 */
 }
 
 .foot {

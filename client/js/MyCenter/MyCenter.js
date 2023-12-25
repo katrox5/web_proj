@@ -1,8 +1,8 @@
-const url_prefix ='http://172.29.18.101:25565/'
+// const url_prefix ='http://172.29.18.101:25565/'
 const default_headpic_url ='../../img/media/avatar/default_avatar.png'
 
 
-var AllUsers, AllComments, AllMyFollow, AllMyFans;	//都是row + content
+var AllUsers, AllComments, AllMyFollow, AllMyFans, AllBigCommentPic;	//都是row + content
 var comment_id=0, author_id=0;
 const Idx_user_id_byAllUsers= 0, Idx_username = 1, Idx_nickname = 2, Idx_signatrue = 3, Idx_headpic_url = 4; //getAllUsers 
 const Idx_comment_id = 0, Idx_user_id = 1, Idx_content = 2, Idx_time = 3, Idx_father_comment = 4, Idx_num_like = 5, Idx_num_reply = 6;// getAllComments
@@ -25,13 +25,13 @@ var userId; //当前用户 和 当前帖子
 var target_comment_id, target_user_id;
 window.addEventListener('load', function(){
 	// 获取 id 的值
-	localStorage.setItem("id", "0");
+	// localStorage.setItem("id", "0");
 	userId = localStorage.getItem("id");
 	// alert(userId);
 	
 	var urlParams = new URLSearchParams(window.location.search);
 	// 通过comment_id点进来
-	comment_id = urlParams.get('commentid');
+	author_id = urlParams.get('userid');
 	//console.log(comment_id + " ??1");
 	
 })
@@ -63,14 +63,14 @@ window.addEventListener('load', function(){
 			
 			// 根据帖子id处理
 			commentnum = AllComments.row;
-			for(var i = 0; i < commentnum; i ++ ){
-				if(AllComments.content[i][Idx_comment_id] == comment_id){
-					Comment = AllComments.content[i];
-				}
-			}
+			// for(var i = 0; i < commentnum; i ++ ){
+			// 	if(AllComments.content[i][Idx_comment_id] == comment_id){
+			// 		Comment = AllComments.content[i];
+			// 	}
+			// }
 			
 			// 当前页面的作者
-			author_id = Comment[Idx_user_id];
+			//author_id = Comment[Idx_user_id];
 			
 			//console.log(comment_id + " ??2");
 			
@@ -135,8 +135,63 @@ function display_information(){
 	nameElement.textContent = nickname;
 	
 	// 修改头像
-	headpicElement = document.querySelector('.headpic');
+	var headpicElement = document.querySelector('.headpic');
 	headpicElement.src = headpic;
+	
+	// -------------------------------------关注按钮----------------------------------------
+	var buttonElement = document.querySelector('.follow-button');
+	if(AllMyFans.content.includes(Number(userId))){
+		buttonElement.classList.replace('follow-button', 'following-button');
+		buttonElement.textContent = '已关注';
+	}
+	
+	buttonElement.addEventListener('click', function() {
+		// 增加关注
+		if (buttonElement.classList.contains('follow-button')) {
+			alert("已关注" + nickname);
+			buttonElement.classList.replace('follow-button', 'following-button');
+			buttonElement.textContent = '已关注';
+			
+			const xhr = new XMLHttpRequest();
+			xhr.open('post', url_prefix +'addSubscribe');       
+			xhr.setRequestHeader('Content-Type', 'application/json');    
+			xhr.onload = function() {
+				if (xhr.status === 200) {           
+					let obj = JSON.parse(xhr.responseText);   
+					//location.reload()
+				}
+			};
+			const data = {
+				user_a : userId,
+				user_b : author_id
+			}
+			xhr.send(JSON.stringify(data));  		
+		}
+		
+		// 取消关注
+		else{
+			alert("已取消关注" + nickname);
+			buttonElement.classList.replace('following-button', 'follow-button');
+			buttonElement.textContent = '关注';
+			
+			const xhr = new XMLHttpRequest();
+			xhr.open('post', url_prefix +'revokeSubscribe');       
+			xhr.setRequestHeader('Content-Type', 'application/json');    
+			xhr.onload = function() {
+				if (xhr.status === 200) {           
+					let obj = JSON.parse(xhr.responseText);   
+					//location.reload()
+				}
+			};
+			const data = {
+				user_a : userId,
+				user_b : author_id
+			}
+			xhr.send(JSON.stringify(data));  
+		}
+	});
+	
+	// -------------------------------------关注按钮----------------------------------------
 	
 	
 	// 修改关注数
@@ -158,6 +213,10 @@ function display_information(){
 	likeElement.textContent = need_num;
 }
 
+function getBigCommentPic(){
+	AllBigCommentPic = [["../../img/dyz_main/logo/小米.jpg", "../../img/dyz_main/logo/小米.jpg"], [],[]];
+}
+
 function display_comment(){
 	Comment_to_display = [];
 	for(var i = 0; i < commentnum; i ++ ){
@@ -165,6 +224,10 @@ function display_comment(){
 		if(now_Comment[Idx_user_id] == author_id && now_Comment[Idx_father_comment] == -1)
 			Comment_to_display.push(now_Comment);
 	}
+	
+	
+	getBigCommentPic();
+	
 	
 	// 将父容器添加到DOM中的适当位置
 	var parentElement = document.getElementById("total-contents");
@@ -246,12 +309,11 @@ function display_comment(){
 		imgListDiv.classList.add("img-list");
 
 		// 创建并添加图片到图片列表
-		for (var j = 0; j < 8; j++) {
-		  var imgSrc = "../../img/dyz_main/logo/小米.jpg";
-		  var img = document.createElement("img");
-		  img.setAttribute("src", imgSrc);
-		  img.setAttribute("alt", "");
-		  imgListDiv.appendChild(img);
+		for(var j = 0; j < AllBigCommentPic[now_Comment[Idx_comment_id]].length; j ++ ){
+			var imgSrc = AllBigCommentPic[now_Comment[Idx_comment_id]][j];
+			var img = document.createElement("img");
+			img.setAttribute("src", imgSrc);
+			imgListDiv.appendChild(img);
 		}
 
 		// 将图片列表添加到父容器
@@ -268,21 +330,27 @@ function display_comment(){
 
 		// 创建点赞图标
 		var likeIconImg = document.createElement("img");
-		likeIconImg.setAttribute("src", "../../img/dyz_main/like.png");
-		likeIconImg.setAttribute("alt", "");
+		var key = userId + "_" + now_Comment[Idx_comment_id];
+		var value = localStorage.getItem(key);
+		if(value == null) likeIconImg.setAttribute("src", "../../img/comment/like.png");
+		else likeIconImg.setAttribute("src", "../../img/comment/liked.png");
+	
 
 		// 创建点赞数量
 		var likeCountSpan = document.createElement("span");
-		likeCountSpan.textContent = "12 ";
+		likeCountSpan.textContent = now_Comment[Idx_num_like];
+
+
+
 
 		// 创建回复图标
 		var replyIconImg = document.createElement("img");
-		replyIconImg.setAttribute("src", "../../img/dyz_main/reply.png");
+		replyIconImg.setAttribute("src", "../../img/comment/chat.png");
 		replyIconImg.setAttribute("alt", "");
 
 		// 创建回复数量
 		var replyCountSpan = document.createElement("span");
-		replyCountSpan.textContent = "13";
+		replyCountSpan.textContent = now_Comment[Idx_num_reply];
 
 		// 将所有元素添加到点赞区域
 		likeDiv.appendChild(dateDiv);

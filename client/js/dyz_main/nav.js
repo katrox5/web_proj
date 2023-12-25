@@ -11,5 +11,5 @@ function logoout(){
 	closeModal();
 	localStorage.setItem('id',-1);
 	localStorage.setItem('autolog', false);
-	
+	window.location.assign("../dyz_main/main.html");
 }

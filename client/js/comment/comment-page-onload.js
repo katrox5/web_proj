@@ -1,8 +1,9 @@
-const url_prefix ='http://172.29.18.101:25565/'
 const default_headpic_url ='../../img/media/avatar/default_avatar.png'
 
 
-var AllUsers, AllComments, UserFollow, UserFans ;	//都是row + content
+var AllUsers, AllComments, UserFollow, UserFans, Bottom_Comment;	//都是row + content
+var AllCommentsPic = []; //二维数组, 按顺序
+
 var comment_id=0, author_id=0;
 const Idx_user_id_byAllUsers= 0, Idx_username = 1, Idx_nickname = 2, Idx_signatrue = 3, Idx_headpic_url = 4; //getAllUsers 
 const Idx_comment_id = 0, Idx_user_id = 1, Idx_content = 2, Idx_time = 3, Idx_father_comment = 4, Idx_num_like = 5, Idx_num_reply = 6;// getAllComments
@@ -18,9 +19,7 @@ var headpic;
 var usernum, commentnum;
 var comment_time;
 var comment_num_reply;
-
-
-var Bottom_Comment;
+var comment_num_like;
 
 var userId; //当前用户 和 当前帖子
 var target_comment_id, target_user_id;
@@ -29,7 +28,7 @@ var top_comment_id;
 
 window.addEventListener('load', function(){
 	// 获取 id 的值
-	localStorage.setItem("id", "0");
+	// localStorage.setItem("id", "0");
 	userId = localStorage.getItem("id");
 	
 	
@@ -96,8 +95,11 @@ window.addEventListener('load', function(){
 							
 							xhr4.onload = function() {
 								if (xhr4.status === 200) {           
-									UserFans = JSON.parse(xhr4.responseText);   
-									start_onload();
+									UserFans = JSON.parse(xhr4.responseText);  
+									 
+									 console.log("myfans:");
+									 console.log(UserFans);
+									start_onload1();
 								}
 							};
 							xhr4.send(JSON.stringify({user_id : author_id}));      
@@ -131,14 +133,64 @@ window.addEventListener('load', function(){
 	
 })
 
-function start_onload(){
-	console.log("Comment!!" + Comment);
-	console.log("Author!!" + Author);
+function getallcommentpic(now_idx){
+	//console.log("idx " + now_idx + " " + AllComments.content[now_idx][Idx_comment_id]);
+	const xhr = new XMLHttpRequest();
+	xhr.open('post', url_prefix +'getCommentImgByCommentId');       
+	xhr.setRequestHeader('Content-Type', 'application/json');    
+	xhr.onload = function() {
+		if (xhr.status === 200) {           
+			let obj = JSON.parse(xhr.responseText);   
+			// AllCommentsPic.push(obj.content[])
+			// console.log("图片");
+			// console.log(obj);
+			
+			// var nowcommentpic = obj.content;
+			// var t_nowcommentpic = [];
+			// console.log("now comment " + AllComments.content[now_idx][Idx_comment_id]);
+			for (var i = 0; i < obj.row; i++) {
+				console.log(obj.content[i][1] + " ??");
+				// t_nowcommentpic.push(nowcommentpic[i][1]);
+				
+				AllCommentsPic[AllComments.content[now_idx][0]][i] = (obj.content[i][1]);
+				
+			}
+			
+			
+			// AllCommentsPic[AllComments.content[now_idx][Idx_comment_id]] = t_nowcommentpic;
+			
+			if(now_idx + 1 < commentnum){
+				getallcommentpic(now_idx + 1);
+			}
+			
+		}
+	};
+	const data = {
+		comment_id : AllComments.content[now_idx][0]
+	}
+	
+	xhr.send(JSON.stringify(data));  	
+}
+
+function start_onload1(){
+	console.log("long : " + 1000);
+	for(var i = 0; i < 1000; i ++ ){
+		var x = [];
+		AllCommentsPic[i] = x;
+	}
+	getallcommentpic(0);
+	
+	setTimeout (start_onload2, 5000);
+}
+
+
+function start_onload2(){
+	console.log(AllCommentsPic);
 	
 	comment_time = Comment[Idx_time];
 	comment_num_reply = Comment[Idx_num_reply];
 	comment_content = Comment[Idx_content];
-	
+	comment_num_like = Comment[Idx_num_like];
 	
 	username = Author[Idx_username]
 	nickname = Author[Idx_nickname];
@@ -166,7 +218,7 @@ function start_onload(){
 	const data = {
 		comment_id : comment_id
 	}
-	xhr3.send(JSON.stringify(data));            
+	xhr3.send(JSON.stringify(data)); 
 }
 
 // 帖子的主要内容
@@ -199,7 +251,7 @@ function maincontent_onload() {
 
 	var target_page = '../MyCenter/MyCenter.html';
 	if(author_id == userId) target_page = '../MyCenter/MyMainCenter.html';
-	authorIconWrapDiv.setAttribute('onclick', "window.open('" + target_page + "?commentid=" + comment_id + "'); return false;");
+	authorIconWrapDiv.setAttribute('onclick', "window.open('" + target_page + "?userid=" + author_id + "'); return false;");
 			
 			
 			
@@ -233,13 +285,75 @@ function maincontent_onload() {
 	authorInfoDiv.appendChild(authorInfoBottomDiv);
 	authorLeftDiv.appendChild(authorInfoDiv);
 	authorDiv.appendChild(authorLeftDiv);
-
+	
+  //---------------------------------------关注板块------------------------------
 	// 创建关注部分
 	var followDiv = document.createElement('div');
-	followDiv.className = 'follow';
-	followDiv.textContent = '关注';
+	followDiv.setAttribute('role', 'button');
+	// 当前用户是否已经关注了该贴主
+	// console.log("userId" + userId);
+	if(UserFans.content.includes(Number(userId))){
+		// console.log('已关注');
+		followDiv.className = 'following';
+		followDiv.textContent = '已关注';
+	}	
+	else{
+		// console.log('未关注');
+		followDiv.className = 'follow';	
+		followDiv.textContent = '关注';
+	}
+
+	followDiv.addEventListener('click', function() {
+		// 增加关注
+		if (followDiv.classList.contains('follow')) {
+			alert("已关注" + nickname);
+			followDiv.classList.replace('follow', 'following');
+			followDiv.textContent = '已关注';
+			
+			const xhr = new XMLHttpRequest();
+			xhr.open('post', url_prefix +'addSubscribe');       
+			xhr.setRequestHeader('Content-Type', 'application/json');    
+			xhr.onload = function() {
+				if (xhr.status === 200) {           
+					let obj = JSON.parse(xhr.responseText);   
+					//location.reload()
+				}
+			};
+			const data = {
+				user_a : userId,
+				user_b : author_id
+			}
+			xhr.send(JSON.stringify(data));  		
+		}
+		// 取消关注
+		else{
+			alert("已取消关注" + nickname);
+			followDiv.classList.replace('following', 'follow');
+			followDiv.textContent = '关注';
+			
+			const xhr = new XMLHttpRequest();
+			xhr.open('post', url_prefix +'revokeSubscribe');       
+			xhr.setRequestHeader('Content-Type', 'application/json');    
+			xhr.onload = function() {
+				if (xhr.status === 200) {           
+					let obj = JSON.parse(xhr.responseText);   
+					//location.reload()
+				}
+			};
+			const data = {
+				user_a : userId,
+				user_b : author_id
+			}
+			xhr.send(JSON.stringify(data));  
+		}
+	});
+	
+   //---------------------------------------关注板块------------------------------ 	
+   
+   
+   
 	authorDiv.appendChild(followDiv);
-  
+
 	commentContainer.appendChild(_blankDiv);
 	commentContainer.appendChild(authorDiv);
 
@@ -262,18 +376,19 @@ function maincontent_onload() {
 	imgListContainerDiv.appendChild(emptyDiv1);
 
 	var imgListDiv = document.createElement('div');
-	imgListDiv.className = 'imglist';
+	imgListDiv.className = 'img-list';
 
-	var imgListWrapperDiv = document.createElement('div');
-	imgListWrapperDiv.className = 'imglist-wrapper';
+	
+		for(var k = 0; k < AllCommentsPic[comment_id].length; k ++ ){
+			var imgElement = document.createElement('img');
+			imgElement.src = AllCommentsPic[comment_id][k];
+			imgListDiv.appendChild(imgElement);
+		}
 
-	var imgElement = document.createElement('img');
-	imgElement.className = 'imglist-img';
-	imgElement.src = '../../img/comment/headpic.webp';
 
-	imgListWrapperDiv.appendChild(imgElement);
-	imgListDiv.appendChild(imgListWrapperDiv);
 	imgListContainerDiv.appendChild(imgListDiv);
+
+
 
 	var emptyDiv2 = document.createElement('div');
 	imgListContainerDiv.appendChild(emptyDiv2);
@@ -287,7 +402,7 @@ function maincontent_onload() {
 	container.appendChild(commentContainer);
 	
 	
-	// 底下固定栏
+	// -------------------------------------底下固定栏-------------------------------------
 	var replyWordContainer = document.querySelector('.a-fixed-bottom-left');
 
 	replyWordContainer.addEventListener('click', function() {
@@ -298,6 +413,86 @@ function maincontent_onload() {
 		textarea.placeholder = "说一说你的想法~";
 		commentModal.style.display = 'block';
 	});
+	
+	
+	// 获取元素并修改数字
+	var shoucangNumElement = document.querySelector('#bottom_shoucang');
+	var chatNumElement = document.querySelector('#bottom_chat');
+	var likeNumElement = document.querySelector('#bottom_like');
+
+	// 更新元素的文本内容
+	shoucangNumElement.textContent = "收藏";
+	chatNumElement.textContent = comment_num_reply;
+	likeNumElement.textContent = comment_num_like;
+	
+	
+	// -------------------- 点赞逻辑处理 ---------------------------------
+	var likeImgElement = document.querySelector('#bottom_like_img');
+	likeImgElement.setAttribute('src', '../../img/comment/like.png');
+	
+	var likedImgElement = document.querySelector('#bottom_liked_img');
+	likedImgElement.setAttribute('src', '../../img/comment/liked.png');
+	
+	var key = userId + "_" + comment_id;
+	var value = localStorage.getItem(key);
+	// console.log("val: " + value);
+	if(value == null){
+		likeImgElement.style.display = '';
+		likedImgElement.style.display = 'none'; 
+	}
+	else{
+		likeImgElement.style.display = 'none';
+		likedImgElement.style.display = '';		
+	}
+	
+	likeImgElement.addEventListener('click', function() {
+		var key = userId + "_" + comment_id;
+		var value = localStorage.getItem(key);
+		likeImgElement.style.display = 'none';
+		likedImgElement.style.display = ''; 
+			
+		localStorage.setItem(key, 1);
+		const xhr = new XMLHttpRequest();
+		xhr.open('post', url_prefix +'addLike');       
+		xhr.setRequestHeader('Content-Type', 'application/json');    
+		xhr.onload = function() {
+			if (xhr.status === 200) {           
+				let obj = JSON.parse(xhr.responseText);   
+				//location.reload()
+			}
+		};
+		const data = {
+			comment_id : comment_id,
+		}
+		xhr.send(JSON.stringify(data));  	
+		
+	});
+	
+	likedImgElement.addEventListener('click', function() {
+		var key = userId + "_" + comment_id;
+		var value = localStorage.getItem(key);
+
+		likeImgElement.style.display = '';
+		likedImgElement.style.display = 'none';	
+		
+		localStorage.removeItem(key);
+		const xhr = new XMLHttpRequest();
+		xhr.open('post', url_prefix +'subLike');       
+		xhr.setRequestHeader('Content-Type', 'application/json');    
+		xhr.onload = function() {
+			if (xhr.status === 200) {           
+				let obj = JSON.parse(xhr.responseText);   
+				//location.reload()
+			}
+		};
+		const data = {
+			comment_id : comment_id,
+		}
+		xhr.send(JSON.stringify(data));  
+	});
+	
+	// -------------------------------------底下固定栏-------------------------------------
+	
 	
 	
 	// 回复评论按钮
@@ -367,14 +562,28 @@ function maincontent_onload() {
 	var replyWordButtons = document.querySelectorAll('.topCommentBtn');
 	replyWordButtons.forEach(function(button) {
 		button.addEventListener('click', function() {
-			var confirmation = confirm("你确定要置顶这条评论吗");
-			if (confirmation) {
-				localStorage.setItem(comment_id, target_comment_id);
-				location.reload();
-			} else {
-				promptModal.style.display = 'none';
-				promptModal2.style.display = 'none';
-				commentModal.style.display = 'none';
+			if(top_comment_id == target_comment_id){
+				var confirmation = confirm("你确定要取消这条评论的置顶吗");
+				if (confirmation) {
+					localStorage.removeItem(comment_id);
+					location.reload();
+				} else {
+					promptModal.style.display = 'none';
+					promptModal2.style.display = 'none';
+					commentModal.style.display = 'none';
+				}
+			}
+			
+			else{
+				var confirmation = confirm("你确定要置顶这条评论吗");
+				if (confirmation) {
+					localStorage.setItem(comment_id, target_comment_id);
+					location.reload();
+				} else {
+					promptModal.style.display = 'none';
+					promptModal2.style.display = 'none';
+					commentModal.style.display = 'none';
+				}
 			}
 
 		});
@@ -398,7 +607,7 @@ function authorinfo_onload() {
 
 	  var target_page = '../MyCenter/MyCenter.html';
 	  if(author_id == userId) target_page = '../MyCenter/MyMainCenter.html';
-	  userCardDiv.setAttribute('onclick', "window.open('" + target_page + "?commentid=" + comment_id + "'); return false;");
+	  userCardDiv.setAttribute('onclick', "window.open('" + target_page + "?userid=" + author_id + "'); return false;");
 			
 
 
@@ -568,11 +777,11 @@ function bottom_comment() {
 		
 		var target_page = '../MyCenter/MyCenter.html';
 		if(now_Comment[Idx_user_id_bottom] == userId) target_page = '../MyCenter/MyMainCenter.html';
-		replyHeaderImgContainerDiv.setAttribute('onclick', "window.open('" + target_page + "?commentid=" + now_Comment[Idx_comment_id_bottom] + "'); return false;");
+		replyHeaderImgContainerDiv.setAttribute('onclick', "window.open('" + target_page + "?userid=" + now_Comment[Idx_user_id_bottom] + "'); return false;");
 		  
 		  
-		// 通过评论id找作者nickname和头像
-		var need_nickname, need_headpic;
+		// 通过评论id找作者nickname和头像和userid
+		var need_nickname, need_headpic, need_userid;
 		
 		for(var k = 0; k < usernum; k ++ ){
 			if(AllUsers.content[k][Idx_user_id_byAllUsers] == now_Comment[Idx_user_id_bottom]){
@@ -582,6 +791,7 @@ function bottom_comment() {
 			}
 		}
 		
+
 		
 		var replyHeaderImgWrapperDiv = document.createElement('div');
 		replyHeaderImgWrapperDiv.className = 'reply-header-img-wrapper';
@@ -666,6 +876,18 @@ function bottom_comment() {
 		replyWordContainerDiv.appendChild(replyWordSpan);
 		replyInnerContentDiv.appendChild(replyWordContainerDiv);
 
+
+		var imgListDiv = document.createElement('div');
+		imgListDiv.className = 'img-list';
+
+			for(var k = 0; k < AllCommentsPic[now_Comment[Idx_comment_id_bottom]].length; k ++ ){
+				var imgElement = document.createElement('img');
+				imgElement.src = AllCommentsPic[comment_id][k];
+				imgListDiv.appendChild(imgElement);
+			}
+
+		replyInnerContentDiv.appendChild(imgListDiv);
+
 		// 创建帖子的信息
 		var replyInfoContainerDiv = document.createElement('div');
 		replyInfoContainerDiv.className = 'reply-info-containner';
@@ -680,14 +902,107 @@ function bottom_comment() {
 		var replyLikeNumDiv = document.createElement('div');
 		replyLikeNumDiv.className = 'reply-likenum';
 		replyLikeNumDiv.textContent = now_Comment[Idx_num_like_bottom];
-		  
+		// console.log("评论：");
+		// console.log(now_Comment);
+		// console.log(now_Comment[Idx_comment_id_bottom]);
+		
+		
+		
+		// ---------------------------- 点赞-------------------------------
 		var replyLikeImg = document.createElement('img');
 		replyLikeImg.className = 'reply-like-img';
-		replyLikeImg.src = '../../img/comment/like.png';
-		  
+		replyLikeImg.setAttribute("comment_id", now_Comment[Idx_comment_id_bottom] + "like");
+		replyLikeImg.setAttribute('src', '../../img/comment/like.png');
+		
+		
+		
+		var replyLikedImg = document.createElement('img');
+		replyLikedImg.className = 'reply-like-img';
+		replyLikedImg.setAttribute("comment_id", now_Comment[Idx_comment_id_bottom] + "liked");
+		replyLikedImg.setAttribute('src', '../../img/comment/liked.png');
+
+		var key = userId + "_" + now_Comment[Idx_comment_id_bottom];
+		var value = localStorage.getItem(key);	
+
+		if(value == null){
+			replyLikeImg.style.display = '';
+			replyLikedImg.style.display ='none';
+		}
+		else{
+			replyLikeImg.style.display = 'none';
+			replyLikedImg.style.display = '';			
+		}
+
+		replyLikeImg.addEventListener('click', function() {
+			var comment_id = this.getAttribute("comment_id");
+			comment_id = comment_id.slice(0, comment_id.length - 4);
+			var key = userId + "_" + comment_id;
+			var value = localStorage.getItem(key);
+
+			
+			localStorage.setItem(key, 1);
+			this.style.display = 'none';
+			
+			var need = comment_id + "liked";
+			var targetElement = document.querySelector('img.reply-like-img[comment_id="' + need + '"]');
+			console.log(targetElement);
+			targetElement.style.display = '';	
+			
+			
+			const xhr = new XMLHttpRequest();
+			xhr.open('post', url_prefix +'addLike');       
+			xhr.setRequestHeader('Content-Type', 'application/json');    
+			xhr.onload = function() {
+				if (xhr.status === 200) {           
+					let obj = JSON.parse(xhr.responseText);   
+					//location.reload()
+				}
+			};
+			const data = {
+				comment_id : comment_id
+			}
+			xhr.send(JSON.stringify(data));  
+					
+		});
+		
+		
+		replyLikedImg.addEventListener('click', function() {
+			var comment_id = this.getAttribute("comment_id");
+			comment_id = comment_id.slice(0, comment_id.length - 5);
+			
+			var key = userId + "_" + comment_id;
+			var value = localStorage.getItem(key);
+			
+			localStorage.removeItem(key);
+			
+			this.style.display = 'none';
+			var need = comment_id + "like";
+			var targetElement = document.querySelector('img.reply-like-img[comment_id="' + need + '"]');
+			console.log(targetElement);
+			targetElement.style.display = '';
+			
+			const xhr = new XMLHttpRequest();
+			xhr.open('post', url_prefix +'subLike');       
+			xhr.setRequestHeader('Content-Type', 'application/json');    
+			xhr.onload = function() {
+				if (xhr.status === 200) {           
+					let obj = JSON.parse(xhr.responseText);   
+					//location.reload()
+				}
+			};
+			const data = {
+				comment_id : comment_id
+			}
+			xhr.send(JSON.stringify(data));  				
+		});	
+		
+		// ---------------------------- 点赞-------------------------------	
+			
+			
 		replyLikeContainerDiv.appendChild(replyLikeNumDiv);
 		replyLikeContainerDiv.appendChild(replyLikeImg);
-		  
+		replyLikeContainerDiv.appendChild(replyLikedImg);
+		
 		replyInfoContainerDiv.appendChild(replyShowtimeDiv);
 		replyInfoContainerDiv.appendChild(replyLikeContainerDiv);
 		  
@@ -716,7 +1031,7 @@ function bottom_comment() {
 				AllSubComment.sort(function(a, b) {
 					var timeA = Date.parse(a[3]);
 				    var timeB = Date.parse(b[3]);
-				    return timeB - timeA;
+				    return timeA - timeB;
 				});
 				  
 				  
@@ -743,7 +1058,7 @@ function bottom_comment() {
 
 					var target_page = '../MyCenter/MyCenter.html';
 					if(now_SubComment[Idx_user_id] == userId) target_page = '../MyCenter/MyMainCenter.html';
-					subReplyHeaderImgContainerDiv.setAttribute('onclick', "window.open('" + target_page + "?commentid=" + now_SubComment[Idx_comment_id] + "'); return false;");
+					subReplyHeaderImgContainerDiv.setAttribute('onclick', "window.open('" + target_page + "?userid=" + now_SubComment[Idx_user_id] + "'); return false;");
 					    
 					  
 					  
@@ -825,8 +1140,19 @@ function bottom_comment() {
 				  	var subReplyWordSpan = document.createElement('span');
 				  	subReplyWordSpan.textContent = now_SubComment[Idx_content];
 
+								
+					var subimgListDiv = document.createElement('div');
+					imgListDiv.className = 'img-list';
 					
+						for(var k = 0; k < AllCommentsPic[now_SubComment[Idx_comment_id]].length; k ++ ){
+							var imgElement = document.createElement('img');
+							imgElement.src = AllCommentsPic[comment_id][k];
+							imgListDiv.appendChild(imgElement);
+						}
+
+
 				  	subReplyWordContainerDiv.appendChild(subReplyWordSpan);
+					subReplyWordContainerDiv.appendChild(subimgListDiv);
 				  	subReplyDiv.appendChild(subReplyWordContainerDiv);
 				  	
 				  	// 创建子回复信息
@@ -844,13 +1170,102 @@ function bottom_comment() {
 				  	subReplyLikeNumDiv.className = 'reply-likenum';
 				  	subReplyLikeNumDiv.textContent = now_SubComment[Idx_num_like];
 				  	
-				  	var subReplyLikeImg = document.createElement('img');
-				  	subReplyLikeImg.className = 'reply-like-img';
-				  	subReplyLikeImg.src = '../../img/comment/like.png';
-				  	
+					// ---------------------------- 点赞-------------------------------
+					var subReplyLikeImg = document.createElement('img');
+					subReplyLikeImg.className = 'reply-like-img';
+					subReplyLikeImg.setAttribute("comment_id", now_SubComment[Idx_comment_id] + "like");
+					subReplyLikeImg.setAttribute('src', '../../img/comment/like.png');
+					
+					
+					
+					var subReplyLikedImg = document.createElement('img');
+					subReplyLikedImg.className = 'reply-like-img';
+					subReplyLikedImg.setAttribute("comment_id", now_SubComment[Idx_comment_id] + "liked");
+					subReplyLikedImg.setAttribute('src', '../../img/comment/liked.png');
+					
+					var key = userId + "_" + now_SubComment[Idx_comment_id]
+					var value = localStorage.getItem(key);	
+					
+					if(value == null){
+						subReplyLikeImg.style.display = '';
+						subReplyLikedImg.style.display ='none';
+					}
+					else{
+						subReplyLikeImg.style.display = 'none';
+						subReplyLikedImg.style.display = '';			
+					}
+					
+					subReplyLikeImg.addEventListener('click', function() {
+						var comment_id = this.getAttribute("comment_id");
+						comment_id = comment_id.slice(0, comment_id.length - 4);
+						var key = userId + "_" + comment_id;
+						var value = localStorage.getItem(key);
+					
+						
+						localStorage.setItem(key, 1);
+						this.style.display = 'none';
+						
+						var need = comment_id + "liked";
+						var targetElement = document.querySelector('img.reply-like-img[comment_id="' + need + '"]');
+						console.log(targetElement);
+						targetElement.style.display = '';	
+						
+						
+						const xhr = new XMLHttpRequest();
+						xhr.open('post', url_prefix +'addLike');       
+						xhr.setRequestHeader('Content-Type', 'application/json');    
+						xhr.onload = function() {
+							if (xhr.status === 200) {           
+								let obj = JSON.parse(xhr.responseText);   
+								//location.reload()
+							}
+						};
+						const data = {
+							comment_id : comment_id
+						}
+						xhr.send(JSON.stringify(data));  
+								
+					});
+					
+					
+					subReplyLikedImg.addEventListener('click', function() {
+						var comment_id = this.getAttribute("comment_id");
+						comment_id = comment_id.slice(0, comment_id.length - 5);
+						
+						var key = userId + "_" + comment_id;
+						var value = localStorage.getItem(key);
+						
+						localStorage.removeItem(key);
+						
+						this.style.display = 'none';
+						var need = comment_id + "like";
+						var targetElement = document.querySelector('img.reply-like-img[comment_id="' + need + '"]');
+						console.log(targetElement);
+						targetElement.style.display = '';
+						
+						const xhr = new XMLHttpRequest();
+						xhr.open('post', url_prefix +'subLike');       
+						xhr.setRequestHeader('Content-Type', 'application/json');    
+						xhr.onload = function() {
+							if (xhr.status === 200) {           
+								let obj = JSON.parse(xhr.responseText);   
+								//location.reload()
+							}
+						};
+						const data = {
+							comment_id : comment_id
+						}
+						xhr.send(JSON.stringify(data));  				
+					});	
+					
+					// ---------------------------- 点赞-------------------------------
+					
+
+					
 				  	subReplyLikeContainerDiv.appendChild(subReplyLikeNumDiv);
 				  	subReplyLikeContainerDiv.appendChild(subReplyLikeImg);
-				  	
+				  	subReplyLikeContainerDiv.appendChild(subReplyLikedImg);
+					
 				  	subReplyInfoContainerDiv.appendChild(subReplyShowtimeDiv);
 				  	subReplyInfoContainerDiv.appendChild(subReplyLikeContainerDiv);
 				  	
