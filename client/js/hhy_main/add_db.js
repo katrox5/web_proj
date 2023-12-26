@@ -4,9 +4,11 @@ var all_img_url;
 
 
 function add_to_db(){
-    const text = document.getElementById("question-text").value;
+   
 
-    if (text.length === 0) {
+    const text = document.getElementById("question-text").value;
+    
+    if (text.length === 0 && saveImgs().length == 0) {
         new Message().show(
         {
             type:'error',
@@ -15,16 +17,6 @@ function add_to_db(){
             closeable:true
         });
         console.log("为空");
-        return;
-    } 
-    if (text.length < 5) {
-        new Message().show(
-        {
-            type:'error',
-            text:'问题字数太少（大于5个字）',
-            duration:1500,
-            closeable:true
-        });
         return;
     } 
     if (text.length > 1000) {
@@ -42,6 +34,9 @@ function add_to_db(){
 
     // 通过验证，调用添加问题的函数
     add_text_request(useID,text,father_comment);
+   
+    ////////////////////////////////////////////////////
+    //添加到元素
 }
 
 function add_text_request(useID,text_content,father_comment){
@@ -53,6 +48,7 @@ function add_text_request(useID,text_content,father_comment){
             let obj = JSON.parse(xhr.responseText);
             var comment_id=obj.content;
             console.log(obj.content);
+            console.log(useID);
             add_img(obj.content,saveImgs(),0);
         }
     };
@@ -66,8 +62,24 @@ function add_text_request(useID,text_content,father_comment){
 }
 
 function add_img(comment_id,img_url,img_order){
-    if(img_order>=img_url.length)
-    return;
+    if(img_order>=img_url.length){
+         // //  清空显示和库
+    var loc_text = localStorage.getItem('drafttext');
+    var loc_img = JSON.parse(localStorage.getItem("draftimage"));
+    var area = document.getElementById('question-text');
+    area.value = "";//清空显示
+    const list = $('image-preview-container');
+
+    localStorage.removeItem('drafttext');//清空本地库
+    localStorage.removeItem('draftimage'); 
+
+    while (list.firstChild) {
+        list.removeChild(list.firstChild);
+    }
+    location.reload();
+       return; 
+    }
+    
     //图片
     const xhr1 = new XMLHttpRequest();
     xhr1.open('post', url_prefix + 'addCommentImg');     //帖子添加
@@ -101,7 +113,7 @@ function saveImgs() {//保存
     const items = list.childNodes;
     console.log(items);
     let queue = [];
-    for (var i = 3; i < items.length; i++) {
+    for (var i = 0; i < items.length; i++) {
             var url = media_path + 'question/' + items[i].classList[1];
             queue.push([url]);
         }
