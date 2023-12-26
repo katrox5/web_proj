@@ -16,7 +16,6 @@ function add_to_db(){
             duration:1500,
             closeable:true
         });
-        console.log("为空");
         return;
     } 
     if (text.length > 1000) {

@@ -101,6 +101,17 @@ function saveImgsdraft() {//保存
     //request4AddUserImg(queue);
 }
 
+//保存草稿
+function save_draft(){
+
+    var image =  saveImgs();
+    var text = document.getElementById('question-text').value;
+    localStorage.setItem("drafttext",text);
+    // 存储数组
+    localStorage.setItem("draftimage", JSON.stringify(image));
+}
+
+
 
 function uploadPicture() {// 预览
     $('image-upload').addEventListener('change', function() {
