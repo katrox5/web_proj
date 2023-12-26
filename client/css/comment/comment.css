@@ -6,15 +6,16 @@
 	display: flex;
 	justify-content: center;
 }
-#top-span{
-	background: url('../../img/comment/nav.jpg') no-repeat left top;
-	width: 65px;
-	height: 65px;
-	position: fixed;
-	right:35px;
-	bottom:35px;
-	display: none;
-	cursor: pointer;
+#top-span {
+    background: url('../../img/comment/nav.png') no-repeat left top;
+    width: 65px;
+    height: 65px;
+    position: fixed;
+    right: 35px;
+    bottom: 35px;
+    display: none;
+    cursor: pointer;
+    background-size: contain;
 }
 
 /* 左侧 */

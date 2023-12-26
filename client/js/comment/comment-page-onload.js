@@ -30,10 +30,7 @@ window.addEventListener('load', function(){
 	// 获取 id 的值
 	// localStorage.setItem("id", "0");
 	userId = localStorage.getItem("id");
-	
-	
 
-	
 	var urlParams = new URLSearchParams(window.location.search);
 	comment_id = urlParams.get('commentid');
 	
@@ -65,7 +62,7 @@ window.addEventListener('load', function(){
 		if (xhr1.status === 200) {            // 状态码200，表示成功
 			AllComments = JSON.parse(xhr1.responseText);   // xhr.responseText为返回结果
 			console.log(AllComments)
-			
+			AllCommentsPic = AllComments.image;
 			// 根据帖子id处理
 			commentnum = AllComments.row;
 			for(var i = 0; i < commentnum; i ++ ){
@@ -133,60 +130,10 @@ window.addEventListener('load', function(){
 	
 })
 
-function getallcommentpic(now_idx){
-	//console.log("idx " + now_idx + " " + AllComments.content[now_idx][Idx_comment_id]);
-	const xhr = new XMLHttpRequest();
-	xhr.open('post', url_prefix +'getCommentImgByCommentId');       
-	xhr.setRequestHeader('Content-Type', 'application/json');    
-	xhr.onload = function() {
-		if (xhr.status === 200) {           
-			let obj = JSON.parse(xhr.responseText);   
-			// AllCommentsPic.push(obj.content[])
-			// console.log("图片");
-			// console.log(obj);
-			
-			// var nowcommentpic = obj.content;
-			// var t_nowcommentpic = [];
-			// console.log("now comment " + AllComments.content[now_idx][Idx_comment_id]);
-			for (var i = 0; i < obj.row; i++) {
-				console.log(obj.content[i][1] + " ??");
-				// t_nowcommentpic.push(nowcommentpic[i][1]);
-				
-				AllCommentsPic[AllComments.content[now_idx][0]][i] = (obj.content[i][1]);
-				
-			}
-			
-			
-			// AllCommentsPic[AllComments.content[now_idx][Idx_comment_id]] = t_nowcommentpic;
-			
-			if(now_idx + 1 < commentnum){
-				getallcommentpic(now_idx + 1);
-			}
-			
-		}
-	};
-	const data = {
-		comment_id : AllComments.content[now_idx][0]
-	}
-	
-	xhr.send(JSON.stringify(data));  	
-}
+
 
 function start_onload1(){
-	console.log("long : " + 1000);
-	for(var i = 0; i < 1000; i ++ ){
-		var x = [];
-		AllCommentsPic[i] = x;
-	}
-	getallcommentpic(0);
-	
-	setTimeout (start_onload2, 5000);
-}
 
-
-function start_onload2(){
-	console.log(AllCommentsPic);
-	
 	comment_time = Comment[Idx_time];
 	comment_num_reply = Comment[Idx_num_reply];
 	comment_content = Comment[Idx_content];
@@ -199,6 +146,9 @@ function start_onload2(){
 	if(headpic == null) headpic = default_headpic_url;
 	target_comment_id = comment_id;
 	target_user_id = author_id;
+	
+	console.log(AllCommentsPic);
+	
 	
 	maincontent_onload();
 	authorinfo_onload();
@@ -220,6 +170,8 @@ function start_onload2(){
 	}
 	xhr3.send(JSON.stringify(data)); 
 }
+
+
 
 // 帖子的主要内容
 function maincontent_onload() {
@@ -292,62 +244,84 @@ function maincontent_onload() {
 	followDiv.setAttribute('role', 'button');
 	// 当前用户是否已经关注了该贴主
 	// console.log("userId" + userId);
-	if(UserFans.content.includes(Number(userId))){
-		// console.log('已关注');
-		followDiv.className = 'following';
-		followDiv.textContent = '已关注';
-	}	
-	else{
-		// console.log('未关注');
-		followDiv.className = 'follow';	
-		followDiv.textContent = '关注';
+	
+	if(userId == author_id){
+		// followDiv.className = 'following';
+		// followDiv.textContent = '您的文章';
+	}
+	else {
+		if(UserFans.content.includes(Number(userId))){
+			// console.log('已关注');
+			followDiv.className = 'following';
+			followDiv.textContent = '已关注';
+		}	
+		else{
+			// console.log('未关注');
+			followDiv.className = 'follow';	
+			followDiv.textContent = '关注';
+		}
+		
+		followDiv.addEventListener('click', function() {
+			// 增加关注
+			if (followDiv.classList.contains('follow')) {
+				// alert("已关注" + nickname);
+				new Message().show({
+					type : "success",
+					text : "已关注" + nickname,
+					duration : 2000,
+					closeable : true
+				});
+				
+				followDiv.classList.replace('follow', 'following');
+				followDiv.textContent = '已关注';
+				
+				const xhr = new XMLHttpRequest();
+				xhr.open('post', url_prefix +'addSubscribe');       
+				xhr.setRequestHeader('Content-Type', 'application/json');    
+				xhr.onload = function() {
+					if (xhr.status === 200) {           
+						let obj = JSON.parse(xhr.responseText);   
+						//location.reload()
+					}
+				};
+				const data = {
+					user_a : userId,
+					user_b : author_id
+				}
+				xhr.send(JSON.stringify(data));  		
+			}
+			// 取消关注
+			else{
+				// alert("已取消关注" + nickname);
+				
+				new Message().show({
+					type : "success",
+					text : "已取消关注" + nickname,
+					duration : 2000,
+					closeable : true
+				});
+				
+				followDiv.classList.replace('following', 'follow');
+				followDiv.textContent = '关注';
+				
+				const xhr = new XMLHttpRequest();
+				xhr.open('post', url_prefix +'revokeSubscribe');       
+				xhr.setRequestHeader('Content-Type', 'application/json');    
+				xhr.onload = function() {
+					if (xhr.status === 200) {           
+						let obj = JSON.parse(xhr.responseText);   
+						//location.reload()
+					}
+				};
+				const data = {
+					user_a : userId,
+					user_b : author_id
+				}
+				xhr.send(JSON.stringify(data));  
+			}
+		});
 	}
 
-	followDiv.addEventListener('click', function() {
-		// 增加关注
-		if (followDiv.classList.contains('follow')) {
-			alert("已关注" + nickname);
-			followDiv.classList.replace('follow', 'following');
-			followDiv.textContent = '已关注';
-			
-			const xhr = new XMLHttpRequest();
-			xhr.open('post', url_prefix +'addSubscribe');       
-			xhr.setRequestHeader('Content-Type', 'application/json');    
-			xhr.onload = function() {
-				if (xhr.status === 200) {           
-					let obj = JSON.parse(xhr.responseText);   
-					//location.reload()
-				}
-			};
-			const data = {
-				user_a : userId,
-				user_b : author_id
-			}
-			xhr.send(JSON.stringify(data));  		
-		}
-		// 取消关注
-		else{
-			alert("已取消关注" + nickname);
-			followDiv.classList.replace('following', 'follow');
-			followDiv.textContent = '关注';
-			
-			const xhr = new XMLHttpRequest();
-			xhr.open('post', url_prefix +'revokeSubscribe');       
-			xhr.setRequestHeader('Content-Type', 'application/json');    
-			xhr.onload = function() {
-				if (xhr.status === 200) {           
-					let obj = JSON.parse(xhr.responseText);   
-					//location.reload()
-				}
-			};
-			const data = {
-				user_a : userId,
-				user_b : author_id
-			}
-			xhr.send(JSON.stringify(data));  
-		}
-	});
-	
    //---------------------------------------关注板块------------------------------ 	
    
    
@@ -379,11 +353,21 @@ function maincontent_onload() {
 	imgListDiv.className = 'img-list';
 
 	
-		for(var k = 0; k < AllCommentsPic[comment_id].length; k ++ ){
-			var imgElement = document.createElement('img');
-			imgElement.src = AllCommentsPic[comment_id][k];
-			imgListDiv.appendChild(imgElement);
+		var need_pic_idx;
+		for(var k = 0; k < commentnum; k ++ ){
+			if(AllComments.content[k][Idx_comment_id] == comment_id){
+				need_pic_idx = k;
+			}
 		}
+		
+		if(AllCommentsPic[need_pic_idx] != undefined){
+			for(var k = 0; k < AllCommentsPic[need_pic_idx].length; k ++ ){
+				var imgElement = document.createElement('img');
+				imgElement.src = AllCommentsPic[need_pic_idx][k];
+				imgListDiv.appendChild(imgElement);
+			}
+		}
+
 
 
 	imgListContainerDiv.appendChild(imgListDiv);
@@ -532,8 +516,17 @@ function maincontent_onload() {
 	var replyWordButtons = document.querySelectorAll('.deleteCommentBtn');
 	replyWordButtons.forEach(function(button) {
 		button.addEventListener('click', function() {
-			var confirmation = confirm("你确定要删除这条评论吗");
-			if (confirmation) {
+			// var confirmation = confirm("你确定要删除这条评论吗");
+			
+			new Message().show({
+				type : "success",
+				text : "已删除评论" + nickname,
+				duration : 2000,
+				closeable : true
+			});
+			
+			
+			// if (confirmation) {
 				const xhr4 = new XMLHttpRequest();
 				xhr4.open('post', url_prefix + 'deleteComment ');       
 				xhr4.setRequestHeader('Content-Type', 'application/json');    
@@ -550,11 +543,11 @@ function maincontent_onload() {
 				xhr4.send(JSON.stringify(data));    
 				
 				
-			} else {
-				promptModal.style.display = 'none';
-				promptModal2.style.display = 'none';
-				commentModal.style.display = 'none';
-			}
+			// } else {
+			// 	promptModal.style.display = 'none';
+			// 	promptModal2.style.display = 'none';
+			// 	commentModal.style.display = 'none';
+			// }
 		});
 	});
 	
@@ -563,27 +556,42 @@ function maincontent_onload() {
 	replyWordButtons.forEach(function(button) {
 		button.addEventListener('click', function() {
 			if(top_comment_id == target_comment_id){
-				var confirmation = confirm("你确定要取消这条评论的置顶吗");
-				if (confirmation) {
+				
+				// var confirmation = confirm("你确定要取消这条评论的置顶吗");
+				// if (confirmation) {
+					new Message().show({
+						type : "success",
+						text : "已取消置顶" + nickname,
+						duration : 2000,
+						closeable : true
+					});
+					
 					localStorage.removeItem(comment_id);
 					location.reload();
-				} else {
-					promptModal.style.display = 'none';
-					promptModal2.style.display = 'none';
-					commentModal.style.display = 'none';
-				}
+				// } else {
+				// 	promptModal.style.display = 'none';
+				// 	promptModal2.style.display = 'none';
+				// 	commentModal.style.display = 'none';
+				// }
 			}
 			
 			else{
-				var confirmation = confirm("你确定要置顶这条评论吗");
-				if (confirmation) {
+				// var confirmation = confirm("你确定要置顶这条评论吗");
+				// if (confirmation) {
+					
+					new Message().show({
+						type : "success",
+						text : "已置顶评论" + nickname,
+						duration : 2000,
+						closeable : true
+					});
 					localStorage.setItem(comment_id, target_comment_id);
 					location.reload();
-				} else {
-					promptModal.style.display = 'none';
-					promptModal2.style.display = 'none';
-					commentModal.style.display = 'none';
-				}
+				// } else {
+				// 	promptModal.style.display = 'none';
+				// 	promptModal2.style.display = 'none';
+				// 	commentModal.style.display = 'none';
+				// }
 			}
 
 		});
@@ -880,11 +888,21 @@ function bottom_comment() {
 		var imgListDiv = document.createElement('div');
 		imgListDiv.className = 'img-list';
 
-			for(var k = 0; k < AllCommentsPic[now_Comment[Idx_comment_id_bottom]].length; k ++ ){
-				var imgElement = document.createElement('img');
-				imgElement.src = AllCommentsPic[comment_id][k];
-				imgListDiv.appendChild(imgElement);
+			var need_pic_idx;
+			for(var k = 0; k < commentnum; k ++ ){
+				if(AllComments.content[k][Idx_comment_id] == now_Comment[Idx_comment_id_bottom]){
+					need_pic_idx = k;
+				}
 			}
+			
+			if(AllCommentsPic[need_pic_idx] != undefined){
+				for(var k = 0; k < AllCommentsPic[need_pic_idx].length; k ++ ){
+					var imgElement = document.createElement('img');
+					imgElement.src = AllCommentsPic[need_pic_idx][k];
+					imgListDiv.appendChild(imgElement);
+				}
+			}
+			
 
 		replyInnerContentDiv.appendChild(imgListDiv);
 
@@ -1144,12 +1162,21 @@ function bottom_comment() {
 					var subimgListDiv = document.createElement('div');
 					imgListDiv.className = 'img-list';
 					
-						for(var k = 0; k < AllCommentsPic[now_SubComment[Idx_comment_id]].length; k ++ ){
-							var imgElement = document.createElement('img');
-							imgElement.src = AllCommentsPic[comment_id][k];
-							imgListDiv.appendChild(imgElement);
+						var need_pic_idx;
+						for(var k = 0; k < commentnum; k ++ ){
+							if(AllComments.content[k][Idx_comment_id] == now_SubComment[Idx_comment_id]){
+								need_pic_idx = k;
+							}
 						}
-
+						
+						if(AllCommentsPic[need_pic_idx] != undefined){
+							for(var k = 0; k < AllCommentsPic[need_pic_idx].length; k ++ ){
+								var imgElement = document.createElement('img');
+								imgElement.src = AllCommentsPic[need_pic_idx][k];
+								imgListDiv.appendChild(imgElement);
+							}
+						}
+					
 
 				  	subReplyWordContainerDiv.appendChild(subReplyWordSpan);
 					subReplyWordContainerDiv.appendChild(subimgListDiv);

@@ -63,6 +63,7 @@ window.addEventListener('load', function(){
 			
 			// 根据帖子id处理
 			commentnum = AllComments.row;
+			AllBigCommentPic = AllComments.image;
 			// for(var i = 0; i < commentnum; i ++ ){
 			// 	if(AllComments.content[i][Idx_comment_id] == comment_id){
 			// 		Comment = AllComments.content[i];
@@ -148,7 +149,15 @@ function display_information(){
 	buttonElement.addEventListener('click', function() {
 		// 增加关注
 		if (buttonElement.classList.contains('follow-button')) {
-			alert("已关注" + nickname);
+			// alert("已关注" + nickname);
+		
+			new Message().show({
+				type : "success",
+				text : "已关注" + nickname,
+				duration : 2000,
+				closeable : true
+			});
+			
 			buttonElement.classList.replace('follow-button', 'following-button');
 			buttonElement.textContent = '已关注';
 			
@@ -170,7 +179,15 @@ function display_information(){
 		
 		// 取消关注
 		else{
-			alert("已取消关注" + nickname);
+			// alert("已取消关注" + nickname);
+			
+			new Message().show({
+				type : "success",
+				text : "已取消关注" + nickname,
+				duration : 2000,
+				closeable : true
+			});
+			
 			buttonElement.classList.replace('following-button', 'follow-button');
 			buttonElement.textContent = '关注';
 			
@@ -213,9 +230,7 @@ function display_information(){
 	likeElement.textContent = need_num;
 }
 
-function getBigCommentPic(){
-	AllBigCommentPic = [["../../img/dyz_main/logo/小米.jpg", "../../img/dyz_main/logo/小米.jpg"], [],[]];
-}
+
 
 function display_comment(){
 	Comment_to_display = [];
@@ -225,8 +240,6 @@ function display_comment(){
 			Comment_to_display.push(now_Comment);
 	}
 	
-	
-	getBigCommentPic();
 	
 	
 	// 将父容器添加到DOM中的适当位置
@@ -308,13 +321,23 @@ function display_comment(){
 		var imgListDiv = document.createElement("div");
 		imgListDiv.classList.add("img-list");
 
-		// 创建并添加图片到图片列表
-		for(var j = 0; j < AllBigCommentPic[now_Comment[Idx_comment_id]].length; j ++ ){
-			var imgSrc = AllBigCommentPic[now_Comment[Idx_comment_id]][j];
-			var img = document.createElement("img");
-			img.setAttribute("src", imgSrc);
-			imgListDiv.appendChild(img);
+		var need_pic_idx;
+		for(var k = 0; k < commentnum; k ++ ){
+			if(AllComments.content[k][Idx_comment_id] == now_Comment[Idx_comment_id]){
+				need_pic_idx = k;
+			}
 		}
+		
+		if(AllBigCommentPic[need_pic_idx] != undefined){
+			for(var k = 0; k < AllBigCommentPic[need_pic_idx].length; k ++ ){
+				var imgSrc = AllBigCommentPic[need_pic_idx][k];
+				var img = document.createElement("img");
+				img.setAttribute("src", imgSrc);
+				imgListDiv.appendChild(img);
+			}
+		}
+
+
 
 		// 将图片列表添加到父容器
 		contentsDiv.appendChild(imgListDiv);
