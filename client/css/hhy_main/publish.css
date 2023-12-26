@@ -143,6 +143,9 @@ textarea {
 }
 
 .btn-container > h1 {
+    line-height: 20px;
     text-align: center;
     cursor: pointer;
+    font-weight: 500;
+    font-size: calc(0.525rem + 1.5vw);
 }
