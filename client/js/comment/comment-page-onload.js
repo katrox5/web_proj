@@ -245,9 +245,10 @@ function maincontent_onload() {
 	// 当前用户是否已经关注了该贴主
 	// console.log("userId" + userId);
 	
+
 	if(userId == author_id){
-		// followDiv.className = 'following';
-		// followDiv.textContent = '您的文章';
+		followDiv.className = 'following';
+		followDiv.textContent = '您的文章';
 	}
 	else {
 		if(UserFans.content.includes(Number(userId))){
@@ -265,30 +266,40 @@ function maincontent_onload() {
 			// 增加关注
 			if (followDiv.classList.contains('follow')) {
 				// alert("已关注" + nickname);
-				new Message().show({
-					type : "success",
-					text : "已关注" + nickname,
-					duration : 2000,
-					closeable : true
-				});
-				
-				followDiv.classList.replace('follow', 'following');
-				followDiv.textContent = '已关注';
-				
-				const xhr = new XMLHttpRequest();
-				xhr.open('post', url_prefix +'addSubscribe');       
-				xhr.setRequestHeader('Content-Type', 'application/json');    
-				xhr.onload = function() {
-					if (xhr.status === 200) {           
-						let obj = JSON.parse(xhr.responseText);   
-						//location.reload()
-					}
-				};
-				const data = {
-					user_a : userId,
-					user_b : author_id
+				if(userId == -1){
+					new Message().show({
+						type : "error",
+						text : "请先登录",
+						duration : 2000,
+						closeable : true
+					});
 				}
-				xhr.send(JSON.stringify(data));  		
+				else{
+					new Message().show({
+						type : "success",
+						text : "已关注" + nickname,
+						duration : 2000,
+						closeable : true
+					});
+					
+					followDiv.classList.replace('follow', 'following');
+					followDiv.textContent = '已关注';
+					
+					const xhr = new XMLHttpRequest();
+					xhr.open('post', url_prefix +'addSubscribe');       
+					xhr.setRequestHeader('Content-Type', 'application/json');    
+					xhr.onload = function() {
+						if (xhr.status === 200) {           
+							let obj = JSON.parse(xhr.responseText);   
+							//location.reload()
+						}
+					};
+					const data = {
+						user_a : userId,
+						user_b : author_id
+					}
+					xhr.send(JSON.stringify(data));  
+				}		
 			}
 			// 取消关注
 			else{
