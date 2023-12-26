@@ -1,5 +1,45 @@
 uploadPicture();
 setPictureDraggable();
+window.onload = updata_loc;
+function updata_loc(){
+    var loc_text = localStorage.getItem('drafttext');
+    var loc_img = JSON.parse(localStorage.getItem("draftimage"));
+    var area = document.getElementById('question-text');
+    area.value = "";
+    const list = $('image-preview-container');
+    while (list.firstChild) {
+        list.removeChild(list.firstChild);
+    }
+    if(loc_text!=null)
+    {
+        area.value += loc_text;
+    }
+    if(loc_img!=null)
+    {
+        
+        for (var i = 0; i < loc_img.length; i++) {
+            var img = document.createElement('img');
+            img.src = loc_img[i];
+            img.classList.add('list-item');
+            // 找到字符串 b 在字符串 a 中的位置
+            var b = media_path+"question/";
+            var index = loc_img[i].indexOf(b);
+            var result;
+            // 提取 a 的后半部分
+            if (index !== -1) {
+                result = loc_img[i].substring(index + b.length); 
+            }else {
+            }
+            img.classList.add(result);
+            img.classList.add('new');           // 用于标识
+            img.id = list.childNodes.length - 1;
+            img.draggable = 'true';
+            img.onclick = (e) => displayImg(e.target);
+            list.insertBefore(img, $('list-add'));
+        }
+    }
+    setPictureDraggable();
+}
 
 function add_to_loc() {
     // 获取问题描述文本
