@@ -14,12 +14,12 @@
         <link rel="stylesheet" href="../../css/index/msg.css"/>
         
 
-        <!-- <script src="../../js/hhy_main/publish.js"></script> -->
         <script src="../../js/hhy_main/get_commets_db.js"></script>
-        <script src="../../js/hhy_main/get_commets_loc.js"></script>
 		<script src="../../js/hhy_main/publish_main_change.js"></script>
         <script src="../../js/hhy_main/add_loc.js"></script>
         <script src="../../js/hhy_main/add_db.js"></script>
+        <script src="../../js/hhy_main/del_db.js"></script>
+        <script src="../../js/hhy_main/edit.js"></script>
         <script src="../../js/essential.js"></script>
         <script src="../../js/index/message.js"></script>
 		
@@ -34,6 +34,7 @@
 		</style>
         <script>
             get_allcom_db(localStorage.getItem('id'));
+            //updata_loc();
         </script>
 		
 	</head>
@@ -108,9 +109,6 @@
                     <div class="button_1" onclick="saveImgsdraft()">
                         保存草稿
                     </div>
-                    <div class="button_2" onclick="show()">
-                        在线预览
-                    </div>  
                     <div class="button_3" onclick="add_to_db()">
                         发表
                     </div>

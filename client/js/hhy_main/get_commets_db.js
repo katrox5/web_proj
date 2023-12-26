@@ -18,7 +18,6 @@ function get_allcom_db(this_user_id){
     xhr.onload = function(){
         if(xhr.status === 200){
             let obj = JSON.parse(xhr.responseText);
-            console.log(obj);
             for(var i = 0;i<obj.row;++i){
                 if(obj.content[i][1] == this_user_id)
                 {
@@ -30,23 +29,22 @@ function get_allcom_db(this_user_id){
                         c_all_img_url.push(obj.image[i]);
 
                     }
-                    else// 评论
-                    {
+                    // else// 评论
+                    // {
                         
-                        r_cid.push(obj.content[i][0]);
-                        r_text.push(obj.content[i][2]);
-                        r_time.push(obj.content[i][3]);
-                        r_father_reply.push(obj.content[i][4]);
-                        r_all_img_url.push(obj.image[i]);
-                    }
+                    //     r_cid.push(obj.content[i][0]);
+                    //     r_text.push(obj.content[i][2]);
+                    //     r_time.push(obj.content[i][3]);
+                    //     r_father_reply.push(obj.content[i][4]);
+                    //     r_all_img_url.push(obj.image[i]);
+                    // }
                 }
                 
             }
-            console.log(r_all_img_url);
             for(var i = 0;i<c_cid.length;++i)
             add_element_to_comment(i);
-            for(var i = 0;i<r_cid.length;++i)
-            add_element_to_reply(i);
+            // for(var i = 0;i<r_cid.length;++i)
+            // add_element_to_reply(i);
         }
 
     };
@@ -59,7 +57,7 @@ function add_element_to_comment(index){
     // 创建问题块元素
     var problemBlock = document.createElement("div");
     problemBlock.classList.add("problem");
-
+    problemBlock.classList.add("comment" + index);
     // 问题配图
     var picDiv = document.createElement("div");
     picDiv.classList.add("pic");
@@ -101,7 +99,7 @@ function add_element_to_comment(index){
     // 修改
     var editDiv = document.createElement("div");
     editDiv.classList.add("edit");
-    editDiv.setAttribute("onclick", "edit_this(" + c_cid[index] + ")");
+    editDiv.setAttribute("onclick", "edit_this(" + index + ")");
     var editImg = document.createElement("img");
     editImg.src = "../../img/hhy_main/edit.png";
     var editText = document.createElement("div");
@@ -113,7 +111,7 @@ function add_element_to_comment(index){
     // 删除
     var deleteDiv = document.createElement("div");
     deleteDiv.classList.add("delete");
-    deleteDiv.setAttribute("onclick", "delete_this(" + c_cid[index] + ")");
+    deleteDiv.setAttribute("onclick", "delete_this(" + index + ")");
     var deleteImg = document.createElement("img");
     deleteImg.src = "../../img/hhy_main/delete.png";
     var deleteText = document.createElement("div");
