@@ -150,31 +150,40 @@ function display_information(){
 		// 增加关注
 		if (buttonElement.classList.contains('follow-button')) {
 			// alert("已关注" + nickname);
-		
-			new Message().show({
-				type : "success",
-				text : "已关注" + nickname,
-				duration : 2000,
-				closeable : true
-			});
-			
-			buttonElement.classList.replace('follow-button', 'following-button');
-			buttonElement.textContent = '已关注';
-			
-			const xhr = new XMLHttpRequest();
-			xhr.open('post', url_prefix +'addSubscribe');       
-			xhr.setRequestHeader('Content-Type', 'application/json');    
-			xhr.onload = function() {
-				if (xhr.status === 200) {           
-					let obj = JSON.parse(xhr.responseText);   
-					//location.reload()
-				}
-			};
-			const data = {
-				user_a : userId,
-				user_b : author_id
+			if(userId == -1){
+				new Message().show({
+					type : "error",
+					text : "请先登录",
+					duration : 2000,
+					closeable : true
+				});
 			}
-			xhr.send(JSON.stringify(data));  		
+			else{
+				new Message().show({
+					type : "success",
+					text : "已关注" + nickname,
+					duration : 2000,
+					closeable : true
+				});
+				
+				buttonElement.classList.replace('follow-button', 'following-button');
+				buttonElement.textContent = '已关注';
+				
+				const xhr = new XMLHttpRequest();
+				xhr.open('post', url_prefix +'addSubscribe');       
+				xhr.setRequestHeader('Content-Type', 'application/json');    
+				xhr.onload = function() {
+					if (xhr.status === 200) {           
+						let obj = JSON.parse(xhr.responseText);   
+						//location.reload()
+					}
+				};
+				const data = {
+					user_a : userId,
+					user_b : author_id
+				}
+				xhr.send(JSON.stringify(data));  	
+			}		
 		}
 		
 		// 取消关注
