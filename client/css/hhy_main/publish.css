@@ -120,14 +120,29 @@ textarea {
     cursor: pointer;
 }
 
-#list-add {
-    cursor: pointer;
-}
-
-.list-item:nth-of-type(1), .list-item:nth-of-type(5) {
-    margin-left: 0;
-}
-
 .list-item.moving {
     visibility: hidden;
+}
+
+.btn-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1200;
+    width: 200px;
+    background-color: #f8f8f8;
+    border-radius: 20px;
+}
+
+.btn-container > hr {
+    width: 75%;
+}
+
+.btn-container > h1 {
+    text-align: center;
+    cursor: pointer;
 }

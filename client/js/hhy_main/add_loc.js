@@ -1,3 +1,5 @@
+uploadPicture();
+setPictureDraggable();
 
 function add_to_loc() {
     // 获取问题描述文本
@@ -65,7 +67,7 @@ function uploadPicture() {// 预览
         const list = $('image-preview-container');
         const { files } = this;
         for (var i = 0; i < files.length; i++) {
-            if (list.childNodes.length >= 10) {
+            if (list.childNodes.length >= 9) {
                 new Message().show({
                     type: 'error',
                     text: '最多只能上传9张照片！',
@@ -77,23 +79,47 @@ function uploadPicture() {// 预览
             img.src = URL.createObjectURL(this.files[i]);
             img.classList.add('list-item');
             img.classList.add(this.files[i].name);
-            img.classList.add('new');           // 用于标识
             img.id = list.childNodes.length - 1;
             img.draggable = 'true';
             img.onclick = (e) => displayImg(e.target);
             list.insertBefore(img, $('list-add'));
         }
     });
-    setPictureDraggable();
 }
+
+function displayImg(target) {
+    let img = new Image(target);
+    img.setFunction(function() {
+        let btn_container = document.createElement('div');
+        btn_container.className = 'btn-container';
+        let del_btn = document.createElement('h1');
+        del_btn.innerText = '删除';
+        del_btn.className = 'del-btn';
+        del_btn.onclick = () => {
+            btn_container.remove();
+            target.remove();
+            img.close();
+        }
+
+        let sep = document.createElement('hr');
+
+        let cel_btn = document.createElement('h1');
+        cel_btn.innerText = '取消';
+        cel_btn.className = 'cel-btn';
+        cel_btn.onclick = () => btn_container.remove();
+
+        btn_container.appendChild(del_btn);
+        btn_container.appendChild(sep);
+        btn_container.appendChild(cel_btn);
+        document.body.appendChild(btn_container);
+    });
+    img.display();
+}
+
 function setPictureDraggable() {
     const list = $('image-preview-container');
     let sourceNode;         // 用于存储拖拽目标元素
     list.ondragstart = function(e) {
-        if (e.target.id == 'list-add') {
-            sourceNode = null;
-            return;
-        }
         // 在拖拽开始时，将目标元素设置为拖拽目标，并在稍后隐藏原位置上的图片
         setTimeout(() => {
             e.target.classList.add('moving');
@@ -102,15 +128,13 @@ function setPictureDraggable() {
     };
     list.ondragenter = function(e) {
         // 当拖拽元素进入容器时，根据拖拽的位置重新排列元素
-        if (e.target === list || e.target === sourceNode || sourceNode == null)
+        if (e.target === list || e.target === sourceNode)
             return;                     // 排除自身和父元素
 
         const children = Array.from(list.children);
         const sourceIndex = children.indexOf(sourceNode);
         const targetIndex = children.indexOf(e.target);
 
-        if (targetIndex == children.length-1)
-            return;
         if (sourceIndex < targetIndex)  // 往下拖动
             list.insertBefore(sourceNode, e.target.nextElementSibling);
         else                            // 往上拖动
