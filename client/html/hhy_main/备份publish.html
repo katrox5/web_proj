@@ -14,9 +14,8 @@
         <link rel="stylesheet" href="../../css/index/msg.css"/>
         
 
-        <!-- <script src="../../js/hhy_main/publish.js"></script> -->
+        <script src="../../js/hhy_main/publish.js"></script>
         <script src="../../js/hhy_main/get_commets_db.js"></script>
-        <script src="../../js/hhy_main/get_commets_loc.js"></script>
 		<script src="../../js/hhy_main/publish_main_change.js"></script>
         <script src="../../js/hhy_main/add_loc.js"></script>
         <script src="../../js/hhy_main/add_db.js"></script>
@@ -32,10 +31,6 @@
 				padding: 0;
 			}
 		</style>
-        <script>
-            //get_allcom_db(localStorage.getItem('id'));
-            get_allcom_loc(localStorage.getItem('id'));
-        </script>
 		
 	</head>
 	<body>
@@ -101,8 +96,8 @@
             
                     <div class="image-upload">
                         <label for="image-upload">图片上传：</label><br>
-                        <input type="file" id="image-upload" onclick="uploadPicture()" accept="image/*" multiple>
-                        <!-- <progress id="upload-progress" value="0" max="100"></progress> -->
+                        <input type="file" id="image-upload" accept="image/*" multiple>
+                        <progress id="upload-progress" value="0" max="100"></progress>
                         <div id="image-preview-container">
                             <!-- 预览图片的容器 -->
                         </div>
@@ -111,7 +106,7 @@
                 
                 <!-- 底部操作 -->
                 <div class="bottom-button">
-                    <div class="button_1" onclick="saveImgsdraft()">
+                    <div class="button_1" onclick="add_to_loc()">
                         保存草稿
                     </div>
                     <div class="button_2" onclick="show()">
@@ -125,7 +120,7 @@
 
 
             <!-- 第二部分 -->
-            <div id="type2" >
+            <div id="type2" onclick="get_allcom_db(localStorage.getItem('id'))">
                 <div class="manage_box">
                     <!-- 状态 -->
                     <div class="right_up">
@@ -135,11 +130,81 @@
                     </div>
                     <!-- 全部列表 -->
                     <div class="right_down1">
-                        <!-- 文章 -->
+                        <!-- 发布的问题 -->
+                        <div class="problem">
+                            <!-- 问题配图，无则灰色，有则显示 -->
+                            <div class="pic">
+                                <img src="../../img/hhy_main/udefine_pic.jpg">
+                            </div>
+                            <!-- 问题信息 -->
+                            <div class="message">
+                                <!-- 文章开头（5个字） -->
+                                <div class="start">
+                                    这是我的手机
+                                </div>
+                                <!-- 发布时间 -->
+                                <div class="time">
+                                    2023-12-21 21:00:32
+                                </div>
+                                <!-- 状态 -->
+                                <div class="status status_1">
+                                    已上线
+                                </div>
+                            </div>
+                            <div class="operate">
+                                <!-- 修改 -->
+                                <div class="edit" onclick="edit_this(comment_id)">
+                                    <img src="../../img/hhy_main/edit.png" alt="" />
+									<div class="operate-text">修改</div>
+                                </div>
+                                <!-- 删除 -->
+                                <div class="delete" onclick="delete_this(comment_id)">
+                                    <img src="../../img/hhy_main/delete.png" alt="" />
+									<div class="operate-text">刪除</div>
+                                </div>
+    
+                            </div>
+                        </div>
                     </div>
+
                     <div class="right_down3">
-                        <!-- 草稿 -->
+                        <!-- 草稿问题 -->
+                        <div class="problem">
+                            <!-- 问题配图，无则灰色，有则显示 -->
+                            <div class="pic">
+                                <img class="" src="../../img/hhy_main/udefine_pic.jpg">
+                            </div>
+                            <!-- 问题信息 -->
+                            <div class="message">
+                                <!-- 文章开头（5个字） -->
+                                <div class="start">
+                                    这是我的手机
+                                </div>
+                                <!-- 发布时间 -->
+                                <div class="time">
+                                    2023-12-21 21:00:32
+                                </div>
+                                <!-- 状态 -->
+                                <div class="status status_2">
+                                    草稿
+                                </div>
+                            </div>
+                            <div class="operate">
+                                <!-- 修改 -->
+                                <div class="edit" onclick="edit_this(comment_id)">
+                                    <img src="../../img/hhy_main/edit.png" alt="" />
+									<div class="operate-text">修改</div>
+                                </div>
+                                <!-- 删除 -->
+                                <div class="delete" onclick="delete_this(comment_id)">
+                                    <img src="../../img/hhy_main/delete.png" alt="" />
+									<div class="operate-text">刪除</div>
+                                </div>
+    
+                            </div>
+                        </div>                       
                     </div>
+    
                      <!-- 翻页 -->
                     <div class="page_turning">
                         <img class="arrow" src="../../img/hhy_main/left.svg" alt="">

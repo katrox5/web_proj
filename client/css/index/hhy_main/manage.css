@@ -1,6 +1,6 @@
 .main-content {
     display: flex;
-    margin-top: 40px;
+    margin-top: 80px;
   }
   
  .manage_box{
@@ -44,7 +44,7 @@
     border-color: #666666;
   }
 
-  .right_down1,.right_down2,.right_down3 {
+  .right_down {
     width: 990px;
     height: 485px;
     background-color: #ffffff;

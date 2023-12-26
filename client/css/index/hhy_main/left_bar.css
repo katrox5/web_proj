@@ -3,7 +3,7 @@
     height: 600px;
     margin-right: 5px; 
     background-color: #ffffff;
-    /* margin-left: 245px;  */
+    margin-left: 245px; 
     position: positive;
 	border-radius: 20px;
   }
@@ -13,6 +13,9 @@
     color: #000;
   }
 
+  /* .left_bar a:visited{
+    color: #ff594a;
+  } */
 
   .left_bar ul {
     padding: 0;
@@ -31,7 +34,6 @@
 	display: flex;
 	cursor: pointer;
 	text-align: center;
-	user-select: none;
 	width: 120px;
 	height: 50px;
 	font-size: 18px;
