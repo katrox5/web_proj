@@ -43,10 +43,36 @@ function hideText() {
     document.getElementById('text').style.display = 'none';
 }
 
+let del_queue = [];
+
 function displayImg(target) {
     let img = new Image(target);
     img.setFunction(function() {
+        let btn_container = document.createElement('div');
+        btn_container.className = 'btn-container';
+        let del_btn = document.createElement('h1');
+        del_btn.innerText = '删除';
+        del_btn.className = 'del-btn';
+        del_btn.onclick = () => {
+            btn_container.remove();
+            target.remove();
+            img.close();
+            if (target.classList.length != 3) {
+                del_queue.push(target.classList[1]);
+            }
+        }
 
+        let sep = document.createElement('hr');
+
+        let cel_btn = document.createElement('h1');
+        cel_btn.innerText = '取消';
+        cel_btn.className = 'cel-btn';
+        cel_btn.onclick = () => btn_container.remove();
+
+        btn_container.appendChild(del_btn);
+        btn_container.appendChild(sep);
+        btn_container.appendChild(cel_btn);
+        document.body.appendChild(btn_container);
     });
     img.display();
 }
@@ -161,6 +187,9 @@ function saveUserImgs() {
     const list = $('list');
     const items = list.childNodes;
 
+    if (del_queue.length != 0) {
+        request4DelUserImg();
+    }
     let queue = [];
     for (var i = 0; i < items.length - 1; i++) {
         var order = items[i].id;
@@ -315,6 +344,31 @@ function request4ModifyUserImgOrder(id, order) {
     const data = {
         img_id: id,
         num_order: order
+    };
+    xhr.send(JSON.stringify(data));
+}
+
+function request4DelUserImg() {
+    if (del_queue.length == 0)
+        return;
+
+    let id = del_queue.pop();
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('post', url_prefix + 'delUserImg');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            let obj = JSON.parse(xhr.responseText);
+            if (obj.status == 'failure') {
+                console.warn('Delete image failed');
+                console.error(obj.message);
+            }
+            request4DelUserImg();
+        }
+    };
+    const data = {
+        img_id: id
     };
     xhr.send(JSON.stringify(data));
 }
