@@ -156,7 +156,6 @@ function displayImg(target) {
     });
     img.onclose = () => {
         btn_container.remove();
-        del_queue = [];
     };
     img.display();
 }

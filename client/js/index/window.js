@@ -75,10 +75,7 @@ function displayImg(target) {
     img.setFunction(function() {
         document.body.appendChild(btn_container);
     });
-    img.onclose = () => {
-        btn_container.remove();
-        del_queue = [];
-    };
+    img.onclose = () => btn_container.remove();
     img.display();
 }
 
@@ -100,6 +97,7 @@ function enableWheel() {
 }
 
 function closeWindow() {
+    del_queue = [];
     $('modal-overlay').remove();
     enableWheel();
 }
