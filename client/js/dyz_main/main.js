@@ -45,16 +45,7 @@ function change_logo_state() {
 	}
 }
 
-window.addEventListener('scroll', function() {
-	var rightLower = document.querySelector('.right-down');
-	var scrollPosition = window.scrollY;
 
-	if (scrollPosition > 420) {
-		rightLower.classList.add('fixed');
-	} else {
-		rightLower.classList.remove('fixed');
-	}
-});
 
 function change_from_visiter_to_user() { //游客模式切换用户模式
 	var blockA = document.querySelector('.login');

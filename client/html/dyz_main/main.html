@@ -31,7 +31,16 @@
 		<script>
 			//add_img(0,"../../img/dyz_main/logo/小米.jpg",4);
 			// setTimeout(all_img(0),100);
-
+			window.addEventListener('scroll', function() {
+				var rightLower = document.querySelector('.right-down');
+				var scrollPosition = window.scrollY;
+			
+				if (scrollPosition > 420) {
+					rightLower.classList.add('fixed');
+				} else {
+					rightLower.classList.remove('fixed');
+				}
+			});
 			all_user();
 			const intervalId = setInterval(change_logo_state, 10); // 每秒执行一次
 			
