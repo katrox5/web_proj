@@ -1,22 +1,25 @@
 .main-content {
     display: flex;
-    margin-top: 80px;
+    margin-top: 40px;
   }
   
- /* .manage_box{
+ .manage_box{
     width: 990px;
-    height: 1023px;
- } */
+    height: 600px;
+	
+ }
 
   .right_up {
     flex: 1;
     width: 990px;
     height: 60px;
     background-color:#ffffff;
-    margin-right: 245px; 
     padding-top: 15px;
     box-sizing: border-box;
     text-decoration: none;
+	border-radius: 20px;
+	padding-left: 30px;
+	user-select: none;
   }
 
   .type{
@@ -41,16 +44,17 @@
     border-color: #666666;
   }
 
-  .right_down {
-    flex: 1;
+  .right_down1,.right_down2,.right_down3 {
     width: 990px;
-    height: 800px;
+    height: 550px;
     background-color: #ffffff;
     margin-right: 245px; 
     margin-top: 5px;
     box-sizing: border-box;
+	border-radius: 20px;
+	
   }
-
+  
   .page_turning{
     display: flex;
     align-items: center; /* 在交叉轴上居中 */
@@ -59,6 +63,7 @@
     height: 45px;
     background-color: #ffffff;
     margin-top: 2px;
+	border-radius: 20px;
   }
 
   .arrow {

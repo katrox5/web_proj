@@ -1,19 +1,27 @@
  .main-content {
     display: flex;
     margin-top: 80px;
+    display: flex; justify-content: center;
   }
 
   .passage_box {
-    /* flex: 1; */
     width: 990px;
-    height: 1023px;
+    height: 600px;
     background-color: #ffffff;
-    margin-right: 245px; 
+    /* margin-top: 50px; */
     box-sizing: border-box;
+	border-radius: 20px;
   }
 /* 问题输入 */
+.question-title{
+	font-size: 25px;
+	margin-left: 20px;
+	padding-top: 40px;
+	user-select: none;
+}
  .text-input{
      margin-bottom: 20px;
+	 padding-left: 30px;
 
  }
 
@@ -23,8 +31,15 @@
  }
 
 textarea {
-    height: 500px; /* 设置文本域的默认高度 */
+	margin-top: 10px;
+    height: 200px; /* 设置文本域的默认高度 */
     width: 800px;
+	resize: vertical;
+	border-radius: 20px;
+	line-height: 30px;
+	font-size: 25px;
+	margin: 10px;
+	padding: 10px;
  }
 
  /* 按键 */
@@ -33,20 +48,16 @@ textarea {
     width: 990px;
     height: 60px;
     background-color: #f9f9f9;
-    margin:5px 250px 0 450px;
     box-sizing: border-box;
     border-radius: 5px;
-    padding: 15px;
-    justify-content: flex-end; /* 将子元素放置到容器的末尾（右侧） */
-    position: fixed;
+    padding-top: 15px;
     bottom: 0;
+    justify-content: flex-end; /* 将按钮放在右边 */
+    user-select: none;
 }
 
-.bottom-button a{
-    display: inline-block;
-}
 
-.button_1 ,.button_2{
+.button_1 ,.button_2,.button_3{
     width: 80px;
     height: 30px;
     line-height: 30px;
@@ -57,16 +68,16 @@ textarea {
     color: #000;
 }
 
-.button_3 {
-    width: 80px;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    margin-left: 15px;
-    background-color: #ff6702;
-    color: #fff; 
+.button_3{
+    background-color: #ff8902;
+}
+
+.button_1:hover, .button_2:hover {
+    background-color: #e0e0e0; /* 设置悬停时的背景颜色 */
+}
+
+.button_3:hover{
+    background-color: #ff5602;
 }
 
 /* 图片上传 */
@@ -93,4 +104,48 @@ textarea {
     width: 100%;
     height: auto;
     display: block;
+}
+
+.image-preview.moving {
+    visibility: hidden;
+}
+
+.list-item {
+    display: inline-block;
+    width: 157px;
+    height: 157px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border: 1px dashed grey;
+    cursor: pointer;
+}
+
+.list-item.moving {
+    visibility: hidden;
+}
+
+.btn-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1200;
+    width: 200px;
+    background-color: #f8f8f8;
+    border-radius: 20px;
+}
+
+.btn-container > hr {
+    width: 75%;
+}
+
+.btn-container > h1 {
+    line-height: 20px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: calc(0.525rem + 1.5vw);
 }

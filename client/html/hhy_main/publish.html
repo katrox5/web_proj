@@ -5,122 +5,136 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<link rel="stylesheet" href="../../css/dyz_main/nav.css">
-        <link rel="stylesheet" href="../../css/hhy_main/publish_box.css">
+        <link rel="stylesheet" href="../../css/hhy_main/manage.css">
         <link rel="stylesheet" href="../../css/hhy_main/publish.css">
         <link rel="stylesheet" href="../../css/hhy_main/left_bar.css">
-        
+		<link rel="stylesheet" href="../../css/hhy_main/show_problem.css">
 
-    <script src="../../js/hhy_main/publish.js"></script>
-    <script src="../../js/hhy_main/txt_check.js"></script>
-    <script src="../../js/hhy_main/pic_check.js"></script>
-    <script src="../../js/hhy_main/pic_operate.js"></script>
+        <link rel="stylesheet" href="http://at.alicdn.com/t/font_1117508_wxidm5ry7od.css"/>
+        <link rel="stylesheet" href="../../css/index/msg.css"/>
+        <link rel="stylesheet" href="../../css/index/img.css"/>
 
+
+        <script src="../../js/hhy_main/get_commets_db.js"></script>
+		<script src="../../js/hhy_main/publish_main_change.js"></script>
+        <script src="../../js/hhy_main/add_loc.js" defer></script>
+        <script src="../../js/hhy_main/add_db.js"></script>
+        <script src="../../js/hhy_main/del_db.js"></script>
+        <script src="../../js/hhy_main/edit.js"></script>
+        <script src="../../js/essential.js"></script>
+        <script src="../../js/index/message.js"></script>
+        <script src="../../js/index/image.js"></script>
+		
 		<title>问题</title>
 		<style>
 			body {
-				background-color: #f9f9f9;
+				background-color: #f8f8f8;
 				font-family: Arial, sans-serif;
 				margin: 0;
 				padding: 0;
 			}
 		</style>
-		<script>
-			
-		</script>
+        <script>
+            get_allcom_db(localStorage.getItem('id'));
+            //updata_loc();
+        </script>
+		
 	</head>
 	<body>
 
 		<!-- 导航栏 -->
-		<nav class=" navbar">
+		<!-- <nav class="navbar">
 			<div class="logo">
 				<img src="../../img/dyz_main/logo/小米.jpg" alt="" />
 			</div>
 			<a style="text-decoration: none;" href="search.html">
 				<div class="search-bar">
 					<img src="../../img/dyz_main/search.jfif" alt="" />
-					<input type="text" placeholder="大家都在搜：" />
+					<input class="hot-search" type="text" placeholder="大家都在搜：" />
 				</div>
 			</a>
 
-			<!-- 发布按键-->
-			<!-- 后续考虑当判断登录后才能发布，否则跳转登录 -->
-			<a href="../../html/hhy_main/publish.html" style="text-decoration: none;">
-				<div class="publish-button">发布</div>
-			</a>
-
-			<!-- 个人主页，查看评论等 -->
-			<div class="message">
-				<img src="../../img/hhy_main/message_icon.svg" alt="">
-			</div>
-
-            <!-- 头像，昵称，退出登录 -->
-			<a href="../index/login.html" style="text-decoration: none;">
+			<a class="login active" href="../index/login.html" style="text-decoration: none;">
 				<div class="user-actions">
 					登录
 				</div>
 			</a>
+			<div class="avatar">
+				<div class="user-logout" onclick="openModal()">
+					退出登录
+				</div>
+				<a class="go_to_center" href="aaa">
+					<img class="user-avatar" src="../../img/dyz_main/logo/小米.jpg" alt="" />
+				</a>
 
-		</nav>
+			</div>
+
+		</nav> -->
 
 		<!-- 主体 -->
 		<div class="main-content">
             <div class="left_bar">
                 <ul>
-                    <li>
+                    <li id="btn1" onclick="changeBox('type1')"  onmouseover="changeColor('1', true)"
+					onmouseout="changeColor('1', false)">
                         <img src="../../img/hhy_main/publish.png"></img>
-                        <a href="../../html/hhy_main/publish.html">发布区</a>
-                    
+                        <div>发布区</div>
                     </li>
-                    <li>
+                    <li id="btn2" onclick="changeBox('type2')" onmouseover="changeColor('2', true)"
+					onmouseout="changeColor('2', false)">
                         <img src="../../img/hhy_main/manage.png"></img>
-                        <a href="../../html/hhy_main/manage.html">帖子管理</a>
-                    </li>
-                    <li>
-                        <img src="../../img/hhy_main/manage_2.png"></img>
-                        <a href="../../html/hhy_main/manage2.html">评论管理</a>
+                        <div>帖子管理</div>
                     </li>
                 </ul>
             </div>
-
-            <div class="passage_box">
-                <div class="text-input">
-                    <label for="question-text">问题描述：</label>
-                    <textarea id="question-text" placeholder="在这里输入问题描述..."></textarea>
-                </div>
-        
-                <div class="image-upload">
-                    <label for="image-upload">图片上传：</label><br>
-                    <input type="file" id="image-upload" accept="image/*" multiple>
-                    <progress id="upload-progress" value="0" max="100"></progress>
-                    <div id="image-preview-container">
-                        <!-- 预览图片的容器 -->
+            <!-- 三块内容直接放一起 ，方便操作-->
+            <!-- 第一部分 -->
+            <div id="type1">
+                <div class="passage_box">
+                    <div class="text-input">
+                        <label class="question-title" for="question-text">问题描述：</label>
+                        <textarea id="question-text" placeholder="在这里输入问题描述..."></textarea>
+                    </div>
+            
+                    <div class="image-upload">
+                        <label for="image-upload">图片上传：</label><br>
+                        <input type="file" id="image-upload" accept="image/*" multiple>
+                        <!-- <progress id="upload-progress" value="0" max="100"></progress> -->
+                        <div id="image-preview-container"></div>
                     </div>
                 </div>
-
+                
+                <!-- 底部操作 -->
+                <div class="bottom-button">
+                    <div class="button_1" onclick="saveImgsdraft()">
+                        保存草稿
+                    </div>
+                    <div class="button_3" onclick="add_to_db()">
+                        发表
+                    </div>
+                </div>
             </div>
+
+
+            <!-- 第二部分 -->
+            <div id="type2" >
+                <div class="manage_box">
+                    <!-- 全部列表 -->
+                    <div class="right_down1">
+                        <!-- 文章 -->
+                    </div>
+                     <!-- 翻页 -->
+                    <div class="page_turning">
+                        <img class="arrow" src="../../img/hhy_main/left.svg" alt="">
+                        <div class="num">
+                            1
+                        </div>
+                        <img class="arrow" src="../../img/hhy_main/right.svg" alt="">
+                    </div>
+                </div>
+            </div>
+
 		</div>
-
-        <!-- 底部操作 -->
-        <div class="bottom-button">
-            <a href="manage.html?type=2" style="text-decoration: none;">
-                <div class="button_1">
-                    保存草稿
-                </div>
-            </a>b
-
-            <a href="#" style="text-decoration: none;">
-				<div class="button_2">
-					在线预览
-				</div>
-			</a>
-
-            <a href="manage.html?type=1" style="text-decoration: none;">
-                <div class="button_3">
-                    发表
-                </div>
-            </a>
-        </div>
-
 
 	</body>
 </html>

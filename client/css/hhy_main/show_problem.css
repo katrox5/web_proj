@@ -1,64 +1,87 @@
-.done_problem,.draft_problem{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 990px;
-    height: 190px;
-    border-bottom: 1px solid grey; 
+.problem {
+	display: flex;
+	height: 140px;
+	padding-top: 20px;
+	padding-left: 20px;
 }
 
 .pic {
-    width: 30%;
+	height: 140px;
 }
 
 .pic img {
-    width: 100%;
-    height: auto;
+	width: 280px;
+	height: 140px;
+	border-radius: 20px;
 }
 
 .message {
-    width: 50%;
-    padding: 10px;
+	width: 50%;
+	padding-left: 20px;
 }
 
 .start {
-    font-size: 16px;
-    font-weight: bold;
+	font-size: 16px;
+	font-weight: bold;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 250px;
+	/* 或者你想要的最大宽度 */
 }
 
 .time {
-    color: #666;
-    margin-top: 5px;
+	color: #666;
+	margin-top: 30px;
+}
+
+.status {
+	margin-top: 30px;
+	user-select: none;
 }
 
 .status_1 {
-    color: #28a745;
-    margin-top: 5px;
+	color: #28a745;
 }
 
 .status_2 {
-    color: #666;
-    margin-top: 5px;
+	color: #666;
 }
 
 .operate {
-    width: 10%;
-    display: flex;
-    justify-content: space-between;
-    margin-right: 15px;
+	display: block;
+	justify-content: space-between;
+	margin-right: 15px;
+}
+.operate img{
+	margin-top: 10px;
+	margin-left: 15px;
+	width: 25px;
+	height: 25px;
+}
+.operate .operate-text{
+	margin-left: 10px;
+	margin-top: 10px;
 }
 
 .edit,
 .delete {
-    text-align: center;
-    border: 1px solid #ff6702;
-    border-radius: 15px;
-    background-color: #ff6702;
-    padding: 5px;
+	height: 40px;
+	width: 100px;
+	line-height: 25px;
+	color: #111;
+	font-weight: bold;
+	text-align: center;
+	border: 1px solid #ff6702;
+	border-radius: 20px;
+	background-color: #ff6702;
+	margin-top: 10px;
+	display: flex;
+	user-select: none;
 }
 
 .edit a,
 .delete a {
-    text-decoration: none;
-    color: #fff;
+	text-decoration: none;
+	color: #fff;
 }

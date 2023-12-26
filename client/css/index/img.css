@@ -15,7 +15,6 @@
     top: 50%;
     left: 50%;
     z-index: 1150;
-    width: 780px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     backdrop-filter: blur(10px);
@@ -30,7 +29,22 @@
 }
 
 #image-container > img {
+    height: 65vh;
     width: auto;
-    height: auto;
     margin: 0 auto;
+}
+
+#image-container > .header {
+    height: 25px;
+    padding: 5px 10px;
+}
+
+#image-container > .header > img {
+    margin-top: 5px;
+    margin-right: 6px;
+    margin-left: 10px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    float: right;
 }

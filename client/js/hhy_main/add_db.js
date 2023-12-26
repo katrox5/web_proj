@@ -1,103 +1,123 @@
-
-
-var  AllComments;	//都是row + content
-const Idx_comment_id = 0, Idx_user_id = 1, Idx_content = 2, Idx_time = 3, Idx_father_comment = 4, Idx_num_like = 5, Idx_num_reply = 6;// getAllComments
-
 var father_comment=-1;
+var useID =localStorage.getItem('id');
+var all_img_url;
 
 
-// window.addEventListener('load', function(){
-    
-// 	const xhr2 = new XMLHttpRequest();
-
-//     //跨域请求
-    
-// 	xhr2.open('post', url_prefix + 'addCommentImg');      //图片添加
-    
+function add_to_db(){
    
-// 	xhr2.setRequestHeader('Content-Type', 'application/json');    // 报头记得标明类型
-//     xhr2.onload = function(comment_id,url,num_order){
-//         if(xhr2.status === 200){
-//             let obj1 = JSON.parse(xhr.responseText);
-//             if (obj1.status === 'success') {
 
-//             }
-//         }
-//     };
-//     const data1 = {
-//         comment_id:comment_id,
-//         url:img_url,
-//         num_order: img_order
-//     };
-//     xhr2.send(JSON.stringify(data1));
-//     add_text();
-
+    const text = document.getElementById("question-text").value;
     
+    if (text.length === 0 && saveImgs().length == 0) {
+        new Message().show(
+        {
+            type:'error',
+            text:'问题描述不能为空',
+            duration:1500,
+            closeable:true
+        });
+        console.log("为空");
+        return;
+    } 
+    if (text.length > 1000) {
+        new Message().show(
+        {
+            type:'error',
+            text:'超出问题字数限额（大于1000个字）',
+            duration:1500,
+            closeable:true
+        });
+        return;
+    } 
 
-// })
+    //localStorage.setItem('question',text);
 
-function add_text_request(text_user_id,text_content,father_id){
+    // 通过验证，调用添加问题的函数
+    add_text_request(useID,text,father_comment);
+   
+    ////////////////////////////////////////////////////
+    //添加到元素
+}
+
+function add_text_request(useID,text_content,father_comment){
     const xhr = new XMLHttpRequest();
     xhr.open('post', url_prefix + 'addComment');     //帖子添加
     xhr.setRequestHeader('Content-Type', 'application/json');    // 报头记得标明类型
     xhr.onload = function(){
         if(xhr.status === 200){
             let obj = JSON.parse(xhr.responseText);
-            var comment_id=obj.comment_id;
-            if (obj.status === 'success') {
-                console.log("文本添加成功");
-            }else{
-                console.log("文本添加失败");
-            }
+            var comment_id=obj.content;
+            console.log(obj.content);
+            console.log(useID);
+            add_img(obj.content,saveImgs(),0);
         }
-
-
     };
     const data = {
-        user_id: text_user_id,
+        user_id: useID,
         content: text_content,
-        father_comment: father_id
+        father_comment: father_comment
     };
     xhr.send(JSON.stringify(data));
 
 }
 
-function add_text(){
-    const text = document.getElementById("question-text").value;
+function add_img(comment_id,img_url,img_order){
+    if(img_order>=img_url.length){
+         // //  清空显示和库
+    var loc_text = localStorage.getItem('drafttext');
+    var loc_img = JSON.parse(localStorage.getItem("draftimage"));
+    var area = document.getElementById('question-text');
+    area.value = "";//清空显示
+    const list = $('image-preview-container');
 
-    var flag=false;
-    if (text.length === 0) {
-        alert("问题必须填写后才能发表");
-        flag=true;
-    } 
-    if (text.length < 5) {
-        alert("问题字数太少（大于5个字）");
-        flag=true;
-    } 
-    if (text.length > 1000) {
-        alert("超出问题字数限额（大于1000个字）");
-        flag=true;
-    } 
-    if (flag)
-        return;
+    localStorage.removeItem('drafttext');//清空本地库
+    localStorage.removeItem('draftimage'); 
 
-    //localStorage.setItem('question',text);
-
-    // 通过验证，调用添加问题的函数
-    //add_question(text,-1);
-    return text;
+    while (list.firstChild) {
+        list.removeChild(list.firstChild);
+    }
+    location.reload();
+       return; 
+    }
+    
+    //图片
+    const xhr1 = new XMLHttpRequest();
+    xhr1.open('post', url_prefix + 'addCommentImg');     //帖子添加
+    xhr1.setRequestHeader('Content-Type', 'application/json');    // 报头记得标明类型
+    xhr1.onload = function(){
+        if(xhr1.status === 200){
+            let obj1 = JSON.parse(xhr1.responseText);
+            //文本上传成功或者图片上传成功就可以发布
+            if (obj1.status === 'success') {
+                add_img(comment_id,img_url,img_order+1);
+                console.log("发布图片"+img_order);
+                
+            }else{
+                console.log(obj1.code);
+                console.log("文本添加失败");
+            }
+        }
+    };
+    const data1 = {
+        comment_id: comment_id,
+        url: img_url[img_order],
+        num_order: img_order
+    };
+    xhr1.send(JSON.stringify(data1));
 }
 
-function pic_add(){
-    // 获取图片列表
-    const imageList = document.querySelectorAll('.preview-image');
-    const imageInfoArray = [];
-    imageList.forEach((image, index) => {
-        const comment_id = comment_id; 
-        const pic_url = image.querySelector('img').src;
-        const pic_num_order = index + 1;
-        imageInfoArray.push({ comment_id, pic_url, pic_num_order });
-    });
 
-
+// 从容器中获取图片URL的函数
+function saveImgs() {//保存
+    const list = $('image-preview-container');
+    const items = list.childNodes;
+    console.log(items);
+    let queue = [];
+    for (var i = 0; i < items.length; i++) {
+            var url = media_path + 'question/' + items[i].classList[1];
+            queue.push([url]);
+        }
+    console.log(queue);
+    return queue;
+    //request4AddUserImg(queue);
 }
