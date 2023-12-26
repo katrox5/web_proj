@@ -35,6 +35,11 @@
     margin: 0 auto;
 }
 
+#image-container > .header {
+    height: 25px;
+    padding: 5px 10px;
+}
+
 #image-container > .header > img {
     margin-top: 5px;
     margin-right: 6px;
@@ -43,9 +48,4 @@
     height: 16px;
     cursor: pointer;
     float: right;
-}
-
-#image-container > .header {
-    height: 25px;
-    padding: 5px 10px;
 }

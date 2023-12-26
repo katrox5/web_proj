@@ -1,3 +1,5 @@
+uploadPicture();
+setPictureDraggable();
 
 function add_to_loc() {
     // 获取问题描述文本
