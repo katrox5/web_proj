@@ -4,83 +4,49 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-color: #f5f5f5;
-    }
-
-    #container {
-      text-align: center;
-    }
-
-    .box {
-      width: 100px;
-      height: 50px;
-      display: inline-block;
-      margin: 10px;
-      cursor: pointer;
-      background-color: #fff;
-      transition: background-color 0.3s ease;
-	  text-align: center;
-	  line-height: 50px;
-    }
-
-    #boxA {
-      background-color: #fff;
-    }
-
-    #boxB {
-      background-color: #fff;
-    }
-
-    #boxC {
+    #mainBlock {
+      width: 200px;
+      height: 100px;
       background-color: #3498db;
-      display: none;
+      color: #fff;
+      text-align: center;
+      line-height: 100px;
+      position: relative;
     }
 
-    #boxD {
-      background-color: #2ecc71;
+    #hiddenBlock {
       display: none;
+      position: absolute;
+      top: 500px;
+      left: 0;
+      width: 100%;
+      padding: 10px;
+      background-color: #2ecc71;
+      color: #fff;
+      box-sizing: border-box;
     }
   </style>
 </head>
 <body>
-
-<div id="container">
-  <div id="boxA" class="box" onclick="showBox('C')" onmouseover="changeColor('A', true)" onmouseout="changeColor('A', false)">
-    A
-  </div>
-  <div id="boxB" class="box" onclick="showBox('D')" onmouseover="changeColor('B', true)" onmouseout="changeColor('B', false)">
-    B
-  </div>
-  <div id="boxC" class="box">
-    C
-  </div>
-  <div id="boxD" class="box">
-    D
-  </div>
+<div id="hiddenBlock">
+  <div>Part 1</div>
+  <div>Part 2</div>
 </div>
+<div id="mainBlock" onmouseover="showHiddenBlock()" onmouseout="hideHiddenBlock()" onclick="toggleHiddenBlock()">Hover me</div>
+
 
 <script>
-  function showBox(boxId) {
-    document.getElementById('boxC').style.display = 'none';
-    document.getElementById('boxD').style.display = 'none';
-
-    document.getElementById('box' + boxId).style.display = 'block';
+  function showHiddenBlock() {
+    document.getElementById('hiddenBlock').style.display = 'block';
   }
 
-  function changeColor(boxId, isHover) {
-    if (isHover) {
-      document.getElementById('box' + boxId).style.backgroundColor = '#eee';
-    } else {
-      document.getElementById('box' + boxId).style.backgroundColor = '#fff';
-    }
+  function hideHiddenBlock() {
+    document.getElementById('hiddenBlock').style.display = 'none';
+  }
+
+  function toggleHiddenBlock() {
+    var hiddenBlock = document.getElementById('hiddenBlock');
+    hiddenBlock.style.display = (hiddenBlock.style.display === 'none' || hiddenBlock.style.display === '') ? 'block' : 'none';
   }
 </script>
 

@@ -31,9 +31,10 @@
 		<script>
 			//add_img(0,"../../img/dyz_main/logo/小米.jpg",4);
 			// setTimeout(all_img(0),100);
-			
+
 			all_user();
 			const intervalId = setInterval(change_logo_state, 10); // 每秒执行一次
+			
 		</script>
 	</head>
 	<body>
@@ -65,15 +66,20 @@
 				<div class="user-logout" onclick="openModal()">
 					退出登录
 				</div>
-				<a class="go_to_center" href="aaa">
-					<img class="user-avatar" src="../../img/dyz_main/logo/小米.jpg" alt="" />
-				</a>
-
+				<img class="user-avatar" onmouseover="showHiddenBlock()" onmouseout="hideHiddenBlock()"
+					onclick="toggleHiddenBlock()" src="" alt="" />
 			</div>
 
 		</nav>
 
-
+		<div class="user-choice" onmouseover="showHiddenBlock()" onmouseout="hideHiddenBlock()">
+			<div class="go_to_center">
+				个人中心
+			</div>
+			<div class="go_to_publish">
+				发布评论
+			</div>
+		</div>
 
 		<!-- 主体 -->
 		<div class="main-content">

@@ -6,6 +6,20 @@ var this_user_name;
 var this_user_avatar;
 var img_over;
 
+function showHiddenBlock() { //显示个人中心
+				document.querySelector('.user-choice').style.display = 'block';
+			}
+
+			function hideHiddenBlock() { //隐藏
+				document.querySelector('.user-choice').style.display = 'none';
+			}
+
+			function toggleHiddenBlock() { //单击改变
+				var hiddenBlock = document.querySelector('.user-choice');
+				hiddenBlock.style.display = (hiddenBlock.style.display === 'none' || hiddenBlock.style.display === '') ?
+					'block' : 'none';
+			}
+
 function change_logo_state() {
 	console.log("执行中...");
 
@@ -19,8 +33,8 @@ function change_logo_state() {
 			var now_user = get_userbyID(this_user_id);
 			this_user_name = now_user[2];
 			this_user_avatar = now_user[4];
-			localStorage.setItem('this_user_name',this_user_name);
-			localStorage.setItem('this_user_avatar',this_user_avatar);
+			localStorage.setItem('this_user_name', this_user_name);
+			localStorage.setItem('this_user_avatar', this_user_avatar);
 			change_from_visiter_to_user();
 			changefriends();
 		} else {
@@ -47,8 +61,14 @@ function change_from_visiter_to_user() { //游客模式切换用户模式
 	var blockB = document.querySelector('.avatar');
 	var avatar = document.querySelector('.user-avatar');
 	avatar.src = this_user_avatar;
-	avatar.onclick = function() {
+	var center = document.querySelector('.go_to_center');
+	var publish = document.querySelector('.go_to_publish');
+	center.onclick = function() {
 		window.open('../MyCenter/MyMainCenter.html?userid=' + this_user_id); //前面的域名改成要跳转的界面（这里是评论详情界面）
+		return false; // 阻止默认行为和事件冒泡
+	};
+	publish.onclick = function() {
+		window.open('../hhy_main/publish.html?userid=' + this_user_id); //前面的域名改成要跳转的界面（这里是评论详情界面）
 		return false; // 阻止默认行为和事件冒泡
 	};
 	// 切换显示
@@ -132,10 +152,9 @@ function all_img(index) { //获取库中所有评论图片并按时间排序
 					img_content[index][i] = obj.content[i][1];
 				}
 				console.log(obj.content);
-				if(index<num_comment)
-				{
+				if (index < num_comment) {
 					addcomment(index);
-					
+
 				}
 				all_img(++index);
 
@@ -168,3 +187,4 @@ function add_img(commentid, img_url, img_order) { //获取库中所有评论图�
 	};
 	xhr.send(JSON.stringify(this_comment_id));
 }
+

@@ -56,7 +56,7 @@
 }
 
 .avatar {
-	display: none;
+	display: block;
 }
 
 .active {
@@ -137,3 +137,31 @@
 	background-color: #f84;
 }
 
+.user-choice{
+	width: 200px;
+	height: 120px;
+	background-color: #fff;
+	border-radius: 20px;
+	color: #000;
+	text-align: center;
+	top: 0px;
+	right:0px;
+	display:none;
+	z-index: 1500;
+	position: absolute;
+	
+}
+
+.go_to_center,.go_to_publish{
+	margin-left: 50px;
+	margin-top: 10px;
+	width: 80px;
+	height: 45px;
+	text-align: center;
+	line-height: 45px;
+	background-color: #f84;
+	color: #fff;
+	border-radius: 20px;
+	user-select: none;
+	cursor: pointer;
+}

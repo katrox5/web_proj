@@ -16,6 +16,7 @@
 		<script src="../../js/comment/lib/jquery-1.12.4.min.js"></script>
 		<script src="../../js/essential.js"></script>
 		<script src="../../js/dyz_main/nav.js"></script>
+		<script src="../../js/dyz_main/main.js"></script>
 		<script src="../../js/index/message.js"></script>
 		
 		
@@ -51,8 +52,14 @@
 				var blockB = document.querySelector('.avatar');
 				var avatar = document.querySelector('.user-avatar');
 				avatar.src = this_user_avatar;
-				avatar.onclick = function() {
+				var center = document.querySelector('.go_to_center');
+				var publish = document.querySelector('.go_to_publish');
+				center.onclick = function() {
 					window.open('../MyCenter/MyMainCenter.html?userid=' + this_user_id); //前面的域名改成要跳转的界面（这里是评论详情界面）
+					return false; // 阻止默认行为和事件冒泡
+				};
+				publish.onclick = function() {
+					window.open('../hhy_main/publish.html?userid=' + this_user_id); //前面的域名改成要跳转的界面（这里是评论详情界面）
 					return false; // 阻止默认行为和事件冒泡
 				};
 				// 切换显示
@@ -101,13 +108,19 @@
 				<div class="user-logout" onclick="openModal()">
 					退出登录
 				</div>
-				<a class="go_to_center" href="aaa">
-					<img class="user-avatar" src="" alt="" />
-				</a>
-		
+				<img class="user-avatar" onmouseover="showHiddenBlock()" onmouseout="hideHiddenBlock()"
+					onclick="toggleHiddenBlock()" src="" alt="" />
 			</div>
-		
 		</nav>
+		
+		<div class="user-choice" onmouseover="showHiddenBlock()" onmouseout="hideHiddenBlock()">
+			<div class="go_to_center">
+				个人中心
+			</div>
+			<div class="go_to_publish">
+				发布评论
+			</div>
+		</div>
 
 		<!-- 主体 -->
 		<div class="my-main-content">
