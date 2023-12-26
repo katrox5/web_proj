@@ -12,16 +12,18 @@
 
         <link rel="stylesheet" href="http://at.alicdn.com/t/font_1117508_wxidm5ry7od.css"/>
         <link rel="stylesheet" href="../../css/index/msg.css"/>
-        
+        <link rel="stylesheet" href="../../css/index/img.css"/>
+
 
         <script src="../../js/hhy_main/get_commets_db.js"></script>
 		<script src="../../js/hhy_main/publish_main_change.js"></script>
-        <script src="../../js/hhy_main/add_loc.js"></script>
+        <script src="../../js/hhy_main/add_loc.js" defer></script>
         <script src="../../js/hhy_main/add_db.js"></script>
         <script src="../../js/hhy_main/del_db.js"></script>
         <script src="../../js/hhy_main/edit.js"></script>
         <script src="../../js/essential.js"></script>
         <script src="../../js/index/message.js"></script>
+        <script src="../../js/index/image.js"></script>
 		
 		<title>问题</title>
 		<style>
@@ -96,11 +98,9 @@
             
                     <div class="image-upload">
                         <label for="image-upload">图片上传：</label><br>
-                        <input type="file" id="image-upload" onclick="uploadPicture()" accept="image/*" multiple>
+                        <input type="file" id="image-upload" accept="image/*" multiple>
                         <!-- <progress id="upload-progress" value="0" max="100"></progress> -->
-                        <div id="image-preview-container">
-                            <!-- 预览图片的容器 -->
-                        </div>
+                        <div id="image-preview-container"></div>
                     </div>
                 </div>
                 
