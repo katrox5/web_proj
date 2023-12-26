@@ -129,30 +129,35 @@ function uploadPicture() {// 预览
 
 function displayImg(target) {
     let img = new Image(target);
+
+    let btn_container = document.createElement('div');
+    btn_container.className = 'btn-container';
+    let del_btn = document.createElement('h1');
+    del_btn.innerText = '删除';
+    del_btn.className = 'del-btn';
+    del_btn.onclick = () => {
+         btn_container.remove();
+         target.remove();
+         img.close();
+    }
+
+    let sep = document.createElement('hr');
+
+    let cel_btn = document.createElement('h1');
+    cel_btn.innerText = '取消';
+    cel_btn.className = 'cel-btn';
+    cel_btn.onclick = () => btn_container.remove();
+
+    btn_container.appendChild(del_btn);
+    btn_container.appendChild(sep);
+    btn_container.appendChild(cel_btn);
     img.setFunction(function() {
-        let btn_container = document.createElement('div');
-        btn_container.className = 'btn-container';
-        let del_btn = document.createElement('h1');
-        del_btn.innerText = '删除';
-        del_btn.className = 'del-btn';
-        del_btn.onclick = () => {
-            btn_container.remove();
-            target.remove();
-            img.close();
-        }
-
-        let sep = document.createElement('hr');
-
-        let cel_btn = document.createElement('h1');
-        cel_btn.innerText = '取消';
-        cel_btn.className = 'cel-btn';
-        cel_btn.onclick = () => btn_container.remove();
-
-        btn_container.appendChild(del_btn);
-        btn_container.appendChild(sep);
-        btn_container.appendChild(cel_btn);
         document.body.appendChild(btn_container);
     });
+    img.onclose = () => {
+        btn_container.remove();
+        del_queue = [];
+    };
     img.display();
 }
 

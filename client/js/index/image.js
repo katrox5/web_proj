@@ -27,6 +27,8 @@ class Image {
         }
     }
 
+    onclose;
+
     setFunction(func) {
         this.funBtn.onclick = () => func();
     }
@@ -37,5 +39,6 @@ class Image {
 
     close() {
         this.container.remove();
+        this.onclose();
     }
 }
