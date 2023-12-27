@@ -32,7 +32,7 @@ function changeSlide(n) {//轮播
 function startTimer() { //鼠标离开图片就轮播
 	timer = setInterval(function() {
 		changeSlide(1);
-	}, 5000); // 每1秒切换一次
+	}, 2000); // 每1秒切换一次
 }
 
 function stopTimer() { //鼠标停留在轮播区就停止
