@@ -118,6 +118,15 @@ function save_draft(){
 	for(var i = 0;i<image.length;++i)
 	temp_image[i] = image[i][0];
     localStorage.setItem("draftimage", JSON.stringify(temp_image));
+
+        // 显示成功消息
+        new Message().show(
+            {
+                type: 'success',
+                text: '草稿保存成功！',
+                duration: 1500,
+                closeable: true
+            });
 }
 
 
