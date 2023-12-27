@@ -14,10 +14,13 @@
 		<link rel="stylesheet" href="../../css/index/msg.css"/>
 		
 		<script src="../../js/comment/lib/jquery-1.12.4.min.js"></script>
+		<script src="../../js/comment/comment.js"></script>
+		
 		<script src="../../js/essential.js"></script>
 		<script src="../../js/dyz_main/nav.js"></script>
 		<script src="../../js/dyz_main/main.js"></script>
 		<script src="../../js/index/message.js"></script>
+
 		
 		
 		<!-- 在 <head> 标签中引入 Bootstrap CSS -->
@@ -77,7 +80,7 @@
 		</script>
 	</head>
 	<body>
-		<span id="top-span"></span>
+		<!-- <span id="top-span"></span> -->
 		<!-- 导航栏 -->
 		<div id="customModal" class="overlay">
 			<div class="modal111">
@@ -174,23 +177,23 @@
 						<div class="newslist-card">
 							<div class="newslist-item">
 								<span class="newslist-index" style="color: #fe3e29;">1</span>
-								<span class="newslist-content">【科普向】简单介绍一下你米正式版系统更新推送逻辑</span>
+								<span class="newslist-content">澎湃OS也太强了吧！打游戏的时候还能回微信、刷抖音、拍照？实机效果真的很震撼，互联已经离谱了，效果真挺夸张的，可以去米家亲自体验一下</span>
 							</div>
 							<div class="newslist-item">
 								<span class="newslist-index" style="color: #fe3e29;"">2</span>
-								<span class="newslist-content">【科普向】简单介绍一下你米正式版系统更新推送逻辑</span>
+								<span class="newslist-content">「负责人在线」小米万兆路由器专场，一起聊聊WiFi 7新技术</span>
 							</div>
 							<div class="newslist-item">
 								<span class="newslist-index" style="color: #fe3e29;"">3</span>
-								<span class="newslist-content">【科普向】简单介绍一下你米正式版系统更新推送逻辑</span>
+								<span class="newslist-content">新机主报道 不是14买不起，是13更有性价比</span>
 							</div>
 							<div class="newslist-item">
 								<span class="newslist-index">4</span>
-								<span class="newslist-content">【科普向】简单介绍一下你米正式版系统更新推送逻辑</span>
+								<span class="newslist-content">「小米公告」官方回复进展（20231215）</span>
 							</div>
 							<div class="newslist-item">
 								<span class="newslist-index">5</span>
-								<span class="newslist-content">【科普向】简单介绍一下你米正式版系统更新推送逻辑</span>
+								<span class="newslist-content">开发版第623周发布公告（小米澎湃OS开发版多机型推送）</span>
 							</div>
 						</div>
 					</div>
@@ -199,7 +202,7 @@
 
 
 		<!-- 	评论框 -->
-		<div class="modal" id="commentModal" tabindex="-1" role="dialog">
+<!-- 		<div class="modal" id="commentModal" tabindex="-1" role="dialog">
 		  <div class="modal-dialog" role="document" style="margin-top: 15%;">
 			<div class="modal-content">
 			  <div class="modal-header">
@@ -208,16 +211,51 @@
 				  <span aria-hidden="true">&times;</span>
 				</button>
 			  </div>
-			  <div class="modal-body">
+			  <div class="modal-body"> -->
 				<!-- 在这里放置评论表单或内容 -->
-				  <textarea class="form-control" rows="3" maxlength="20" placeholder="说一说你的想法~"></textarea>
+<!-- 				  <textarea class="form-control" rows="3" maxlength="20" placeholder="说一说你的想法~"></textarea>
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" class="btn btn-primary">提交</button>
 			  </div>
 			</div>
 		  </div>
+		</div> -->
+		
+		<div class="modal" id="commentModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document" style="margin-top: 10%;">
+		<div class="modal-content" style="width:520px;">
+		<div class="modal-header">
+			<h5 class="modal-title">发表评论</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="border: none;">
+			  <span aria-hidden="true">&times;</span>
+			</button>
 		</div>
+		<div id="type1">
+		    <div class="passage_box">
+		        <div class="text-input">
+		            <textarea class="form-control" id="question-text" placeholder="在这里输入问题描述..."></textarea>
+		        </div>
+		
+		        <div class="image-upload">
+		            <label for="image-upload">图片上传：</label><br>
+		            <input type="file" id="image-upload" accept="image/*" multiple>
+		            <!-- <progress id="upload-progress" value="0" max="100"></progress> -->
+		            <div id="image-preview-container"></div>
+		        </div>
+		    </div>
+		    
+		    <!-- 底部操作 -->
+		    <div class="bottom-button">
+		        <div class="button_3" onclick="add_to_db()">
+		            发表
+		        </div>
+		    </div>
+		</div>
+		</div>	
+		</div>
+		</div>
+		
 		
 		
 <!-- 		控制框-可以置顶-删除-跳转到评论 -->
@@ -249,5 +287,14 @@
 	</body>
 </html>
 
-<script src="../../js/comment/comment-page-onload.js"></script>
+
+
 <script src="../../js/comment/comment.js"></script>
+<script src="../../js/comment/comment-page-onload.js"></script>
+<script src="../../js/comment/send_comment.js"></script>
+<script src="../../js/hhy_main/add_loc.js"></script>
+
+
+
+
+		

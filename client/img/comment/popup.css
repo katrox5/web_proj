@@ -1,0 +1,33 @@
+.reply-word-container {
+	cursor: pointer;
+}
+  .my-modal-content {
+    border-radius: 1.5rem;
+    /* 其他自定义样式 */
+  }
+  
+textarea.form-control {
+	color: #999999; /* 灰色字体颜色 */
+	padding: 10px; /* 内边距 */
+	  width: 100%; /* 设置宽度 */
+	  height: 100px; /* 设置高度 */
+	  resize: none; /* 禁止调整大小 */
+}
+.my-button-wrapper{
+	height: 45px;
+	margin-left: 30px;
+}
+.my-button-style{
+	border: none;
+	background-color: #fff;
+}
+.my-button-wrapper-cancel{
+    background-color: rgba(0,0,0,.02);
+    border-radius: 1.59091rem;
+    color: rgba(0,0,0,.7);
+    font-size: 1.04545rem;
+    font-weight: 700;
+    height: 3.18182rem;
+    line-height: 3.18182rem;
+    text-align: center;
+}

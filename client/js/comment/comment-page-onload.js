@@ -401,6 +401,7 @@ function maincontent_onload() {
 	var replyWordContainer = document.querySelector('.a-fixed-bottom-left');
 
 	replyWordContainer.addEventListener('click', function() {
+		// alert("test");
 		target_comment_id = comment_id;
 		target_user_id = author_id;
 		// 直接评论	
@@ -1171,7 +1172,7 @@ function bottom_comment() {
 
 								
 					var subimgListDiv = document.createElement('div');
-					imgListDiv.className = 'img-list';
+					subimgListDiv.className = 'img-list';
 					
 						var need_pic_idx;
 						for(var k = 0; k < commentnum; k ++ ){
@@ -1184,7 +1185,7 @@ function bottom_comment() {
 							for(var k = 0; k < AllCommentsPic[need_pic_idx].length; k ++ ){
 								var imgElement = document.createElement('img');
 								imgElement.src = AllCommentsPic[need_pic_idx][k];
-								imgListDiv.appendChild(imgElement);
+								subimgListDiv.appendChild(imgElement);
 							}
 						}
 					
