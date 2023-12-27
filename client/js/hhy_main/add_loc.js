@@ -24,12 +24,16 @@ function updata_loc(){
             // 找到字符串 b 在字符串 a 中的位置
             var b = media_path+"question/";
             var index = loc_img[i].indexOf(b);
+			console.log(loc_img[i]);
+			console.log(b);
             var result;
             // 提取 a 的后半部分
             if (index !== -1) {
                 result = loc_img[i].substring(index + b.length); 
             }else {
             }
+			
+			console.log(result);
             img.classList.add(result);
             img.classList.add('new');           // 用于标识
             img.id = list.childNodes.length - 1;
@@ -63,17 +67,18 @@ function add_to_loc() {
         return; // 停止继续执行
     }
 
-    // 获取现有数据或初始化空数组
-    var storeText = JSON.parse(localStorage.getItem("drafttext")) || [];
-    var storeImage = JSON.parse(localStorage.getItem("draftimage")) || [];
+    // // 获取现有数据或初始化空数组
+    // var storeText = localStorage.getItem("drafttext");
+    // var storeImage = JSON.parse(localStorage.getItem("draftimage"));
 
-    // 将新数据添加到数组
-    storeText.push(drafttext);
-    storeImage.push(draftimage);
+    // // 将新数据添加到数组
+    // storeText.push(drafttext);
+    // storeImage.push(draftimage);
 
     // 将更新后的数组重新存储到本地存储中
-    localStorage.setItem("drafttext", JSON.stringify(storeText));
-    localStorage.setItem("draftimage", JSON.stringify(storeImage));
+    localStorage.setItem("drafttext", drafttext);
+	console.log(draftimage);
+    localStorage.setItem("draftimage", JSON.stringify(draftimage));
 
     // 显示成功消息
     new Message().show(
@@ -108,7 +113,11 @@ function save_draft(){
     var text = document.getElementById('question-text').value;
     localStorage.setItem("drafttext",text);
     // 存储数组
-    localStorage.setItem("draftimage", JSON.stringify(image));
+	console.log(image);
+	var temp_image = [];
+	for(var i = 0;i<image.length;++i)
+	temp_image[i] = image[i][0];
+    localStorage.setItem("draftimage", JSON.stringify(temp_image));
 }
 
 

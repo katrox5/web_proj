@@ -1,6 +1,7 @@
 .comment_content {
 	width: 800px;
 	height: auto;
+	min-height: 400px;
 	background-color: #fff;
 	margin-top: 20px;
 	border-radius: 20px;

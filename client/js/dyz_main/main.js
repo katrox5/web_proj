@@ -116,6 +116,15 @@ function all_comment() { //获取库中所有评论并按时间排序
 			obj = JSON.parse(xhr.responseText);
 			allrootcomment = obj.content;
 			num_comment = obj.row;
+			var last_num_comment = localStorage.getItem('num_comments');
+			var new_num = num_comment - last_num_comment;
+			if(new_num > 0)
+			new Message().show({
+				type: 'loading',
+				text: "有"+new_num+"条新的帖子",
+				closable: true
+			})
+			localStorage.setItem('num_comments',num_comment);
 			store_allrootcomment(); //存储评论
 			get_hot_search(); //更新热搜
 			all_img(0);

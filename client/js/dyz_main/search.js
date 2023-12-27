@@ -48,6 +48,10 @@ function performSearch() {
 		return;
 	flag_user = false;
 	flag_comment = false;
+	if (typeof key_word === 'number') {
+	    // 如果是数字，将其转为字符串
+	    key_word = key_word.toString();
+	}
 	get_search_comment(key_word);
 	get_search_user(key_word);
 }

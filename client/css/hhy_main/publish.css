@@ -6,7 +6,7 @@
 
   .passage_box {
     width: 990px;
-    height: 600px;
+    height: 800px;
     background-color: #ffffff;
     /* margin-top: 50px; */
     box-sizing: border-box;
@@ -34,7 +34,7 @@ textarea {
 	margin-top: 10px;
     height: 200px; /* 设置文本域的默认高度 */
     width: 800px;
-	resize: vertical;
+	resize: none;
 	border-radius: 20px;
 	line-height: 30px;
 	font-size: 25px;
