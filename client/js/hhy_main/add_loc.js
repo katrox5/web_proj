@@ -119,14 +119,24 @@ function save_draft(){
 	temp_image[i] = image[i][0];
     localStorage.setItem("draftimage", JSON.stringify(temp_image));
 
-        // 显示成功消息
-        new Message().show(
-            {
-                type: 'success',
-                text: '草稿保存成功！',
-                duration: 1500,
-                closeable: true
-            });
+    if(text.trim() !== "" || (image && image.length > 0))
+    {
+        new Message().show({
+            type: 'success',
+            text: '草稿保存成功！',
+            duration: 1500,
+            closeable: true
+        });
+    }else{
+        // 显示失败消息
+        new Message().show({
+            type: 'error',
+            text: '草稿不能为空！',
+            duration: 1500,
+            closeable: true
+        });
+    }
+
 }
 
 
